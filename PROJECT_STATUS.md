@@ -127,6 +127,26 @@ inferred and combined into the QA & Front-end Engineer.
 - Real-device gesture testing: the touch handling follows the r128 OrbitControls source, but it still needs a
   check on a real iPhone and Android phone.
 
+## Motion pass « L'éclat » (requested 2026-11-02): built
+- [x] New team member: Motion Director (audit only). Its plan was accepted almost entirely.
+- [x] Concept: a single gold light pass crosses a surface at the moments that matter: hero reveal, the 3D
+      piece appearing, add to cart, and hovering gold buttons and product photos (mouse only).
+- [x] First visit in a session: the logo draws in, the nav fades, and a gold hairline runs under the header
+      (about 1.2 s, no overlay, never blocks).
+- [x] Route entrances: a 300 ms fade-up when the page changes, opacity only on first load (keeps the tests'
+      clicks stable). Re-renders inside a page (options, sizes, quantities) no longer replay the hero animation.
+- [x] Scroll reveals stagger per batch; tile and story photos settle from a slight zoom.
+- [x] The cart badge pops only on "Ajouter au panier", not on the quantity steppers. The shop grid staggers in
+      on filter changes. The configurator canvas fades in once per visit. A header hairline appears once
+      scrolled.
+- [x] Reduced motion turns all of it off.
+- [x] Checked: no console errors, no overflow from 320 px to desktop on every route, re-render and stepper
+      cases trigger nothing, final frames render correctly (headless Edge).
+- [ ] Not verified: how the motion feels in real time. The browser pane was hidden, so the owner should
+      watch it in a browser.
+- **Rejected:** View Transitions, exit animations, a splash screen, a custom cursor, parallax, a fly-to-cart
+  thumbnail and confetti, and animating option picks or prices.
+
 ## Next actions (need the owner)
 - Run `npm install && npm run test:install && npm test` on a machine with Node.
 - Decide whether to move the seven photos to `img/*.webp` files.
