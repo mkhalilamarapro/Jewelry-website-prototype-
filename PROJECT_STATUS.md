@@ -127,7 +127,35 @@ inferred and combined into the QA & Front-end Engineer.
 - Real-device gesture testing: the touch handling follows the r128 OrbitControls source, but it still needs a
   check on a real iPhone and Android phone.
 
+## Admin V0, "Espace boutique" (requested 2026-11-02): built
+- [x] Proposals in parallel: Creative Director (UX and French copy), Mobile Lead (phone use), QA & Front-end
+      (data, rules, sync, security). They were merged into `ADMIN_V0.md`.
+- [x] Built into `index.html`. The storefront reads the catalogue and settings live from the database.
+- [x] Checked in the browser with an in-memory runtime mock. Checks run:
+  - **Orders and inbox:**
+    - A cart order and a custom request reach the inbox; the owner strip shows the count.
+    - The WhatsApp reply is prefilled.
+    - Statuses with undo, kept in an owners-only document.
+  - **Pieces:**
+    - Catalogue import.
+    - Sold out: shop ribbon, product page and cart total all update live.
+    - Coup de cœur limit of 3.
+    - New piece: validation, photo compressed to WebP, price "1 290 DT" read as 1290, HTML in the name shown
+      as text.
+    - Price edit.
+    - Unsaved-changes guard.
+    - Hide and "Masquées".
+  - **Settings:** a WhatsApp number applied live; a `javascript:` Facebook link rejected; the announcement
+    bar.
+  - **Test compatibility:** with the Playwright tests' mock, one write per submit and the same fields.
+  - **Access:** a non-owner gets "Espace réservé".
+  - **Layout:** no overflow on phone or desktop; tab bar at the bottom on phones; sticky Save bar.
+- [ ] Not verified: real hosting with the actual runtime (needs publishing by the owner), real phone camera
+      uploads, and HEIC files.
+
 ## Next actions (need the owner)
+- Publish the site as a Claude artifact with the capabilities in the README, then invite the two owners as
+  Editors.
 - Run `npm install && npm run test:install && npm test` on a machine with Node.
 - Decide whether to move the seven photos to `img/*.webp` files.
 - Review, then push the branch and merge it to `main` for GitHub Pages.

@@ -27,6 +27,29 @@ valid submit, double submit, 10k-character input in every field, and keyboard-on
 Status when last run: **Chromium 16/16 passing. Firefox and WebKit were not run** (browsers
 could not be downloaded in the environment where the tests were written) – run them locally.
 
+## Espace boutique (admin)
+Owners manage the shop at `#admin`. There are three tabs:
+- **Commandes:** cart orders and custom requests, a WhatsApp reply, and statuses.
+- **Pièces:** add, edit, sold, coup de cœur, photo, hide.
+- **Boutique:** WhatsApp number, Facebook page, announcement bar, exports.
+
+Every change goes to the site's shared database and shows live for visitors. The spec is in `ADMIN_V0.md`.
+
+It needs the site to be published as a Claude artifact with these capabilities:
+```json
+{"user":{},"assets":{},"downloads":true,"db":{"rules":[
+  {"path":"","read":"view","write":"admin"},
+  {"path":"requests","read":"admin","write":"admin"},
+  {"path":"requests/{self}","read":"interact","write":"interact"},
+  {"path":"status","read":"admin","write":"admin"}]}}
+```
+- Owners must be the artifact's owner or members invited as Editor. Editors invited by email from outside
+  the organisation lose that right while the artifact is also shared by public link.
+- The first time, open Pièces and press "Activer le catalogue modifiable". This copies the 7 built-in pieces
+  into the database.
+- Signed-out visitors and outside visitors can't write, so their orders and requests go to WhatsApp only.
+
 ## Limits on GitHub Pages
-Custom-piece requests are not saved there (admin dashboard exists only on the Claude-hosted demo);
-the customer gets a WhatsApp button instead. Prices, specs and photos are placeholders.
+There's no runtime there: the site shows the built-in catalogue, and orders and requests go to WhatsApp only.
+To bring the GitHub copy up to date, use "Exporter le catalogue" in the admin and paste the result into `P`.
+Prices, specs and photos are placeholders.
