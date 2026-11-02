@@ -184,8 +184,10 @@ art-directed and checked (warped rings, duplicated stones, mismatched light).
   - It paints at about 0.3 s on desktop and 0.45 s on a throttled phone, because the first page build is deferred
     by one frame.
   - Only transform and opacity move.
+  - It stays at least 1.6 s (fill 1.6 s, then the finished seal holds about 0.7 s), lengthened at the client's
+    request on 2026-11-03. The page opens at about 2.5 s on a first visit.
   - It never catches a tap, and it doesn't show on deep links (so the tests' `#custom` path is unchanged).
-  - Reduced motion shows no loader. If JS fails, CSS lets go at 2.4 s.
+  - Reduced motion shows no loader. If JS fails, CSS lets go at 3.2 s.
 - **Product photos:**
   - 5 photos were generated with Higgsfield (Nano Banana via kie.ai, about 20 credits) in one house style: taupe
     limestone, window light, empty lower third. The 5 are rings, the rose ring, pearls, the ras-du-cou collar and

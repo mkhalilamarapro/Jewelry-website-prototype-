@@ -171,8 +171,8 @@ input[type=date]{width:100%;min-height:54px}
    text rises 14px, one curve family (--eo out, --eio in-out), and one light pass, on the hero jewel only ---------- */
 body{overflow-x:clip}.hi,.r3,.story,.pm{position:relative;overflow:hidden;isolation:isolate}.btn>span{display:inline-block}
 header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;pointer-events:none;background:var(--ln);opacity:0;transition:opacity .6s var(--eo)}header.sc::after{opacity:.35}
-/* first visit: only the ground paints until the page can draw (fonts + hero decoded, at most 450 ms); if JS fails, CSS lets go at 2.4 s */
-@media(prefers-reduced-motion:no-preference){.ld:not(.rdy) body>*:not(#lo){opacity:0;animation:sf 0s 2.4s forwards}}@keyframes sf{to{opacity:1}}
+/* first visit: only the ground paints until the page can draw (fonts + hero decoded, at most 450 ms); if JS fails, CSS lets go at 3.2 s */
+@media(prefers-reduced-motion:no-preference){.ld:not(.rdy) body>*:not(#lo){opacity:0;animation:sf 0s 3.2s forwards}}@keyframes sf{to{opacity:1}}
 .ld.rdy header{animation:fi .6s var(--eo) backwards}.ld.rdy footer{animation:fi .6s var(--eo) .7s backwards}.gi{animation:fi .6s var(--eo) .1s backwards}
 .go .hi{animation:uv 1.1s var(--eio) backwards,fi .12s var(--eo) backwards}.go .hi img{animation:zo 1.9s var(--eo) backwards}
 .go .hx>*{animation:up .8s var(--eo) .12s backwards}.go .hx>p{animation-delay:.2s}.go .hx>.bt{animation-delay:.28s}
@@ -206,14 +206,14 @@ html.vth::view-transition-old(*),html.vth::view-transition-new(*){animation-dura
    Only transform/opacity move, inside static clips, so it keeps running on the compositor while the main thread parses;
    the blur is static (a blurred copy cross-fades to a sharp one), never animated ---------- */
 #lo{display:none}
-@media(prefers-reduced-motion:no-preference){.lo #lo{position:fixed;inset:0;z-index:99;display:grid;place-content:center;justify-items:center;gap:clamp(22px,2.2vw,32px);background:var(--bg);pointer-events:none;animation:lx .4s var(--eo) 2.4s forwards}}
+@media(prefers-reduced-motion:no-preference){.lo #lo{position:fixed;inset:0;z-index:99;display:grid;place-content:center;justify-items:center;gap:clamp(22px,2.2vw,32px);background:var(--bg);pointer-events:none;animation:lx .4s var(--eo) 3.2s forwards}}
 @keyframes lx{to{opacity:0;visibility:hidden}}
 #lo .lr,#lo .ll{position:relative}
 #lo .lr{width:clamp(64px,5.4vw,88px);height:clamp(64px,5.4vw,88px);color:color-mix(in srgb,var(--mu) 70%,var(--bg))}#lo svg{display:block;width:100%;height:100%}
 #lo .ll{font:500 clamp(1.05rem,1.7vw,1.6rem)/1.2 Jost,system-ui,sans-serif;letter-spacing:.26em;white-space:nowrap;color:color-mix(in srgb,var(--mu) 70%,var(--bg))}
 #lo .ll,#lo .ll .lf>span,#lo .lk{padding:8px 14px}#lo .ll b{display:block;font-weight:inherit;filter:blur(3px)}#lo .ll .lf b{filter:blur(1.2px)}
-#lo .lf{position:absolute;inset:0;overflow:hidden;transform:translateY(18%);animation:lf 1.1s cubic-bezier(.25,.6,.3,1) backwards}
-#lo .lf>span{display:block;height:100%;color:var(--gd);transform:translateY(-18%);animation:lg 1.1s cubic-bezier(.25,.6,.3,1) backwards}
+#lo .lf{position:absolute;inset:0;overflow:hidden;transform:translateY(18%);animation:lf 1.6s cubic-bezier(.25,.6,.3,1) backwards}
+#lo .lf>span{display:block;height:100%;color:var(--gd);transform:translateY(-18%);animation:lg 1.6s cubic-bezier(.25,.6,.3,1) backwards}
 @keyframes lf{from{transform:translateY(100%)}}@keyframes lg{from{transform:translateY(-100%)}}
 #lo .ll .lk{position:absolute;inset:0;color:var(--gd);filter:none;opacity:0}
 #lo .ls{position:absolute;left:50%;top:2px;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:radial-gradient(#fff8e6,transparent 70%);opacity:0}
@@ -621,12 +621,12 @@ function ready(){const d=document.documentElement;if(!d.classList.contains("ld")
 const st=()=>{const a=$("#app");if(!RM()){const c=$("#app .hi")?"go":"gi";a.classList.add(c);setTimeout(()=>{a.classList.remove(c);d.classList.remove("ld","rdy","lo")},3400)}d.classList.add("rdy");try{performance.mark("rdy")}catch(e){}},
 go=()=>{if(k++)return;requestAnimationFrame(()=>requestAnimationFrame(()=>lo(st)))};
 Promise.all([document.fonts&&document.fonts.ready,i&&i.decode&&i.decode().catch(()=>0)]).then(go,go);setTimeout(go,450)}
-// the loader: the fill completes from wherever it is, the name comes into focus, then the seal fades and the page opens on the bare ground
+// the loader: the fill completes from wherever it is, the name comes into focus, then the seal fades and the page opens on the bare ground (shown at least 1.6 s)
 // (the loader's backdrop is the page ground, so removing it is invisible; fading it as a veil would wash the hero out)
-function lo(st){const l=$("#lo"),t=performance.now();if(!l||!document.documentElement.classList.contains("lo")||RM()||!l.animate||t>2200){if(l)l.remove();st();return}
+function lo(st){const l=$("#lo"),t=performance.now();if(!l||!document.documentElement.classList.contains("lo")||RM()||!l.animate||t>3000){if(l)l.remove();st();return}
 setTimeout(()=>{l.style.animation="none";l.querySelectorAll(".lf,.lf>span").forEach(n=>{const m=getComputedStyle(n).transform;n.style.animation="none";n.style.transform="none";n.animate([{transform:m},{transform:"none"}],{duration:380,easing:EO})});
 fx(l.querySelector(".lk"),[{opacity:0},{opacity:1}],{duration:450,delay:300,fill:"forwards"});fx(l.querySelector(".ls"),[{opacity:0},{opacity:1,offset:.4},{opacity:0}],{duration:900,delay:300});
-setTimeout(()=>{[...l.children].forEach(n=>fx(n,[{opacity:1},{opacity:0}],{duration:300,easing:EO,fill:"forwards"}));setTimeout(()=>{l.remove();st()},240)},PH()?380:480)},Math.max(0,900-t))}
+setTimeout(()=>{[...l.children].forEach(n=>fx(n,[{opacity:1},{opacity:0}],{duration:300,easing:EO,fill:"forwards"}));setTimeout(()=>{l.remove();st()},240)},PH()?600:700)},Math.max(0,1600-t))}
 {const hd=document.querySelector("header");let s=false;addEventListener("scroll",()=>{const v=scrollY>8;if(v!=s){s=v;hd.classList.toggle("sc",v)}},{passive:true})}
 // cart: the numeral rises in and a 1px gold line draws under « Panier » once (only on add, never on the steppers)
 function upd(p){const c=$("#cc"),n=String(cnt());if(p&&c.textContent!=n){c.textContent=n;fx(c,[{opacity:.35},{opacity:1}],{duration:240});const b=$(".cartb");if(b&&!RM()&&window.KeyframeEffect&&"pseudoElement" in KeyframeEffect.prototype)b.animate([{transform:"scaleX(0)",opacity:1,easing:EIO},{transform:"scaleX(1)",opacity:1,offset:.45,easing:EO},{transform:"scaleX(1)",opacity:0}],{duration:PH()?1125:1500,pseudoElement:"::after"}).finished.catch(()=>{})}else c.textContent=n;const h=document.querySelector("header");if(h){const v=h.offsetHeight;if(v!=upd.h){upd.h=v;document.documentElement.style.setProperty("--hh",v+"px")}}}
