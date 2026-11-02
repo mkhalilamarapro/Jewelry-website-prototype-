@@ -23,6 +23,7 @@ Hard constraints
 | Jewelry / 3D Art Director | Configurator realism and presentation audit | Audit only |
 | QA & Front-end Engineer | Bugs, accessibility, performance, responsive audit | Audit only |
 | Mobile & Responsive Lead | Phone and tablet experience on every route: layout, touch, gestures, forms, 3D on touch | Audit only |
+| Motion Director | Motion design: choreography, curves, timing, both themes | Audit only |
 
 Why only one writer: the whole site is a single file, so parallel edits would conflict. Specialists audit in
 parallel; the CEO merges their recommendations into one prioritized plan and implements it, verifying each
@@ -127,25 +128,46 @@ inferred and combined into the QA & Front-end Engineer.
 - Real-device gesture testing: the touch handling follows the r128 OrbitControls source, but it still needs a
   check on a real iPhone and Android phone.
 
-## Motion pass « L'éclat » (requested 2026-11-02): built
-- [x] New team member: Motion Director (audit only). Its plan was accepted almost entirely.
-- [x] Concept: a single gold light pass crosses a surface at the moments that matter: hero reveal, the 3D
-      piece appearing, add to cart, and hovering gold buttons and product photos (mouse only).
-- [x] First visit in a session: the logo draws in, the nav fades, and a gold hairline runs under the header
-      (about 1.2 s, no overlay, never blocks).
-- [x] Route entrances: a 300 ms fade-up when the page changes, opacity only on first load (keeps the tests'
-      clicks stable). Re-renders inside a page (options, sizes, quantities) no longer replay the hero animation.
-- [x] Scroll reveals stagger per batch; tile and story photos settle from a slight zoom.
-- [x] The cart badge pops only on "Ajouter au panier", not on the quantity steppers. The shop grid staggers in
-      on filter changes. The configurator canvas fades in once per visit. A header hairline appears once
-      scrolled.
-- [x] Reduced motion turns all of it off.
-- [x] Checked: no console errors, no overflow from 320 px to desktop on every route, re-render and stepper
-      cases trigger nothing, final frames render correctly (headless Edge).
-- [ ] Not verified: how the motion feels in real time. The browser pane was hidden, so the owner should
-      watch it in a browser.
-- **Rejected:** View Transitions, exit animations, a splash screen, a custom cursor, parallax, a fly-to-cart
-  thumbnail and confetti, and animating option picks or prices.
+## Motion v2 « Le voile » (requested 2026-11-02): signed off by all four reviewers
+The client rejected v1 « L'éclat » as not smooth or good enough in both themes. v2 is a redesign, built through
+a review loop: capture → all agents review → CEO merges and fixes → recapture, 5 rounds (r0–r5), until the
+Motion Director, Creative Director, Mobile Lead and QA all signed off.
+
+**How it was checked.** A capture rig (Playwright for Python driving the installed Chrome) records real frames
+of every motion moment in dark and light, on desktop (1440×900) and on a phone (390×844, CPU throttled 4×). It
+logs frame timing with long-animation-frame attribution, then checks that nothing is left faded, running or
+overflowing. It isn't in the repo (it lives in the session scratchpad).
+
+**What a visitor sees**
+- Theme: right from the first frame. It is applied in `<head>`, so light visitors never see a dark page.
+- First visit: only the ground shows until the page can paint (fonts and the hero photo decoded, capped at 450 ms).
+  Then the header fades in, the hero photo opens from the centre while the headline rises, and one soft light
+  passes over the gold (overlay blend, so it lifts only the metal).
+- Page changes: the old page fades out in 60 ms, then the text rises in and each photo opens from the centre at
+  full colour. There is no whole-page fade (milky on cream) and no View Transition: taps are dropped during a
+  View Transition, while this stays clickable throughout.
+- Shop and filters: cards open from the centre in a short stagger, captions follow.
+- Product: photo first, then title and price, then details and buy button.
+- Add to cart: the button keeps its width, the label and the cart number cross-fade (never blank), and a 1 px
+  gold line draws under « Panier ».
+- Theme toggle: one 400 ms cross-fade of every surface at once (a View Transition).
+- Sur mesure: the 2D preview fades out, then the 3D piece fades in (never two rings).
+- Scroll: text rises 14 px, photos open from the centre.
+- Reduced motion: no animation at all and nothing hidden (verified in both themes).
+
+**Performance fix found by the rig.** Opening a product froze for about 400 ms because the full-size base64
+photo was decoded synchronously. Photos are now turned into decoded blob URLs at idle after the first paint,
+and that work is gone from page changes.
+
+**Removed from v1.** The gold sweep on buttons, cards and the cart pill, the 1.3× badge pop, the logo wipe,
+and the header hairline sweep.
+
+**Still open.** None of these block, and all of them are load-side:
+- the first-load blank (parse of the 1 MB file);
+- 50–80 ms page-change frames on a throttled phone, from re-rendering with full-size photos;
+- the fix for both is phone-sized photo files (`img/*.webp`), a pending owner decision.
+- Not run here: `npm test` (no Node on this machine). Taps during page changes, reduced motion and every route
+  were verified with Playwright for Python instead.
 
 ## Next actions (need the owner)
 - Run `npm install && npm run test:install && npm test` on a machine with Node.
