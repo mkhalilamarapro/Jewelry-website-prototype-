@@ -2,6 +2,10 @@
 
 Single-file jewelry store (French): home, shop, product pages, cart, WhatsApp checkout,
 and a "Sur mesure" custom-piece form with a live 3D preview (Three.js, loaded from a CDN).
+Each piece has its own models and filters (bague: alliance/solitaire/trilogie; bracelet: jonc,
+manchette, gourmette, tennis; boucles: clous, créoles, pendantes; collier: pendentif, médaillon,
+prénom, chaîne seule on a display bust so the length shows). Filters that do not apply to the
+chosen model are hidden, and the engraving is drawn on the piece.
 
 ## Deploy on GitHub Pages
 1. Push this folder to a repository (`index.html` at the root).

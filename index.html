@@ -9,7 +9,7 @@
 <meta property="og:description" content="Bagues, alliances, colliers, bracelets et bijoux sur mesure.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#000000">
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
 <style>
 /* tokens: one ground, one ink, one accent (gold) + two tone steps for surfaces */
 :root{--bg:#000;--sf:#13110e;--sf2:#1f1c17;--sf3:#2a261f;--tx:#f4f0e8;--mu:#b3ac9f;--gd:#d4b26e;--gd2:#e3c588;--on:#120e06;--ln:#3a352c;
@@ -97,6 +97,11 @@ input:focus,select:focus{border-color:var(--gd)}
 .cp{background:var(--sf);padding:26px;text-align:center}.cp svg{width:min(320px,100%)}.cp p{color:var(--mu);font-size:.95rem}.cp b{color:var(--gd);font-weight:500}
 .cp{position:sticky;top:calc(var(--hh,90px) + env(safe-area-inset-top,0px) + 8px);z-index:5}
 @media(max-width:699px){.cu{display:block}.cp{padding:10px;margin-bottom:18px;box-shadow:0 14px 18px -14px #000}.r3{max-width:200px;margin-bottom:4px}.cp .hint{display:none}.cp p{font-size:.8rem}}
+.sw{display:inline-block;width:.85em;height:.85em;border-radius:50%;margin-right:8px;vertical-align:-.08em;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35),0 0 0 1px rgba(0,0,0,.25)}
+.sz button.on .sw{box-shadow:inset 0 0 0 1px rgba(255,255,255,.5),0 0 0 1px var(--on)}
+.vt{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin:0 0 10px}.vt button{background:var(--sf2);border:0;color:var(--tx);font:inherit;font-size:.85rem;min-width:40px;padding:8px 12px;cursor:pointer;transition:background .2s}.vt button:hover{background:var(--sf3)}.vt button[aria-pressed=true]{background:var(--gd);color:var(--on)}
+.r3 canvas{cursor:grab}.r3 canvas:active{cursor:grabbing}
+@media(max-width:699px){.vt{display:none}.cp .r3{max-width:min(62vw,250px)}}
 :focus-visible{outline:2px solid var(--gd);outline-offset:3px}
 .ctb :focus-visible{outline-color:var(--on)}
 .cu form{margin:0;max-width:none}.cg{margin-bottom:8px}.cl{font-size:.95rem;color:var(--mu);margin-bottom:2px}
@@ -164,53 +169,86 @@ return `<div class="w"><h1 style="margin:40px 0 10px;font-size:2.2rem">Mon panie
 function send(e,t){e.preventDefault();const l=Object.keys(cart).map(k=>{const [id,s]=k.split("|");return `- ${cart[k]} x ${pf(id).n}${s?" ("+s+")":""}`}).join("\n");
 const m=`Nouvelle commande\n${l}\nTotal : ${fm(t)}\nNom : ${$("#nm").value}\nTél : ${$("#ph").value}\nVille : ${$("#ct").value}`;
 window.open(`https://wa.me/${WA}?text=${encodeURIComponent(m)}`,"_blank");return false}
-const CO={or:["#f3d98b","#8f6a1c"],rose:["#f4c4ae","#b46f58"],blanc:["#f6f6f6","#8a8e93"],argent:["#eeeeee","#9ea2a6"]},GM={blanche:["#ffffff","#8fcbe6"],rouge:["#ff9fb0","#b3123a"],bleue:["#bcd7ff","#1f4fa8"]};
-const OPT=[
-{k:"t",l:"Modèle",o:[["alliance","Alliance"],["solitaire","Solitaire"],["trilogie","Trilogie"]]},
-{k:"m",l:"Métal",o:[["or","Or jaune"],["rose","Or rose"],["blanc","Or blanc"],["argent","Argent 925"]]},
-{k:"w",l:"Largeur du anneau",o:[["2","2 mm"],["3","3 mm"],["4","4 mm"],["6","6 mm"]]},
-{k:"fi",l:"Finition",o:[["poli","Poli"],["mat","Mat"],["brosse","Brossé"],["martele","Martelé"]]},
-{k:"st",l:"Pierre",o:[["aucune","Sans pierre"],["blanche","Pierre blanche"],["rouge","Pierre rouge"],["bleue","Pierre bleue"]]},
-{k:"se",l:"Sertissage",o:[["griffes","Griffes"],["clos","Serti clos"],["pave","Pavé"]]},
-{k:"q",l:"Quantité",o:[["1","Une bague"],["2","Paire d’alliances"]]}];
-OPT[2].l="Largeur de l’anneau";
-let C={t:"alliance",m:"or",w:"4",fi:"poli",st:"aucune",se:"griffes",q:"1",sz:"54",gr:"",nt:"",nm:"",ph:""};
-const lab=k=>OPT.find(o=>o.k==k).o.find(v=>v[0]==C[k])[1],esc=v=>v.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
-function gem(x,y,r){const c=C.se=="clos"?4:2;let o=`<path d="M${x-r} ${y}L${x} ${y-r}L${x+r} ${y}L${x} ${y+r*.8}Z" fill="url(#rg)" stroke="url(#rm)" stroke-width="${c}" stroke-linejoin="round"/>`;
-if(C.se=="griffes")o+=`<path d="M${x-r} ${y}l-3 4M${x+r} ${y}l3 4M${x} ${y-r}v-3" stroke="url(#rm)" stroke-width="2" stroke-linecap="round"/>`;
-if(C.se=="pave")o+=`<circle cx="${x-r*1.5}" cy="${y+3}" r="2.2" fill="url(#rg)"/><circle cx="${x+r*1.5}" cy="${y+3}" r="2.2" fill="url(#rg)"/>`;return o}
-function ring(){const [a,b]=CO[C.m],w=5+C.w*2,g=GM[C.st];
-let s=`<defs><linearGradient id="rm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient>${g?`<linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${g[0]}"/><stop offset="1" stop-color="${g[1]}"/></linearGradient>`:""}</defs><circle cx="100" cy="118" r="50" fill="none" stroke="url(#rm)" stroke-width="${w}" ${C.fi=="mat"?'opacity=".8"':""}/>`;
-if(C.fi=="poli")s+=`<path d="M62 92A50 50 0 0 1 100 68" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2" stroke-linecap="round"/>`;
-if(C.fi=="brosse")s+=`<circle cx="100" cy="118" r="50" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="${w-2}" stroke-dasharray="1 4"/>`;
-if(C.fi=="martele")s+=`<circle cx="100" cy="118" r="50" fill="none" stroke="#000" stroke-opacity=".28" stroke-width="${w-3}" stroke-dasharray="3 7" stroke-linecap="round"/>`;
-if(g){const y=68;if(C.t=="solitaire")s+=gem(100,y-14,15);else if(C.t=="trilogie")s+=gem(76,y-2,8)+gem(100,y-12,12)+gem(124,y-2,8);else s+=gem(100,y,6)}
-return `<svg viewBox="0 0 200 200" role="img" aria-label="Aperçu de la bague">${s}</svg>`}
+const CO={or:["#f3d98b","#8f6a1c"],rose:["#f4c4ae","#b46f58"],blanc:["#ffffff","#9aa3ad"],argent:["#e2e2e0","#85878a"]},GM={blanche:["#ffffff","#8fcbe6"],rouge:["#ff9fb0","#b3123a"],bleue:["#bcd7ff","#1f4fa8"],verte:["#b8f0c9","#0d7a43"]};
 const PCS={bague:"Bague",collier:"Collier",bracelet:"Bracelet",boucles:"Boucles d’oreilles",autre:"Autre pièce"};
-const PSZ={collier:["40 cm","45 cm","50 cm","60 cm"],bracelet:["16 cm","17 cm","18 cm","19 cm"],boucles:["Clous","Créoles","Pendantes"]};
-const PIMG={collier:"bust",bracelet:"bangles",boucles:"hoops",autre:"pot"};
+// every option the configurator knows; FLD lists what each piece uses, allow() which values fit the current design
+const OPT={
+t:{l:"Modèle",o:[["alliance","Alliance"],["solitaire","Solitaire"],["trilogie","Trilogie"]]},
+bs:{l:"Modèle",o:[["jonc","Jonc"],["manchette","Manchette"],["gourmette","Gourmette"],["tennis","Tennis"]]},
+bt:{l:"Modèle",o:[["clous","Clous"],["creoles","Créoles"],["pendantes","Pendantes"]]},
+ct:{l:"Modèle",o:[["pendentif","Pendentif"],["medaillon","Médaillon"],["prenom","Prénom"],["chaine","Chaîne seule"]]},
+ch:{l:"Maille",o:[["forcat","Forçat"],["gourmette","Gourmette"],["venitienne","Vénitienne"],["corde","Corde"]]},
+m:{l:"Métal",o:[["or","Or jaune"],["rose","Or rose"],["blanc","Or blanc"],["argent","Argent 925"]]},
+pr:{l:"Profil",o:[["bombe","Bombé"],["plat","Plat"],["confort","Confort"]]},
+w:{l:"Largeur de l’anneau",o:[["2","2 mm"],["3","3 mm"],["4","4 mm"],["6","6 mm"]]},
+bw:{l:"Largeur",o:[["fin","Fin"],["moyen","Moyen"],["large","Large"]]},
+fi:{l:"Finition",o:[["poli","Poli"],["mat","Mat"],["brosse","Brossé"],["martele","Martelé"]]},
+st:{l:"Pierre",o:[["aucune","Sans pierre"],["blanche","Pierre blanche"],["rouge","Pierre rouge"],["bleue","Pierre bleue"],["verte","Pierre verte"]]},
+sh:{l:"Forme de la pierre",o:[["ronde","Ronde"],["ovale","Ovale"],["princesse","Carrée"],["emeraude","Rectangle"]]},
+se:{l:"Sertissage",o:[["griffes","Griffes"],["clos","Serti clos"],["pave","Pavé"]]},
+q:{l:"Quantité",o:[["1","Une bague"],["2","Paire d’alliances"]]}};
+const FLD={bague:["t","m","pr","w","fi","st","sh","se","q"],bracelet:["bs","m","bw","fi","st","se"],boucles:["bt","m","fi","st","sh","se"],collier:["ct","ch","m","fi","st","sh","se"],autre:["m","fi","st"]};
+const PSZ={bague:["48","50","52","54","56","58","60","62","Je ne connais pas ma taille"],collier:["40 cm","45 cm","50 cm","60 cm"],bracelet:["16 cm","17 cm","18 cm","19 cm"],boucles:["Petite","Moyenne","Grande"]};
+const SZN={bague:"Taille",collier:"Longueur",bracelet:"Tour de poignet",boucles:"Taille"};
 const BUD=["À discuter","Moins de 500 DT","500 à 1 000 DT","1 000 à 2 500 DT","Plus de 2 500 DT"];
-Object.assign(C,{pc:"bague",bd:"À discuter",dt:"",done:""});
-const SZL=["48","50","52","54","56","58","60","62","Je ne connais pas ma taille"];
-function setPc(k){C.pc=k;C.sz=k=="bague"?"54":(PSZ[k]?PSZ[k][1]:"");draw()}
-function det(){const R=C.pc=="bague",sl=R?"Taille":C.pc=="boucles"?"Type":"Longueur";return [["Pièce",PCS[C.pc]],R&&["Modèle",lab("t")],["Métal",lab("m")],R&&["Largeur",C.w+" mm"],["Finition",lab("fi")],["Pierre",lab("st")],R&&C.st!="aucune"&&["Sertissage",lab("se")],R&&["Quantité",lab("q")],(R||PSZ[C.pc])&&[sl,C.sz],["Gravure",C.gr||"aucune"],["Budget",C.bd],["Date souhaitée",C.dt||"-"],["Notes",C.nt||"-"]].filter(Boolean)}
+let C={pc:"bague",t:"alliance",bs:"jonc",bt:"clous",ct:"pendentif",ch:"forcat",m:"or",pr:"bombe",w:"4",bw:"moyen",fi:"poli",st:"aucune",sh:"ronde",se:"griffes",q:"1",sz:"54",gr:"",nt:"",nm:"",ph:"",bd:"À discuter",dt:"",done:""};
+const vals=k=>OPT[k].o.map(v=>v[0]),lab=k=>OPT[k].o.find(v=>v[0]==V(k))[1],esc=v=>v.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+const hasSt=()=>!!allow("st")&&C.st!="aucune";
+function allow(k){const p=C.pc,S=C.t,B=C.bs,E=C.bt,N=C.ct,all=vals(k),no=a=>all.filter(v=>!a.includes(v));
+if(!FLD[p].includes(k))return null;
+if(k=="st")return p=="bracelet"&&B=="gourmette"||p=="collier"&&(N=="prenom"||N=="chaine")?null:p=="bague"&&S!="alliance"||p=="bracelet"&&B=="tennis"||p=="collier"&&N=="pendentif"?no(["aucune"]):all;
+if(k=="sh")return hasSt()&&(p=="bague"&&S!="alliance"||p=="boucles"&&E!="creoles"||p=="collier"&&N=="pendentif")?all:null;
+if(k=="se"){if(!hasSt()||p=="boucles"&&E=="creoles"||p=="collier"&&N=="medaillon")return null;return p=="bague"||p=="bracelet"&&B!="tennis"?all:no(["pave"])}
+if(k=="q")return S=="alliance"?all:null;
+return all}
+// value actually used by the design: hidden options fall back to what the model implies
+function V(k){if(allow(k))return C[k];if(k=="se")return C.pc=="boucles"?"pave":"clos";if(k=="st")return "aucune";if(k=="q")return "1";return C[k]}
+function fix(){for(const k of FLD[C.pc]){const a=allow(k);if(a&&!a.includes(C[k]))C[k]=a.includes("blanche")?"blanche":a[0]}}
+const grav=()=>!(C.pc=="boucles"||C.pc=="bracelet"&&C.bs=="tennis"||C.pc=="collier"&&C.ct=="chaine");
+const grView=()=>grav()&&(C.pc=="bague"||C.pc=="bracelet"||C.pc=="collier"&&(C.ct=="medaillon"||C.ct=="prenom"));
+function setPc(k){C.pc=k;C.sz=k=="bague"?"54":(PSZ[k]?PSZ[k][1]:"");fix();draw()}
+function pick(k,v){C[k]=v;fix();draw()}
+function det(){const p=C.pc,L=PSZ[p];return [["Pièce",PCS[p]],...FLD[p].filter(k=>allow(k)).map(k=>[OPT[k].l.replace(" de l’anneau",""),lab(k)]),L&&[SZN[p],C.sz],grav()&&[p=="collier"&&C.ct=="prenom"?"Prénom":"Gravure",C.gr||"aucune"],["Budget",C.bd],["Date souhaitée",C.dt||"-"],["Notes",C.nt||"-"]].filter(Boolean)}
 const msgC=()=>"Demande sur mesure\n"+det().map(a=>a[0]+" : "+a[1]).join("\n")+`\nNom : ${C.nm}\nTél : ${C.ph}`;
-function custom(){const R=C.pc=="bague";
+const sw=(k,v)=>k=="m"?`<i class="sw" style="background:linear-gradient(135deg,${CO[v][0]},${CO[v][1]})"></i>`:k=="st"&&GM[v]?`<i class="sw gm" style="background:radial-gradient(circle at 35% 30%,${GM[v][0]},${GM[v][1]})"></i>`:"";
+function custom(){
 if(C.done)return `<div class="w"><div class="empty"><h1 style="font-size:2.4rem">Merci ${esc(C.nm)}</h1><p style="margin:12px 0 24px">${C.done=="saved"?"Votre demande est enregistrée. La bijouterie vous recontacte rapidement.":"Votre demande est prête. Envoyez-la par WhatsApp pour que la bijouterie la reçoive."}</p><a class="btn" href="https://wa.me/${WA}?text=${encodeURIComponent(msgC())}" target="_blank" rel="noopener">Envoyer aussi sur WhatsApp</a><button class="btn o" onclick="C.done='';draw()">Nouvelle demande</button></div></div>`;
-const opt=OPT.filter(o=>R?!(o.k=="se"&&C.st=="aucune"):["m","fi","st"].includes(o.k)).map(o=>`<div class="cg"><div class="cl">${o.l}</div><div class="sz">${o.o.map(v=>`<button type="button" data-f="o-${o.k}-${v[0]}" aria-pressed="${C[o.k]==v[0]}" class="${C[o.k]==v[0]?"on":""}" onclick="C.${o.k}='${v[0]}';fix();draw()">${v[1]}</button>`).join("")}</div></div>`).join("");
-setTimeout(mount3d,0);const L=R?SZL:(PSZ[C.pc]||[]),sl=R?"Taille":C.pc=="boucles"?"Type":"Longueur";
+fix();const opt=FLD[C.pc].map(k=>{const a=allow(k);return a?`<div class="cg"><div class="cl">${OPT[k].l}</div><div class="sz">${OPT[k].o.filter(v=>a.includes(v[0])).map(v=>`<button type="button" data-f="o-${k}-${v[0]}" aria-pressed="${C[k]==v[0]}" class="${C[k]==v[0]?"on":""}" onclick="pick('${k}','${v[0]}')">${sw(k,v[0])}${v[1]}</button>`).join("")}</div></div>`:""}).join("");
+setTimeout(mount3d,0);const L=PSZ[C.pc]||[],sl=SZN[C.pc],nm=C.pc=="collier"&&C.ct=="prenom";
+const vb=(v,t)=>`<button type="button" data-f="v-${v}" onclick="view('${v}')">${t}</button>`;
 return `<div class="w"><div class="t" style="padding-top:44px"><h1 style="font-size:clamp(2rem,5vw,3.2rem)">Créez votre pièce</h1><p>Choisissez chaque détail. Votre demande est enregistrée et la bijouterie vous répond avec un devis et un délai.</p></div>
-<div class="cu"><div class="cp"><div id="r3" class="r3">${window.THREE?"":ring()}</div><p class="hint" style="font-size:.8rem;margin-bottom:6px">Glissez pour tourner · <a href="#custom" onclick="rot();return false" style="color:var(--gd)">pause / lecture</a></p><p id="sum">${sumHtml()}</p></div>
+<div class="cu"><div class="cp"><div id="r3" class="r3">${window.THREE?"":svgPrev()}</div><div class="vt" role="group" aria-label="Vues de l’aperçu">${vb("face","Face")}${vb("profil","Profil")}${vb("dessus","Dessus")}${C.pc=="collier"?vb("porte","Porté"):""}${grView()?vb("gravure",nm?"Prénom":"Gravure"):""}<button type="button" data-f="v-out" aria-label="Zoom arrière" onclick="zm(1.25)">−</button><button type="button" data-f="v-in" aria-label="Zoom avant" onclick="zm(.8)">+</button><button type="button" data-f="v-rot" id="rotb" aria-label="Rotation automatique" aria-pressed="${!R3||R3.ct.autoRotate}" onclick="rot()">⟳</button></div><p class="hint" style="font-size:.8rem;margin-bottom:6px">Glissez pour tourner · pincez ou Ctrl + molette pour zoomer</p><p id="sum">${sumHtml()}</p></div>
 <form onsubmit="return sendC(event)"><div class="cg"><div class="cl">Type de pièce</div><div class="sz">${Object.keys(PCS).map(k=>`<button type="button" data-f="pc-${k}" aria-pressed="${C.pc==k}" class="${C.pc==k?"on":""}" onclick="setPc('${k}')">${PCS[k]}</button>`).join("")}</div></div>${opt}
-${L.length?`<div class="cg"><div class="cl">${sl}</div><select aria-label="${sl}" onchange="C.sz=this.value">${L.map(v=>`<option${C.sz==v?" selected":""}>${v}</option>`).join("")}</select></div>`:""}
-<input placeholder="Gravure (prénoms, date…)" aria-label="Gravure" maxlength="30" value="${esc(C.gr)}" oninput="C.gr=this.value;sumUp()">
+${L.length?`<div class="cg"><div class="cl">${sl}</div><select aria-label="${sl}" onchange="C.sz=this.value;live(0);if(C.pc=='collier')setTimeout(()=>view('porte'),40)">${L.map(v=>`<option${C.sz==v?" selected":""}>${v}</option>`).join("")}</select></div>`:""}
+${grav()?`<input placeholder="${nm?"Gravure : prénom du collier":"Gravure (prénoms, date…)"}" aria-label="${nm?"Prénom du collier":"Gravure"}" maxlength="${nm?14:30}" value="${esc(C.gr)}" oninput="C.gr=this.value;sumUp();live(250)">`:""}
 <div class="cg"><div class="cl">Budget</div><select aria-label="Budget" onchange="C.bd=this.value">${BUD.map(v=>`<option${C.bd==v?" selected":""}>${v}</option>`).join("")}</select></div>
 <div class="cg"><div class="cl">Date souhaitée (facultatif)</div><input type="date" aria-label="Date souhaitée" value="${C.dt}" onchange="C.dt=this.value"></div>
 <input placeholder="Une idée, une photo d’inspiration ?" aria-label="Idée ou inspiration" maxlength="300" value="${esc(C.nt)}" oninput="C.nt=this.value">
 <input placeholder="Nom complet" aria-label="Nom complet" required maxlength="80" autocomplete="name" value="${esc(C.nm)}" oninput="C.nm=this.value;this.removeAttribute('aria-invalid')"><input type="tel" inputmode="tel" placeholder="Téléphone" aria-label="Téléphone" required maxlength="20" autocomplete="tel" value="${esc(C.ph)}" oninput="C.ph=this.value;this.removeAttribute('aria-invalid')">
 <div id="er" class="er" role="alert"></div><button class="btn">Envoyer ma demande</button></form></div></div>`}
-const sumHtml=()=>`<b>${PCS[C.pc]}</b> · ${lab("m")}${C.pc=="bague"?` · ${C.w} mm`:""} · ${lab("fi")}${C.st!="aucune"?" · "+lab("st"):""}${C.gr?`<br>Gravure : « ${esc(C.gr)} »`:""}`;
+const STY={bague:"t",bracelet:"bs",boucles:"bt",collier:"ct"};
+const sumHtml=()=>{const p=C.pc,s=STY[p],x=[s&&lab(s),p=="collier"&&"maille "+lab("ch").toLowerCase(),lab("m"),p=="bague"&&C.w+" mm",lab("fi"),V("st")!="aucune"&&lab("st")+(allow("sh")?" "+lab("sh").toLowerCase():"")].filter(Boolean);
+return `<b>${PCS[p]}</b> · ${x.join(" · ")}${C.sz&&PSZ[p]&&!/^Je/.test(C.sz)?" · "+C.sz:""}${grav()&&C.gr?`<br>${p=="collier"&&C.ct=="prenom"?"Prénom":"Gravure"} : « ${esc(C.gr)} »`:""}`};
 function sumUp(){const e=$("#sum");if(e)e.innerHTML=sumHtml()}
+// 2D fallback while Three.js loads (or if WebGL is unavailable): one drawing per piece, not just a ring
+function svgPrev(){const [a,b]=CO[C.m],g=GM[V("st")],p=C.pc;
+let d=`<defs><linearGradient id="rm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${g?g[0]:"#fff"}"/><stop offset="1" stop-color="${g?g[1]:"#8fcbe6"}"/></linearGradient></defs>`;
+const gm=(x,y,r)=>`<path d="M${x-r} ${y}L${x} ${y-r}L${x+r} ${y}L${x} ${y+r*.8}Z" fill="url(#rg)" stroke="url(#rm)" stroke-width="1.5"/>`,M='fill="none" stroke="url(#rm)"';
+if(p=="bague"){const w=5+C.w*2;d+=`<circle cx="100" cy="118" r="50" ${M} stroke-width="${w}"/><path d="M62 92A50 50 0 0 1 100 68" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>`;if(g)d+=C.t=="solitaire"?gm(100,52,15):C.t=="trilogie"?gm(76,64,8)+gm(100,54,12)+gm(124,64,8):gm(100,68,6)}
+else if(p=="bracelet"){const B=C.bs,sw2={fin:4,moyen:8,large:13}[C.bw];
+if(B=="jonc")d+=`<ellipse cx="100" cy="108" rx="78" ry="40" ${M} stroke-width="${sw2}"/>`;
+else if(B=="manchette")d+=`<path d="M40 128A78 40 0 1 1 160 128" ${M} stroke-width="${sw2*2.2}" stroke-linecap="round"/>`;
+else if(B=="gourmette")d+=`<ellipse cx="100" cy="108" rx="78" ry="40" ${M} stroke-width="${sw2}" stroke-dasharray="5 2"/><rect x="72" y="140" width="56" height="16" rx="6" fill="url(#rm)"/>`;
+else{for(let i=0;i<36;i++){const t=i/36*6.283;d+=`<circle cx="${100+78*Math.cos(t)}" cy="${108+40*Math.sin(t)}" r="${sw2/2+1}" fill="url(#rg)" stroke="url(#rm)"/>`}}
+if(g&&(B=="jonc"||B=="manchette"))d+=gm(80,147,6)+gm(100,149,8)+gm(120,147,6)}
+else if(p=="boucles"){const k={Petite:.7,Moyenne:1,Grande:1.35}[C.sz]||1;for(const x of [60,140]){
+if(C.bt=="clous")d+=g?gm(x,100,16*k):`<circle cx="${x}" cy="100" r="${14*k}" fill="url(#rm)"/>`;
+else if(C.bt=="creoles")d+=`<path d="M${x-4} ${60}A${32*k} ${32*k} 0 1 0 ${x+4} 60" ${M} stroke-width="6"/>`;
+else d+=`<path d="M${x} 40q14 -14 10 14l-10 20" ${M} stroke-width="2.5"/>`+(g?gm(x,96+10*k,14*k):`<ellipse cx="${x}" cy="${96+10*k}" rx="${10*k}" ry="${16*k}" fill="url(#rm)"/>`)}}
+else if(p=="collier"){const D={"40 cm":70,"45 cm":84,"50 cm":98,"60 cm":118}[C.sz]||84,N=C.ct;d+=`<path d="M30 20C34 ${20+D} 80 ${30+D} 100 ${30+D}C120 ${30+D} 166 ${20+D} 170 20" ${M} stroke-width="${C.ch=="corde"?4:2.5}" ${C.ch=="forcat"?'stroke-dasharray="4 1.5"':""}/>`;
+if(N=="pendentif")d+=gm(100,46+D,11);else if(N=="medaillon")d+=`<circle cx="100" cy="${50+D}" r="18" fill="url(#rm)"/>`;else if(N=="prenom")d+=`<text x="100" y="${44+D}" text-anchor="middle" font-family="Great Vibes,Georgia,serif" font-size="30" fill="url(#rm)">${esc(C.gr||"Prénom")}</text>`}
+else d+=`<path d="M100 150C40 110 50 60 80 60C92 60 100 72 100 80C100 72 108 60 120 60C150 60 160 110 100 150Z" fill="url(#rm)"/>`+(g?gm(100,98,10):"");
+return `<svg viewBox="0 0 200 200" role="img" aria-label="Aperçu : ${PCS[p]}">${d}</svg>`}
 async function sendC(e){e.preventDefault();if(C.busy)return false;
 const nm=C.nm.trim().replace(/\s+/g," "),ph=C.ph.replace(/[\s.\-()]/g,""),er=$("#er");
 const bad=nm.length<2?["Veuillez saisir votre nom.",'input[placeholder="Nom complet"]']:!/^(\+|00)?\d{8,15}$/.test(ph)?["Numéro de téléphone invalide (8 à 15 chiffres, ex. +216 22 345 678).",'input[type=tel]']:null;
@@ -231,70 +269,185 @@ async function stt(uid,id,v){try{const db=await claude.use("db"),ref=db.collecti
 async function csv(){try{const d=await claude.use("downloads");const q=x=>'"'+String(x).replace(/"/g,'""')+'"';
 const rows=ADM.map(r=>[new Date(r.ts).toLocaleString("fr-FR"),r.status,r.name,r.phone,(r.det||[]).map(x=>x.k+": "+x.v).join(" | ")].map(q).join(","));
 await d.save({filename:"demandes-sur-mesure.csv",data:["Date,Statut,Nom,Téléphone,Détails",...rows].join("\n")})}catch(e){}}
-const MET={or:0xffae1f,rose:0xf0895f,blanc:0xe9ebef,argent:0xd6d9de},RG={poli:.12,mat:.5,brosse:.3,martele:.22},GMC={blanche:0xf4f9ff,rouge:0xc2193f,bleue:0x2457c5};
-let R3=null;
-function fix(){if(C.t!="alliance"&&C.st=="aucune"&&C.pc=="bague")C.st="blanche"}
+const MET={or:0xffae1f,rose:0xf0895f,blanc:0xeef1f6,argent:0xc6c8cc},RG={poli:.07,mat:.42,brosse:.26,martele:.14},GMC={blanche:0xf4f9ff,rouge:0x9e0a26,bleue:0x13379a,verte:0x077a3c};
+let R3=null,FONT=null,FL=0;
 function env3(r){const T=THREE,c=document.createElement("canvas");c.width=1024;c.height=512;const g=c.getContext("2d");
 const gr=g.createLinearGradient(0,0,0,512);gr.addColorStop(0,"#8d939e");gr.addColorStop(.5,"#4a4d55");gr.addColorStop(1,"#1c1c1f");g.fillStyle=gr;g.fillRect(0,0,1024,512);
-try{g.filter="blur(7px)"}catch(e){}
+try{g.filter="blur(6px)"}catch(e){}
 [[40,60,190,230,1],[320,30,120,280,1],[560,40,260,80,1],[820,70,140,250,1],[400,320,380,60,.8],[0,250,1024,10,.5]].forEach(a=>{g.fillStyle=`rgba(255,248,236,${a[4]})`;g.fillRect(a[0],a[1],a[2],a[3])});
 const t=new T.CanvasTexture(c);t.mapping=T.EquirectangularReflectionMapping;t.encoding=T.sRGBEncoding;const p=new T.PMREMGenerator(r),e=p.fromEquirectangular(t).texture;t.dispose();p.dispose();return e}
 function init3(){if(R3)return R3;if(!window.THREE||!THREE.OrbitControls)return null;
-try{const T=THREE,r=new T.WebGLRenderer({antialias:true,alpha:true});r.setPixelRatio(Math.min(devicePixelRatio||1,2));r.outputEncoding=T.sRGBEncoding;r.toneMapping=T.ACESFilmicToneMapping;r.toneMappingExposure=1.35;r.shadowMap.enabled=true;r.shadowMap.type=T.PCFSoftShadowMap;
-const sc=new T.Scene();sc.environment=env3(r);const cam=new T.PerspectiveCamera(32,1,1,600);cam.position.set(0,13,52);
-const ct=new T.OrbitControls(cam,r.domElement);ct.enablePan=false;ct.enableZoom=false;ct.enableDamping=true;ct.autoRotate=!matchMedia("(prefers-reduced-motion:reduce)").matches;ct.autoRotateSpeed=1.4;ct.minPolarAngle=.25;ct.maxPolarAngle=Math.PI*.6;ct.addEventListener("start",()=>{ct.autoRotate=false});r.domElement.style.touchAction="none";r.domElement.setAttribute("role","img");
-const l=new T.DirectionalLight(0xffffff,.55);l.position.set(10,40,25);l.castShadow=true;l.shadow.mapSize.set(1024,1024);sc.add(l);
-const gnd=new T.Mesh(new T.PlaneGeometry(600,600),new T.ShadowMaterial({opacity:.38}));gnd.rotation.x=-Math.PI/2;gnd.receiveShadow=true;sc.add(gnd);
-const grp=new T.Group();sc.add(grp);R3={r,sc,cam,ct,grp,gnd,l,on:false,k:""};
-(function loop(){requestAnimationFrame(loop);if(!R3.on)return;ct.update();r.render(sc,cam)})();return R3}catch(e){return null}}
+try{const T=THREE,r=new T.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});r.setPixelRatio(Math.min(devicePixelRatio||1,2));r.outputEncoding=T.sRGBEncoding;r.toneMapping=T.ACESFilmicToneMapping;r.toneMappingExposure=1.35;r.shadowMap.enabled=true;r.shadowMap.type=T.PCFSoftShadowMap;
+const sc=new T.Scene();sc.environment=env3(r);const cam=new T.PerspectiveCamera(30,1,.5,2000);cam.position.set(0,13,52);
+const ct=new T.OrbitControls(cam,r.domElement);ct.enablePan=false;ct.enableDamping=true;ct.zoomSpeed=.6;ct.autoRotate=!matchMedia("(prefers-reduced-motion:reduce)").matches;ct.autoRotateSpeed=1.4;ct.minPolarAngle=.05;ct.maxPolarAngle=Math.PI*.62;
+ct.addEventListener("start",()=>{ct.autoRotate=false;R3.tw=null;rotUi()});r.domElement.style.touchAction="none";r.domElement.setAttribute("role","img");
+// plain wheel keeps scrolling the page; Ctrl + wheel (and pinch) zooms the piece
+r.domElement.addEventListener("wheel",e=>{if(!e.ctrlKey)e.stopImmediatePropagation()},true);
+const l=new T.DirectionalLight(0xffffff,.55);l.position.set(10,40,25);l.castShadow=true;l.shadow.mapSize.set(1024,1024);l.shadow.bias=-.0005;sc.add(l);
+const l2=new T.DirectionalLight(0xfff1dc,.35);l2.position.set(-30,10,-20);sc.add(l2);
+const gnd=new T.Mesh(new T.PlaneGeometry(2000,2000),new T.ShadowMaterial({opacity:.38}));gnd.rotation.x=-Math.PI/2;gnd.receiveShadow=true;sc.add(gnd);
+const grp=new T.Group();sc.add(grp);R3={r,sc,cam,ct,grp,gnd,l,on:false,k:"",fit:50,tw:null,pop:0,V:{}};
+(function loop(t){requestAnimationFrame(loop);if(!R3.on)return;const o=R3;
+if(o.tw){const k=Math.min(1,(t-o.tw.t0)/650),e=1-Math.pow(1-k,3);o.cam.position.lerpVectors(o.tw.p0,o.tw.p1,e);o.ct.target.lerpVectors(o.tw.q0,o.tw.q1,e);if(k>=1)o.tw=null}
+if(o.pop){const k=Math.min(1,(t-o.pop)/380),s=.94+.06*(1-Math.pow(1-k,3));o.grp.scale.setScalar(s);if(k>=1){o.pop=0;o.grp.scale.setScalar(1)}}
+ct.update();r.render(sc,cam)})(0);return R3}catch(e){return null}}
 function bump(k){const T=THREE,c=document.createElement("canvas");c.width=c.height=256;const g=c.getContext("2d");g.fillStyle="#808080";g.fillRect(0,0,256,256);
-if(k=="brosse")for(let y=0;y<256;y++){const v=(100+Math.random()*60)|0;g.fillStyle=`rgb(${v},${v},${v})`;g.fillRect(0,y,256,1)}
-else for(let i=0;i<110;i++){const x=Math.random()*256,y=Math.random()*256,r=10+Math.random()*10,q=g.createRadialGradient(x,y,0,x,y,r);q.addColorStop(0,"#303030");q.addColorStop(1,"#808080");g.fillStyle=q;g.beginPath();g.arc(x,y,r,0,7);g.fill()}
-const t=new T.CanvasTexture(c);t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(k=="brosse"?1:16,1);return t}
-function band(R,w,t,cr,mt){const T=THREE,P=[],hw=w/2,ri=R,ro=R+t,c=Math.min(cr,hw*.9,t*.45);
-const arc=(cx,cy,a0)=>{for(let i=0;i<=6;i++){const a=a0+i/6*Math.PI/2;P.push(new T.Vector2(cx+Math.cos(a)*c,cy+Math.sin(a)*c))}};
-arc(ri+c,-hw+c,Math.PI);arc(ro-c,-hw+c,1.5*Math.PI);arc(ro-c,hw-c,0);arc(ri+c,hw-c,.5*Math.PI);P.push(P[0].clone());
-const g=new T.LatheGeometry(P,120);g.rotateX(Math.PI/2);const m=new T.Mesh(g,mt);m.castShadow=true;return m}
-function gem(r,col){const T=THREE,p=[[0,-.8],[.55,-.4],[1,-.02],[1,.04],[.8,.2],[.58,.36],[.02,.36]].map(a=>new T.Vector2(a[0]*r,a[1]*r));
-const m=new T.Mesh(new T.LatheGeometry(p,8),new T.MeshPhysicalMaterial({color:col,metalness:.1,roughness:.02,clearcoat:1,clearcoatRoughness:0,flatShading:true,envMapIntensity:3,side:T.DoubleSide,emissive:col,emissiveIntensity:col==0xf4f9ff?.04:.2}));m.castShadow=true;return m}
-function stone(r,col,set,mt){const T=THREE,g=new T.Group();g.add(gem(r,col));
-if(set=="clos"){const b=new T.Mesh(new T.CylinderGeometry(r*1.1,r*.98,r*.8,32,1,true),mt);b.position.y=-.08*r;const rim=new T.Mesh(new T.TorusGeometry(r*1.08,r*.07,8,32),mt);rim.rotation.x=Math.PI/2;rim.position.y=.3*r;g.add(b,rim)}
-else for(let i=0;i<4;i++){const a=i*Math.PI/2+Math.PI/4,cx=Math.cos(a)*r*.95,cz=Math.sin(a)*r*.95,m=new T.Mesh(new T.CylinderGeometry(r*.1,r*.14,r*1.05,10),mt);m.position.set(cx,.12*r,cz);const t=new T.Mesh(new T.SphereGeometry(r*.15,10,8),mt);t.position.set(cx*.9,.64*r,cz*.9);g.add(m,t)}
+if(k=="brosse")for(let y=0;y<256;y++){const v=(95+Math.random()*70)|0;g.fillStyle=`rgb(${v},${v},${v})`;g.fillRect(0,y,256,1)}
+else if(k=="mat")for(let i=0;i<9000;i++){const v=(110+Math.random()*40)|0;g.fillStyle=`rgb(${v},${v},${v})`;g.fillRect(Math.random()*256,Math.random()*256,1.5,1.5)}
+else for(let i=0;i<90;i++){const x=Math.random()*256,y=Math.random()*256,r=14+Math.random()*12,q=g.createRadialGradient(x,y,0,x,y,r);q.addColorStop(0,"#262626");q.addColorStop(.75,"#7a7a7a");q.addColorStop(1,"#808080");g.fillStyle=q;g.beginPath();g.arc(x,y,r,0,7);g.fill()}
+const t=new T.CanvasTexture(c);t.wrapS=t.wrapT=T.RepeatWrapping;return t}
+function metal(){const T=THREE,mt=new T.MeshStandardMaterial({color:MET[C.m],metalness:1,roughness:RG[C.fi]+(C.m=="argent"?.06:0),envMapIntensity:C.m=="argent"?1.5:1.8,side:T.DoubleSide});
+if(C.fi!="poli"){mt.bumpMap=bump(C.fi);mt.bumpMap.repeat.set(C.fi=="martele"?2:C.fi=="mat"?6:1,1);mt.bumpScale=C.fi=="martele"?1.4:C.fi=="mat"?.25:.5}return mt}
+const plain=mt=>{const m=mt.clone();m.bumpMap=null;return m};
+// sweep a 2D profile [r (outward), z (across)] along a planar curve in XY; k(i) scales the profile (tapered ends)
+function sweep(pts,closed,prof,mt,k){const T=THREE,N=pts.length,M=prof.length,pos=[],uv=[],idx=[];let L=0;
+for(let i=0;i<N;i++){const a=pts[(i-1+N)%N],b=pts[(i+1)%N],p=pts[i],tx=b[0]-a[0],ty=b[1]-a[1],tl=Math.hypot(tx,ty)||1,nx=-ty/tl,ny=tx/tl,s=k?k(i/(N-1)):[1,1];
+if(i)L+=Math.hypot(p[0]-pts[i-1][0],p[1]-pts[i-1][1]);
+for(let j=0;j<M;j++){const [r,z]=prof[j];pos.push(p[0]+nx*r*s[0],p[1]+ny*r*s[0],z*s[1]);uv.push(L/30,j/M)}}
+const ro=i=>i*M;for(let i=0;i<(closed?N:N-1);i++){const i2=(i+1)%N;for(let j=0;j<M;j++){const j2=(j+1)%M,a=ro(i)+j,b=ro(i2)+j,c=ro(i2)+j2,d=ro(i)+j2;idx.push(a,b,d,b,c,d)}}
+if(!closed)for(const i of [0,N-1]){const c=pos.length/3;let cx=0,cy=0,cz=0;for(let j=0;j<M;j++){cx+=pos[(ro(i)+j)*3];cy+=pos[(ro(i)+j)*3+1];cz+=pos[(ro(i)+j)*3+2]}pos.push(cx/M,cy/M,cz/M);uv.push(0,0);for(let j=0;j<M;j++)idx.push(c,ro(i)+j,ro(i)+(j+1)%M)}
+const g=new T.BufferGeometry();g.setAttribute("position",new T.Float32BufferAttribute(pos,3));g.setAttribute("uv",new T.Float32BufferAttribute(uv,2));g.setIndex(idx);g.computeVertexNormals();
+const m=new T.Mesh(g,mt);m.castShadow=true;return m}
+function prof(kind,w,t){const P=[],hw=w/2,c=Math.min(.45,hw*.35,t*.3),arc=(cr,cz,a0)=>{for(let i=0;i<=4;i++){const a=a0+i/4*Math.PI/2;P.push([cr+Math.cos(a)*c,cz+Math.sin(a)*c])}};
+if(kind=="plat"){arc(c,-hw+c,Math.PI);arc(t-c,-hw+c,1.5*Math.PI);arc(t-c,hw-c,0);arc(c,hw-c,.5*Math.PI);return P}
+const inb=kind=="confort"?t*.22:0;
+for(let i=0;i<=8;i++){const z=-hw*.94+i/8*hw*1.88;P.push([inb*(Math.pow(z/hw,2)-1)*.9,z])}
+for(let i=0;i<=16;i++){const a=Math.PI/2-i/16*Math.PI,z=hw*Math.sin(a)*.98;P.push([t*(kind=="confort"?.55:.32)+t*(kind=="confort"?.45:.68)*Math.pow(Math.cos(a),.8),z])}return P}
+const circ=(R,n,a0=0,a1=Math.PI*2)=>Array.from({length:n},(_,i)=>{const a=a0+(a1-a0)*i/(a1-a0>6.28?n:n-1);return [Math.sin(a)*R,Math.cos(a)*R]});
+const ell=(A,B,n,a0=0,a1=Math.PI*2)=>Array.from({length:n},(_,i)=>{const a=a0+(a1-a0)*i/(a1-a0>6.28?n:n-1);return [Math.sin(a)*A,Math.cos(a)*B]});
+// faceted stone: lathe profile, symmetry and stretch set the cut
+function gemGeo(r,sh){const T=THREE,cut={ronde:[16,0,1,1],ovale:[16,0,1.32,1],princesse:[4,Math.PI/4,1.25,1.25],emeraude:[8,Math.PI/8,1.45,1.05]}[sh||"ronde"];
+const p=[[0,-.86],[.3,-.62],[.7,-.26],[.98,-.03],[1,0],[1,.05],[.86,.16],[.62,.3],[.5,.33],[0,.33]].map(a=>new T.Vector2(a[0]*r,a[1]*r));
+const g=new T.LatheGeometry(p,cut[0],cut[1]);g.scale(cut[2],1,cut[3]);return g}
+function gemMat(col){const T=THREE,c=new T.Color(col).convertSRGBToLinear();return new T.MeshPhysicalMaterial({color:c,metalness:0,roughness:0,clearcoat:1,clearcoatRoughness:0,reflectivity:1,flatShading:true,envMapIntensity:col==GMC.blanche?4.5:1.5,side:T.DoubleSide,emissive:c,emissiveIntensity:col==GMC.blanche?.06:.35})}
+function gem(r,col,sh){const m=new THREE.Mesh(gemGeo(r,sh),gemMat(col));m.castShadow=true;return m}
+// stone in its setting; y is up through the table
+function stone(r,col,set,mt,sh){const T=THREE,g=new T.Group(),cut={ronde:[16,0,1,1],ovale:[16,0,1.32,1],princesse:[4,Math.PI/4,1.25,1.25],emeraude:[8,Math.PI/8,1.45,1.05]}[sh||"ronde"];g.add(gem(r,col,sh));
+const pm=plain(mt);
+if(set=="clos"){const p=[[.98,-.5],[1.14,-.5],[1.16,.06],[1.08,.17],[.97,.12]].map(a=>new T.Vector2(a[0]*r,a[1]*r));p.push(p[0].clone());const b=new T.LatheGeometry(p,cut[0]<=8?cut[0]:64,cut[1]);b.scale(cut[2],1,cut[3]);const m=new T.Mesh(b,pm);m.castShadow=true;g.add(m)}
+else{const n=sh=="ronde"||!sh?6:4,cl=r*.13;for(let i=0;i<n;i++){let a=(i+.5)/n*Math.PI*2;if(n==4)a=Math.PI/4+i*Math.PI/2;let x=Math.cos(a),z=Math.sin(a);if(n==4&&sh!="ovale"){x=Math.sign(x)*cut[2]*.72;z=Math.sign(z)*cut[3]*.72}else{x*=cut[2];z*=cut[3]}
+const c=new T.CatmullRomCurve3([new T.Vector3(x*r*.55,-r*.9,z*r*.55),new T.Vector3(x*r*1.02,-.1*r,z*r*1.02),new T.Vector3(x*r*1.02,r*.22,z*r*1.02),new T.Vector3(x*r*.9,r*.36,z*r*.9)]);
+const m=new T.Mesh(new T.TubeGeometry(c,10,cl,8,false),pm);m.castShadow=true;const tip=new T.Mesh(new T.SphereGeometry(cl*1.15,10,8),pm);tip.position.set(x*r*.9,r*.36,z*r*.9);g.add(m,tip)}
+const bk=new T.Mesh(new T.TorusGeometry(r*.62,cl*.8,8,32),pm);bk.rotation.x=Math.PI/2;bk.position.y=-r*.42;bk.scale.set(cut[2],cut[3],1);g.add(bk)}
 return g}
 function put(G,o,a,rs){o.position.set(Math.sin(a)*rs,Math.cos(a)*rs,0);o.rotation.z=-a;G.add(o)}
+// same on an oval (bracelets): off is measured along the oval's normal
+function putE(G,o,a,A,B,off){const nx=Math.sin(a)/A,ny=Math.cos(a)/B,l=Math.hypot(nx,ny);o.position.set(Math.sin(a)*A+nx/l*off,Math.cos(a)*B+ny/l*off,0);o.rotation.z=-Math.atan2(nx,ny);G.add(o)}
+// engraving: text cut into the metal, drawn as a darker, rougher layer
+function txtTex(s,h,script,flip){const T=THREE,c=document.createElement("canvas"),g=c.getContext("2d"),f=`${script?"":"italic 600 "}${h*.62}px ${script?'"Great Vibes",':""}Georgia,serif`;g.font=f;const w=Math.ceil(g.measureText(s).width+h*.4);c.width=Math.min(2048,w);c.height=h;
+g.fillStyle="#000";g.fillRect(0,0,c.width,h);if(flip==1){g.translate(c.width,h);g.rotate(Math.PI)}if(flip==2){g.translate(0,h);g.scale(1,-1)}g.fillStyle="#fff";g.font=f;g.textAlign="center";g.textBaseline="middle";g.fillText(s,c.width/2,h*.54);const t=new T.CanvasTexture(c);t.anisotropy=4;return [t,c.width/h]}
+function engMat(tex){const T=THREE,col=new T.Color(MET[C.m]).multiplyScalar(.3);return new T.MeshStandardMaterial({color:col,metalness:.65,roughness:.75,envMapIntensity:.6,transparent:!!tex,alphaMap:tex,depthWrite:!tex,polygonOffset:true,polygonOffsetFactor:-2,side:T.DoubleSide})}
+// text on a band: a cylinder slice centred on angle a0 (0 = bottom of the piece), squashed by sy for ovals
+function engraveCyl(G,R,h,s,a0,sy,flip){if(!s)return;const T=THREE,[tx,ar]=txtTex(s,128,true,flip),th=Math.min(ar*h/R,Math.PI*1.7),g=new T.CylinderGeometry(R,R,h,96,1,true,a0-th/2,th);g.rotateX(Math.PI/2);if(sy)g.scale(1,sy,1);G.add(new T.Mesh(g,engMat(tx)))}
+function engravePlane(G,s,w,h,pos,script){if(!s)return;const T=THREE,[tx,ar]=txtTex(s,128,script),sc=Math.min(w/ar,h),m=new T.Mesh(new T.PlaneGeometry(ar*sc,sc),engMat(tx));m.position.copy(pos);G.add(m)}
+// chain: links (instanced) laid along a polyline in the XY plane
+// chain: links (instanced) laid along a polyline; points may carry z so it can drape over the bust
+function chain(pts,kind,sz,mt){const T=THREE,G=new T.Group(),V3=pts.map(p=>new T.Vector3(p[0],p[1],p[2]||0)),L=[0];for(let i=1;i<V3.length;i++)L.push(L[i-1]+V3[i].distanceTo(V3[i-1]));
+const tot=L[L.length-1],at=s=>{let i=1;while(i<L.length-1&&L[i]<s)i++;const f=(s-L[i-1])/((L[i]-L[i-1])||1),P=V3[i-1].clone().lerp(V3[i],f),X=V3[i].clone().sub(V3[i-1]).normalize(),Y=new T.Vector3(0,0,1).cross(X);if(Y.lengthSq()<1e-6)Y.set(0,1,0);Y.normalize();return [P,X,Y,X.clone().cross(Y)]};
+const pm=plain(mt);
+if(kind=="corde"){for(const ph of [0,Math.PI]){const P=[],n=Math.ceil(tot/.35);for(let i=0;i<=n;i++){const s=i/n*tot,[p,X,Y,Z]=at(s),q=s/sz*Math.PI*1.35+ph,o=sz*.3;P.push(p.addScaledVector(Y,Math.cos(q)*o).addScaledVector(Z,Math.sin(q)*o))}
+const m=new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(P),n*2,sz*.3,8,false),mt);m.castShadow=true;G.add(m)}return G}
+const pitch={forcat:sz*1.15,gourmette:sz*.82,venitienne:sz*1.08}[kind],n=Math.max(2,Math.floor(tot/pitch));
+let geo;if(kind=="venitienne")geo=new T.BoxGeometry(sz,sz*.86,sz*.86);else{geo=new T.TorusGeometry(sz*.5,sz*(kind=="gourmette"?.17:.14),8,24);geo.scale(kind=="gourmette"?1.5:1.35,1,kind=="gourmette"?.55:1)}
+const im=new T.InstancedMesh(geo,pm,n),M4=new T.Matrix4(),Rx=new T.Matrix4();
+for(let i=0;i<n;i++){const [p,X,Y,Z]=at((i+.5)*tot/n);M4.makeBasis(X,Y,Z);M4.multiply(Rx.makeRotationX(kind=="forcat"?(i%2?Math.PI/2:0):kind=="gourmette"?Math.PI/2+(i%2?.42:-.42):0));M4.setPosition(p);im.setMatrixAt(i,M4)}
+im.castShadow=true;im.frustumCulled=false;G.add(im);return G}
+function clasp(mt){const T=THREE,g=new T.Group(),b=new T.Mesh(new T.TorusGeometry(1.6,.55,10,24,Math.PI*1.75),mt);b.scale.set(1,1.5,1);const r=new T.Mesh(new T.TorusGeometry(1,.3,8,20),mt);r.position.y=3.2;r.rotation.y=Math.PI/2;g.add(b,r);return g}
+function build(G){const T=THREE,col=GMC[V("st")],set=V("se"),sh=V("sh"),p=C.pc,mt=metal(),pm=plain(mt);const o={ground:true,dir:{bague:[.6,.5,1],bracelet:[.4,.42,1],boucles:[0,.06,1],collier:[0,.04,1],autre:[.3,.12,1]}[p]};
+const pave=(H,R,a0,a1,r,E)=>{const n=Math.max(1,Math.floor((a1-a0)*(E?(E[0]+E[1])/2:R)/(r*2.3)));for(let i=0;i<n;i++){const a=a0+(i+.5)*(a1-a0)/n,s=new T.Group(),g=gem(r,col);s.add(g);for(const sx of [-1,1]){const b=new T.Mesh(new T.SphereGeometry(r*.26,8,6),pm);b.position.set(sx*r*1.02,r*.22,0);s.add(b)}if(E)putE(H,s,a,E[0],E[1],E[2]-r*.1);else put(H,s,a,R-r*.1)}};
+G.rotation.set(p=="bague"?.3:0,0,0);if(p=="bague"){const sz=parseFloat(C.sz)||54,R=sz/6.283,w=+C.w,t=1.4+w*.08,Ro=R+t,H=new T.Group();G.add(H);o.bot=-Ro;o.R=R;
+const Ri=R-(C.pr=="confort"?t*.2:0)-.03;H.add(sweep(circ(R,160),true,prof(C.pr,w,t),mt));engraveCyl(H,Ri,Math.min(w*.62,4),C.gr,0,0,1);o.gt=[H,[0,-Ri,0],[0,1,.3]];
+let x0=0;const big=C.t=="solitaire"?2.8:2.3;
+if(C.t=="solitaire"&&col){put(H,stone(big,col,set=="pave"?"griffes":set,mt,sh),0,Ro+big*.62);x0=big*1.1}
+else if(C.t=="trilogie"&&col){put(H,stone(big,col,set=="pave"?"griffes":set,mt,sh),0,Ro+big*.6);const a=(big*1.25+1.7)/Ro;put(H,stone(1.6,col,set=="pave"?"griffes":set,mt,sh),a,Ro+.9);put(H,stone(1.6,col,set=="pave"?"griffes":set,mt,sh),-a,Ro+.9);x0=big+3.4}
+else if(col&&set!="pave"){if(set=="clos"){const s=gem(1.3,col);s.position.y=-.2;const S=new T.Group();S.add(s,new T.Mesh(new T.TorusGeometry(1.35,.18,8,24),pm));S.children[1].rotation.x=Math.PI/2;S.children[1].position.y=.05;put(H,S,0,Ro-.25)}else put(H,stone(1.4,col,"griffes",mt),0,Ro+.75);x0=1.4}
+if(set=="pave"&&col){if(C.t=="alliance")pave(H,Ro,-1.15,1.15,Math.min(.75,w*.22));else for(const sg of [1,-1])pave(H,Ro,sg>0?(x0+.6)/Ro:-1.05,sg>0?1.05:-(x0+.6)/Ro,Math.min(.62,w*.2))}
+if(V("q")=="2"){const off=Ro+3.2;H.position.x=-off;H.rotation.y=.35;const H2=new T.Group(),R2=R+1.2;H2.add(sweep(circ(R2,160),true,prof(C.pr,w+1.5,t+.15),mt));engraveCyl(H2,R2-.03,Math.min((w+1.5)*.62,4),C.gr,0,0,1);H2.position.x=off;H2.rotation.y=-.35;G.add(H2)}}
+else if(p=="bracelet"){const B=C.bs,cm=parseFloat(C.sz)||17,P=(cm+(B=="jonc"?3.5:B=="manchette"?1:1.5))*10,A=P/(Math.PI*1.86),Bv=A*.86,bw={fin:0,moyen:1,large:2}[C.bw],H=new T.Group();G.add(H);H.rotation.x=.62;o.R=A;
+if(B=="jonc"){const w=[3.2,6,10][bw],t=[2.2,2.6,2.8][bw];H.add(sweep(ell(A,Bv,220),true,prof("bombe",w,t),mt));engraveCyl(H,A-.05,Math.min(w*.6,4.5),C.gr,0,Bv/A,1);o.gt=[H,[0,-Bv,0],[0,1,.15],30];
+if(col){if(set=="pave")pave(H,0,-.75,.75,Math.min(.8,w*.17),[A,Bv,t*.98]);
+else{const r=Math.min(w*.55,3.2);putE(H,stone(r,col,set,mt,"ronde"),0,A,Bv,t+r*.5);const a=r*2.4/Bv;putE(H,stone(r*.7,col,set,mt,"ronde"),a,A,Bv,t+r*.25);putE(H,stone(r*.7,col,set,mt,"ronde"),-a,A,Bv,t+r*.25)}}}
+else if(B=="manchette"){const w=[12,18,26][bw],t=1.7,gap=.62,pts=ell(A,Bv,200,Math.PI+gap,Math.PI*3-gap),tp=u=>{const d=Math.abs(u-.5)*2,f=1-.45*Math.pow(d,2.2);return [1,f]};
+H.add(sweep(pts,false,prof("bombe",w,t),mt,tp));for(const e of [pts[0],pts[pts.length-1]]){const b=new T.Mesh(new T.SphereGeometry(t*1.25,24,16),mt);b.position.set(e[0],e[1],0);b.castShadow=true;H.add(b)}
+const ga=col?.62:0;engraveCyl(H,A*(Bv+t+.06)/Bv,Math.min(w*.4,6),C.gr,Math.PI+ga,Bv/A,2);o.gt=[H,[Math.sin(-ga)*A,Math.cos(ga)*(Bv+t),0],[Math.sin(-ga)*.8,1,.1],40];
+if(col){if(set=="pave")for(const dz of [-w*.2,0,w*.2]){const Z=new T.Group();Z.position.z=dz;H.add(Z);pave(Z,0,-.45,.45,.85,[A,Bv,t*(dz?.93:.99)])}else{const r=Math.min(w*.26,4.5);putE(H,stone(r,col,set,mt,"ronde"),0,A,Bv,t+r*.55)}}}
+else if(B=="gourmette"){const sz=[2.4,3.4,4.6][bw],pl=[24,30,36][bw],ph=[7,9,11][bw],a0=pl/2/A,pts=ell(A,Bv,300,a0+.05,Math.PI*2-a0-.05);H.add(chain(pts,"gourmette",sz,mt));
+const sp=new T.Shape(),rx=pl/2,ry=ph/2,rc=ph*.45;sp.moveTo(-rx+rc,-ry);sp.lineTo(rx-rc,-ry);sp.quadraticCurveTo(rx,-ry,rx,-ry+rc);sp.lineTo(rx,ry-rc);sp.quadraticCurveTo(rx,ry,rx-rc,ry);sp.lineTo(-rx+rc,ry);sp.quadraticCurveTo(-rx,ry,-rx,ry-rc);sp.lineTo(-rx,-ry+rc);sp.quadraticCurveTo(-rx,-ry,-rx+rc,-ry);
+const pg=new T.ExtrudeGeometry(sp,{depth:1,bevelEnabled:true,bevelThickness:.45,bevelSize:.45,bevelSegments:4,curveSegments:16});pg.translate(0,0,-.5);const pl3=new T.Mesh(pg,pm);pl3.castShadow=true;
+const PG=new T.Group();PG.add(pl3);PG.rotation.x=-Math.PI/2;PG.position.set(0,Bv+.4,0);H.add(PG);engravePlane(PG,C.gr,pl*.86,ph*.75,new T.Vector3(0,0,.97),true);o.gt=[PG,[0,0,1],[0,0,1],45];
+const cl=clasp(pm);cl.position.set(0,-Bv,0);cl.rotation.z=Math.PI/2;H.add(cl)}
+else{const r=[1.25,1.75,2.3][bw],n=Math.floor(Math.PI*1.86*A/(r*2.25)),pts=ell(A,Bv,n),cg=[],pg=gemGeo(r,"ronde"),im=new T.InstancedMesh(pg,gemMat(col),n),cup=new T.LatheGeometry([[.9,-.7],[1.2,-.55],[1.18,.05],[1.08,.1],[.95,.02]].map(a=>new T.Vector2(a[0]*r,a[1]*r)),24),im2=new T.InstancedMesh(cup,pm,n),M=new T.Matrix4(),Q=new T.Quaternion(),S1=new T.Vector3(1,1,1);
+const tip=set=="griffes"?new T.InstancedMesh(new T.SphereGeometry(r*.2,8,6),pm,n*4):null,bar=new T.InstancedMesh(new T.BoxGeometry(r*.9,r*.5,r*1.3),pm,n);
+for(let i=0;i<n;i++){const [x,y]=pts[i],ang=Math.atan2(x/A,y/Bv);Q.setFromEuler(new T.Euler(0,0,-ang));const out=new T.Vector3(Math.sin(ang),Math.cos(ang),0),P0=new T.Vector3(x,y,0).addScaledVector(out,r*.55);
+M.compose(P0,Q,S1);im.setMatrixAt(i,M);im2.setMatrixAt(i,M);const tg=new T.Vector3(Math.cos(ang),-Math.sin(ang),0),Pb=new T.Vector3(x,y,0).addScaledVector(out,r*.05).addScaledVector(tg,r*1.12);M.compose(Pb,Q,S1);bar.setMatrixAt(i,M);
+if(tip)for(let j=0;j<4;j++){const ja=Math.PI/4+j*Math.PI/2,lp=new T.Vector3(Math.cos(ja)*r*.92,r*.3,Math.sin(ja)*r*.92).applyQuaternion(Q).add(P0);M.compose(lp,Q,S1);tip.setMatrixAt(i*4+j,M)}}
+[im,im2,bar,tip].forEach(m=>{if(m){m.castShadow=true;m.frustumCulled=false;H.add(m)}})}}
+else if(p=="boucles"){const E=C.bt,k={Petite:.72,Moyenne:1,Grande:1.4}[C.sz]||1;o.ground=false;
+for(const sx of [-1,1]){const g=new T.Group();g.position.x=sx*(E=="creoles"?16*k+5:E=="clous"?3.4*k+3.5:5+4*k);g.rotation.y=-sx*(E=="creoles"?.38:.18);G.add(g);
+if(E=="clous"){const r=3*k,f=new T.Group();if(col)f.add(stone(r,col,set,mt,sh));else{const d=new T.Mesh(new T.SphereGeometry(r*.85,40,28),mt);d.scale.y=.92;d.position.y=r*.3;f.add(d)}
+f.rotation.x=Math.PI/2;g.add(f);const post=new T.Mesh(new T.CylinderGeometry(.42,.42,11,12),pm);post.rotation.x=Math.PI/2;post.position.z=-5.5-r*.5;g.add(post);
+const bk=new T.Mesh(new T.SphereGeometry(Math.min(1.9,r*.72),28,16),pm);bk.scale.set(1,1,.32);bk.position.z=-7.8-r*.5;g.add(bk)}
+else if(E=="creoles"){const R=13*k,w=2.4+k*.4,t=2.1,gp=.11,pr=prof("plat",w,t);
+const hp=circ(R,180,gp/2,Math.PI*2-gp/2);const hoop=sweep(hp,false,pr,mt);g.add(hoop);
+const pin=new T.Mesh(new T.CylinderGeometry(.42,.42,R*gp*2.2,10),pm);pin.rotation.z=Math.PI/2;pin.position.set(0,R+t*.5,0);g.add(pin);
+if(col){const S=new T.Group();S.position.z=w/2;g.add(S);const rr=.82,n=Math.floor(R*Math.PI*1.1/(rr*2.25));for(let i=0;i<n;i++){const a=Math.PI*.45+i/(n-1)*Math.PI*1.1,gg=gem(rr,col);gg.rotation.x=Math.PI/2;gg.position.set(Math.sin(a)*(R+t/2),Math.cos(a)*(R+t/2),-.12);S.add(gg)}}
+g.position.y=-R}
+else{const r=3.4*k,top=14,P=[new T.Vector3(0,top-8,0),new T.Vector3(0,top,0),new T.Vector3(0,top+5,-2.5),new T.Vector3(0,top+3,-6),new T.Vector3(0,top-4,-7)];
+g.add(new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(P),40,.38,8,false),pm));const ball=new T.Mesh(new T.SphereGeometry(.9,16,12),pm);ball.position.y=top-1;g.add(ball);
+const lk=new T.Mesh(new T.TorusGeometry(1.1,.3,8,20),pm);lk.position.y=top-8.6;lk.rotation.y=Math.PI/2;g.add(lk);let y=top-9.8;
+if(C.sz=="Grande")for(let i=0;i<3;i++){const l=new T.Mesh(new T.TorusGeometry(.9,.24,8,16),pm);l.scale.set(1,1.4,1);l.position.y=y-1.1;l.rotation.y=i%2?Math.PI/2:0;g.add(l);y-=2.3}
+const D=new T.Group();if(col){const s=stone(r,col,set,mt,sh);s.rotation.set(Math.PI/2,0,sh=="ovale"||sh=="emeraude"?Math.PI/2:0,"ZXY");D.add(s);const ex={ronde:1,ovale:1.32,princesse:1.25,emeraude:1.45}[sh];D.position.y=y-r*(sh=="ovale"||sh=="emeraude"?ex:1)-.6}
+else{const r2=r*.78,m=new T.Mesh(new T.SphereGeometry(r2,40,28),mt);D.add(m);D.position.y=y-r2-.5}
+const bl=new T.Mesh(new T.TorusGeometry(.8,.28,8,16),pm);bl.position.y=y;bl.rotation.y=Math.PI/2;g.add(bl,D);D.traverse(n=>n.castShadow=true)}}}
+else if(p=="collier"){const N=C.ct,cm=parseFloat(C.sz)||45,sz={forcat:2.3,gourmette:2.6,venitienne:1.7,corde:2.2}[C.ch];o.ground=false;
+const NR=50,NZ=.62,bR=y=>y>0?NR-Math.min(y,140)*.04:NR+125*(1-Math.exp(y/28)),surf=(x,y)=>NZ*Math.sqrt(Math.max(0,bR(y)**2-x*x)),Dd=.75*Math.sqrt((cm*5-65)**2-NR*NR);
+const bp=[];for(let y=-300;y<=170;y+=5)bp.push(new T.Vector2(bR(y),y));bp.push(new T.Vector2(0,170));const bm=new T.MeshPhysicalMaterial({color:new T.Color(0x1d1915).convertSRGBToLinear(),roughness:.95,metalness:0,envMapIntensity:.5});if(bm.sheen!==undefined)bm.sheen=new T.Color(0x5a4c3c);
+const bust=new T.Mesh(new T.LatheGeometry(bp,120),bm);bust.scale.z=NZ;bust.receiveShadow=true;bust.userData.nofit=1;G.add(bust);
+let ex=N=="chaine"?0:.5,ey=0,hang=null;
+if(N=="pendentif"){const r=4;hang=new T.Group();const s=stone(r,col,set,mt,sh);const vert=sh=="ovale"||sh=="emeraude";s.rotation.set(Math.PI/2,0,vert?Math.PI/2:0,"ZXY");const dy=r*(vert?{ovale:1.32,emeraude:1.45}[sh]:sh=="princesse"?1.25:1)+1.6;s.position.y=-dy;
+const bl=new T.Mesh(new T.TorusGeometry(1.4,.38,10,24),pm);bl.scale.set(1,1.5,1);bl.rotation.y=Math.PI/2;hang.add(s,bl)}
+else if(N=="medaillon"){const r=9.5;hang=new T.Group();const lp=[[0,-.6],[r*.88,-.6],[r,-.35],[r,.35],[r*.92,.6],[r*.86,.5],[0,.42]].map(a=>new T.Vector2(a[0],a[1]));const d=new T.Mesh(new T.LatheGeometry(lp,96),mt);d.rotation.x=Math.PI/2;d.position.y=-r-2.4;d.castShadow=true;hang.add(d);
+const bl=new T.Mesh(new T.TorusGeometry(1.5,.42,10,24),pm);bl.rotation.y=Math.PI/2;bl.position.y=-.6;hang.add(bl);const bo=new T.Mesh(new T.TorusGeometry(r*.8,.13,6,96),engMat(null));bo.material.transparent=false;bo.position.set(0,-r-2.4,.47);hang.add(bo);
+if(col){const s=stone(1.8,col,"clos",mt,"ronde");s.rotation.x=Math.PI/2;s.position.set(0,-r-2.4+(C.gr?3.6:0),.4);hang.add(s)}
+engravePlane(hang,C.gr,r*1.45,r*.42,new T.Vector3(0,-r-2.4-(col?2.4:0),.47),true);o.gt=[hang,[0,-r-2.4,.5],[0,0,1],48]}
+else if(N=="prenom"){const s=(C.gr||"Prénom").trim()||"Prénom";hang=new T.Group();
+if(FONT&&[...s].every(ch=>ch==" "||FONT.data.glyphs[ch])){const tg=new T.TextGeometry(s,{font:FONT,size:6.5,height:1.1,curveSegments:6,bevelEnabled:true,bevelThickness:.3,bevelSize:.22,bevelSegments:3});tg.computeBoundingBox();const bb=tg.boundingBox,cx=(bb.max.x+bb.min.x)/2;tg.translate(-cx,-bb.max.y-1.6,-.55);const m=new T.Mesh(tg,mt);m.castShadow=true;hang.add(m);ex=(bb.max.x-bb.min.x)/2+.4;
+const bar=new T.Mesh(new T.BoxGeometry(ex*2,.9,1.2),pm);bar.position.y=-bb.max.y-1.6+bb.min.y+.2;hang.add(bar);ey=-1.2}
+else{if(!FONT)loadFont();const sp=new T.Mesh(new T.BoxGeometry(30,9,1.2),pm);sp.position.y=-6;hang.add(sp);engravePlane(hang,s,27,7,new T.Vector3(0,-6,.62),true);ex=15.4;ey=-1.6}
+o.gt=[hang,[0,-4,0],[0,0,1],70];for(const sx of [-1,1]){const jr=new T.Mesh(new T.TorusGeometry(.9,.26,8,16),pm);jr.position.set(sx*ex,ey+.8,0);jr.rotation.y=Math.PI/2;hang.add(jr)}}
+const lift=sz*.55,zc=surf(0,-Dd+ey-6)+2.6,yb=6;
+for(const sx of [-1,1]){const P=[],x0=sx*NR,x1=sx*ex,y1=ey-Dd;for(let i=0;i<=24;i++){const a=Math.PI/2*(1-i/24);P.push([sx*(NR+lift)*Math.cos(a),yb,-(NR+lift)*NZ*Math.sin(a)])}
+for(let i=1;i<=120;i++){const u=i/120,a=1-u,b=u,x=a*a*a*x0+3*a*a*b*x0*1.04+3*a*b*b*(x1+sx*Dd*.3)+b*b*b*x1,y=a*a*a*yb+3*a*a*b*(yb-Dd*.45)+3*a*b*b*y1+b*b*b*y1,z=Math.max(surf(x,y)+lift,P[P.length-1][2]*0);P.push([x,y,u>.9?z+(zc-z)*(u-.9)*10:z])}G.add(chain(P,C.ch,sz,mt))}
+if(hang){hang.traverse(n=>n.castShadow=true);hang.position.set(0,-Dd,zc);G.add(hang)}o.focus=[0,ey-Dd-(N=="chaine"?0:N=="prenom"?4:8),zc,N=="chaine"?.55:N=="prenom"?.45:.36];o.porte=[0,-100,40,580];}
+else{const sp=new T.Shape();sp.moveTo(0,-11);sp.bezierCurveTo(-12,-3,-13,8,-6.5,9);sp.bezierCurveTo(-2.5,9.5,0,6.5,0,4.5);sp.bezierCurveTo(0,6.5,2.5,9.5,6.5,9);sp.bezierCurveTo(13,8,12,-3,0,-11);
+const hg=new T.ExtrudeGeometry(sp,{depth:2.2,bevelEnabled:true,bevelThickness:1.2,bevelSize:1,bevelSegments:6,curveSegments:24});hg.translate(0,0,-1.1);const h=new T.Mesh(hg,mt);h.castShadow=true;G.add(h);
+const bl=new T.Mesh(new T.TorusGeometry(1.4,.4,10,24),pm);bl.position.y=10.6;bl.rotation.y=Math.PI/2;G.add(bl);
+if(col){const s=stone(2.6,col,"clos",mt,"ronde");s.rotation.x=Math.PI/2;s.position.set(0,1,2.4);G.add(s)}o.ground=false}
+return o}
+function loadFont(){if(FL||!THREE.FontLoader)return;FL=1;new THREE.FontLoader().load("https://cdn.jsdelivr.net/npm/three@0.128.0/examples/fonts/gentilis_bold.typeface.json",f=>{FONT=f;if(R3&&R3.on&&C.pc=="collier"&&C.ct=="prenom")rebuild()},undefined,()=>{FL=2})}
+function bounds(G){const T=THREE,b=new T.Box3(),M=new T.Matrix4();G.updateMatrixWorld(true);G.traverse(n=>{if(!n.geometry||n.userData.nofit)return;if(!n.geometry.boundingBox)n.geometry.computeBoundingBox();const gb=n.geometry.boundingBox;if(n.isInstancedMesh)for(let i=0;i<n.count;i++){n.getMatrixAt(i,M);M.premultiply(n.matrixWorld);b.union(gb.clone().applyMatrix4(M))}else b.union(gb.clone().applyMatrix4(n.matrixWorld))});return b}
 function rebuild(){const o=R3,T=THREE,G=o.grp;
-while(G.children.length){const c=G.children.pop();c.traverse(n=>{if(n.geometry)n.geometry.dispose();if(n.material){if(n.material.bumpMap)n.material.bumpMap.dispose();n.material.dispose()}})}
-const mt=new T.MeshStandardMaterial({color:MET[C.m],metalness:1,roughness:RG[C.fi],envMapIntensity:1.8,side:T.DoubleSide});
-if(C.fi=="brosse"||C.fi=="martele"){mt.bumpMap=bump(C.fi);mt.bumpScale=C.fi=="martele"?1.2:.5}
-const col=GMC[C.st],set=C.se=="clos"?"clos":"griffes",pv=C.se=="pave",pc=C.pc;let bot=-9,dist=52,ty=1;
-if(pc=="bague"){const sz=parseFloat(C.sz)||54,R=sz/6.283,w=+C.w,t=1.5+w*.07,Ro=R+t,H=new T.Group();G.add(H);bot=-Ro;H.add(band(R,w,t,.5,mt));
-let x0=0;
-if(C.t=="solitaire"&&col){put(H,stone(2.7,col,set,mt),0,Ro+1.6);x0=2.7}
-else if(C.t=="trilogie"&&col){put(H,stone(2.3,col,set,mt),0,Ro+1.3);const a=3.9*1.05/Ro;put(H,stone(1.6,col,set,mt),a,Ro+.9);put(H,stone(1.6,col,set,mt),-a,Ro+.9);x0=5.2}
-else if(col){put(H,stone(1.3,col,"clos",mt),0,Ro-.15);x0=1.3}
-if(pv&&col)for(let i=0;i<5;i++)for(const sg of [1,-1]){const a=sg*(x0+.9+i*1.5)/Ro;put(H,gem(.7,col),a,Ro+.15)}
-if(C.q=="2"){const off=Ro+3;H.position.x=-off;H.rotation.y=.35;const H2=new T.Group();H2.add(band(R+1.2,w+1,t+.1,.5,mt));H2.position.x=off;H2.rotation.y=-.35;G.add(H2);dist=84}}
-else if(pc=="bracelet"){const R=(parseFloat(C.sz)*10+8)/6.283,t=2.3,Ro=R+t;G.add(band(R,7,t,.9,mt));bot=-Ro;dist=150;ty=4;
-if(col)for(const a of [-.2,0,.2])put(G,stone(2.6,col,set,mt),a,Ro+1.4)}
-else if(pc=="boucles"){dist=125;ty=2;const ty2=C.sz;
-for(const sx of [-22,22]){const g=new T.Group();g.position.x=sx;
-if(ty2=="Clous"){const s=col?stone(4,col,set,mt):new T.Mesh(new T.SphereGeometry(3.4,32,24),mt);s.rotation.x=Math.PI/2;g.add(s);bot=-6}
-else if(ty2=="Créoles"){const h=new T.Mesh(new T.TorusGeometry(15,1.7,24,96),mt);h.castShadow=true;g.add(h);bot=-17}
-else{const d=gem(4,col||0xf4f9ff);d.scale.y=1.6;d.position.y=3;const cap=new T.Mesh(new T.SphereGeometry(1.6,16,12),mt);cap.position.y=9;const w=new T.Mesh(new T.TorusGeometry(2.6,.4,8,24),mt);w.position.y=12;g.add(d,cap,w);bot=-6}
-G.add(g)}}
-else{dist=150;ty=-12;const P=[];for(let x=-26;x<=26;x+=4)P.push(new T.Vector3(x,-30+.06*x*x,0));
-const ch=new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(P),80,.45,8,false),mt);ch.castShadow=true;G.add(ch);bot=-42;
-const bail=new T.Mesh(new T.TorusGeometry(1.7,.4,8,24),mt);bail.position.y=-29.6;G.add(bail);
-if(col){const s=stone(5,col,set,mt);s.rotation.x=Math.PI/2;s.position.y=-35;G.add(s)}
-else{const d=new T.Mesh(new T.CylinderGeometry(6.5,6.5,1.1,64),mt);d.rotation.x=Math.PI/2;d.position.y=-35;d.castShadow=true;G.add(d)}}
-o.r.domElement.setAttribute("aria-label","Aperçu 3D : "+PCS[C.pc]+", "+lab("m")+", finition "+lab("fi"));o.gnd.position.y=bot-.05;const sh=o.l.shadow.camera,e=dist*.7;sh.left=-e;sh.right=e;sh.top=e;sh.bottom=-e;sh.far=dist*4;sh.updateProjectionMatrix();
-const k=pc+C.q+(pc=="boucles"?C.sz:"");if(o.k!=k){o.k=k;o.cam.position.set(0,dist*.26,dist);o.ct.autoRotate=!matchMedia("(prefers-reduced-motion:reduce)").matches}o.ct.target.set(0,ty,0)}
+while(G.children.length){const c=G.children.pop();c.traverse(n=>{if(n.geometry)n.geometry.dispose();const ms=n.material?[].concat(n.material):[];ms.forEach(m=>{["bumpMap","alphaMap","map"].forEach(k=>{if(m[k])m[k].dispose()});m.dispose()})})}
+G.scale.setScalar(1);const b=build(G),bx=bounds(G),sp=bx.getBoundingSphere(new T.Sphere()),d=sp.radius/Math.sin(o.cam.fov*Math.PI/360)*1.02;
+o.gnd.visible=b.ground!==false;o.gnd.position.y=bx.min.y-.05;const sh=o.l.shadow.camera,e=sp.radius*1.4;sh.left=-e;sh.right=e;sh.top=e;sh.bottom=-e;sh.near=1;sh.far=d*6;sh.updateProjectionMatrix();const lp=C.pc=="collier"?[.18,.32,1]:[.2,.8,.5];o.l.position.set(sp.center.x+d*lp[0],sp.center.y+d*lp[1],sp.center.z+d*lp[2]);o.l.target.position.copy(sp.center);o.l.target.updateMatrixWorld();
+o.c2=b.porte?new T.Vector3(...b.porte):sp.center.clone();o.fit2=b.porte?b.porte[3]:d*1.05;let c=sp.center.clone(),df=d;if(b.focus){c=new T.Vector3(b.focus[0],b.focus[1],b.focus[2]);df=d*b.focus[3]}o.fit=df;o.c=c;o.V={face:[b.dir,[0,0,0]],profil:[[1,.12,.02],[0,0,0]],dessus:[[0,1,.02],[0,0,0]]};o.gv=null;if(b.gt){const [ob,pp,nn,gd]=b.gt;o.sc.updateMatrixWorld(true);const P=new T.Vector3(...pp).applyMatrix4(ob.matrixWorld),Nn=new T.Vector3(...nn).normalize().transformDirection(ob.matrixWorld);o.gv=[P.clone().addScaledVector(Nn,gd||d*.5),P]}
+o.ct.minDistance=d*.3;o.ct.maxDistance=d*1.9;
+o.r.domElement.setAttribute("aria-label","Aperçu 3D : "+PCS[C.pc]+(STY[C.pc]?" "+lab(STY[C.pc]).toLowerCase():"")+", "+lab("m")+", finition "+lab("fi")+(V("st")!="aucune"?", "+lab("st").toLowerCase():""));
+const k=C.pc+(STY[C.pc]?C[STY[C.pc]]:"")+V("q")+(C.pc=="bague"?"":C.sz);if(o.k!=k){o.k=k;o.tw=null;o.ct.target.copy(c);o.cam.position.copy(new T.Vector3(...b.dir).setLength(df).add(c));o.ct.autoRotate=!matchMedia("(prefers-reduced-motion:reduce)").matches;rotUi()}
+else if(!matchMedia("(prefers-reduced-motion:reduce)").matches)o.pop=performance.now()}
+function view(v){const o=R3;if(!o)return;o.ct.autoRotate=false;rotUi();const T=THREE,c=o.c||new T.Vector3();let p,q;
+if(v=="gravure"&&o.gv){p=o.gv[0].clone();q=o.gv[1].clone()}else if(v=="porte"){p=new T.Vector3(.35,.25,1).setLength(o.fit2).add(o.c2);q=o.c2.clone()}else{const a=o.V[v]||o.V.face;p=new T.Vector3(...a[0]).normalize().multiplyScalar(o.fit).add(c);q=c.clone()}
+o.tw={t0:performance.now(),p0:o.cam.position.clone(),p1:p,q0:o.ct.target.clone(),q1:q}}
+function zm(f){const o=R3;if(!o)return;const d=o.cam.position.clone().sub(o.ct.target),l=Math.min(o.ct.maxDistance,Math.max(o.ct.minDistance,d.length()*f));o.tw={t0:performance.now(),p0:o.cam.position.clone(),p1:o.ct.target.clone().add(d.setLength(l)),q0:o.ct.target.clone(),q1:o.ct.target.clone()}}
+function rotUi(){const b=$("#rotb");if(b&&R3)b.setAttribute("aria-pressed",R3.ct.autoRotate)}
+let LT=0;function live(ms){clearTimeout(LT);LT=setTimeout(()=>{if(R3&&R3.on)rebuild();else{const e=$("#r3");if(e&&!window.THREE)e.innerHTML=svgPrev()}sumUp()},ms)}
 let L3=0;
 function load3(){if(L3||(window.THREE&&THREE.OrbitControls))return;L3=1;const a=document.createElement("script");a.src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js";a.onload=()=>{const b=document.createElement("script");b.src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js";b.onload=()=>{L3=0;mount3d()};b.onerror=()=>{L3=2};document.head.appendChild(b)};a.onerror=()=>{L3=2};document.head.appendChild(a)}
-function rot(){if(R3)R3.ct.autoRotate=!R3.ct.autoRotate}
+function rot(){if(R3){R3.ct.autoRotate=!R3.ct.autoRotate;R3.tw=null;rotUi()}}
 addEventListener("load",()=>setTimeout(load3,2500));
-function mount3d(){const el=$("#r3");if(!el)return;if(!window.THREE||!THREE.OrbitControls){load3();return}if(!init3()){el.innerHTML=ring();return}
-el.innerHTML="";el.appendChild(R3.r.domElement);const w=el.clientWidth||320;R3.r.setSize(w,w);R3.cam.aspect=1;R3.cam.updateProjectionMatrix();R3.on=true;rebuild()}
+function mount3d(){const el=$("#r3");if(!el)return;if(!window.THREE||!THREE.OrbitControls){load3();return}if(!init3()){el.innerHTML=svgPrev();return}
+if(C.pc=="collier"&&C.ct=="prenom")loadFont();
+el.innerHTML="";el.appendChild(R3.r.domElement);const w=el.clientWidth||320;R3.r.setSize(w,w);R3.cam.aspect=1;R3.cam.updateProjectionMatrix();R3.on=true;rebuild();rotUi()}
 addEventListener("resize",()=>{if(R3&&R3.on){const e=$("#r3");if(e)R3.r.setSize(e.clientWidth,e.clientWidth)}});
 function upd(){$("#cc").textContent=cnt();const h=document.querySelector("header");if(h)document.documentElement.style.setProperty("--hh",h.offsetHeight+"px")}
 function draw(e){if(R3)R3.on=false;const ae=document.activeElement,af=ae&&ae.dataset&&ae.dataset.f;const h=location.hash.slice(1);if(h=="shop")f="tous";else if(h.startsWith("c-")&&CATS[h.slice(2)])f=h.slice(2);
