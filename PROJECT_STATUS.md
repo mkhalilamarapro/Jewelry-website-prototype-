@@ -22,6 +22,7 @@ Hard constraints
 | Creative Director | Storefront design audit and direction | Audit only |
 | Jewelry / 3D Art Director | Configurator realism and presentation audit | Audit only |
 | QA & Front-end Engineer | Bugs, accessibility, performance, responsive audit | Audit only |
+| Mobile & Responsive Lead | Phone and tablet experience on every route: layout, touch, gestures, forms, 3D on touch | Audit only |
 
 Why only one writer: the whole site is a single file, so parallel edits would conflict. Specialists audit in
 parallel; the CEO merges their recommendations into one prioritized plan and implements it, verifying each
@@ -94,6 +95,37 @@ inferred and combined into the QA & Front-end Engineer.
 ## Blockers
 - Node.js isn't installed on this machine, so the Playwright suite can't run here. Its flows were replayed
   manually in the browser and pass.
+
+## Responsive pass (requested 2026-11-02): done
+- [x] Mobile & Responsive Lead audit: 320–430 px phones, 768/1024 tablets, phone landscape
+- [x] CEO decisions (below)
+- [x] Implementation, checked at 320×640, 390×844, 375×812, 812×375, 768×1024 and desktop
+- [x] Local commit
+
+**Accepted**
+- At 320 px the logo wraps, so the header and cart button no longer overflow (page width 358 → 320).
+- On touch screens, one finger scrolls the page over the 3D preview and two fingers turn and zoom it, with a hint.
+- Phones get the 3D controls back: Porté or Gravure on the left of the canvas, zoom and rotate on the right.
+  They use the empty space beside the canvas, so they add no height and keep the tested tab order.
+- The sticky preview sits flush under the header (no strip of form showing). It shrinks while you type an
+  engraving and steps aside for the name and phone fields.
+- Landscape phones: the header scrolls away and the nav sits inline (header 110 → 60 px). The hero is side by
+  side, and the configurator's preview, toolbar and summary fit in a 375 px-high screen.
+- The product page's add-to-cart button stays on screen on phones. The portrait hero is capped at 52svh.
+- The filter-tab style was losing to older rules at every width (a gold block); fixed, and the row scrolls
+  sideways on phones.
+- Tap targets of 44 px (nav, theme toggle, cart quantities, toolbar on touch).
+- Notch safe areas.
+- Keyboard hints on form fields (`enterkeyhint`, `autocapitalize`, no autocorrect on the engraving).
+- The checkout error scrolls into view.
+- Hover zoom only on devices with hover, and no tap flash.
+- Pixel ratio 1.5 on phones, no canvas resize on address-bar changes, and `--hh` recomputed on rotation.
+- The cart stays two-column down to 760 px.
+
+**Rejected or deferred**
+- Render-on-demand for the 3D view (same reason as before).
+- Real-device gesture testing: the touch handling follows the r128 OrbitControls source, but it still needs a
+  check on a real iPhone and Android phone.
 
 ## Next actions (need the owner)
 - Run `npm install && npm run test:install && npm test` on a machine with Node.

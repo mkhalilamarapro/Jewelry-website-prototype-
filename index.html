@@ -32,7 +32,7 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var
 .l{display:flex;gap:28px;justify-content:center;font-size:.95rem;color:var(--mu)}.l a{transition:color .2s}.l a:hover{color:var(--tx)}
 .r{display:flex;gap:10px;align-items:center}
 .cartb{background:var(--sf2);padding:9px 16px;white-space:nowrap;transition:background .2s}.cartb:hover{background:var(--sf3)}#cc{color:var(--gd);font-weight:500;display:inline-block}
-.tg{background:none;border:0;color:var(--mu);font-size:1.2rem;cursor:pointer;width:40px;height:40px;transition:color .2s}.tg:hover{color:var(--tx)}
+.tg{background:none;border:0;color:var(--mu);font-size:1.2rem;cursor:pointer;width:44px;height:44px;transition:color .2s}.tg:hover{color:var(--tx)}
 @media(max-width:860px){header{grid-template-columns:1fr auto;padding:12px var(--m) 0}.l{grid-column:1/-1;order:3;justify-content:flex-start;overflow-x:auto;white-space:nowrap;scrollbar-width:none;padding:2px 24px 10px 0;min-width:0;gap:20px;font-size:.9rem;-webkit-mask-image:linear-gradient(90deg,#000 84%,transparent);mask-image:linear-gradient(90deg,#000 84%,transparent)}header{column-gap:12px}.l::-webkit-scrollbar{display:none}.logo{font-size:.95rem;letter-spacing:.1em}}
 .w{max-width:1360px;margin:0 auto;padding:0 var(--m)}
 /* hero: text and picture side by side, nothing laid over the headline */
@@ -54,7 +54,7 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var
 .tile:first-child{grid-row:span 2}.tile:last-child{grid-column:span 2}
 @media(max-width:640px){.tiles{grid-template-columns:1fr;grid-auto-rows:auto}.tile:first-child,.tile:last-child{grid-row:auto;grid-column:auto}}
 .tile{position:relative;overflow:hidden;background:var(--sf)}@media(max-width:640px){.tile{aspect-ratio:4/3}}
-.tile img{height:100%;object-fit:cover;transition:transform 1s var(--ease)}.tile:hover img{transform:scale(1.04)}
+.tile img{height:100%;object-fit:cover;transition:transform 1s var(--ease)}@media(hover:hover){.tile:hover img{transform:scale(1.04)}}
 .tile::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.55),transparent 45%)}
 .tile div{position:absolute;left:clamp(18px,2.4vw,32px);right:18px;bottom:clamp(16px,2vw,28px);z-index:2;color:#f4f0e8;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
 .tile h3{font-size:clamp(1.8rem,3vw,2.6rem)}.tile span{font-size:1rem;color:#e6e0d4;white-space:nowrap}
@@ -62,7 +62,7 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var
 .g.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g.few{grid-template-columns:repeat(2,minmax(0,1fr));max-width:900px}
 @media(max-width:1000px){.g{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:700px){.g,.g.g3{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 10px}.pi{flex-direction:column;gap:2px}}
 .pm{display:block;overflow:hidden;background:var(--sf)}
-.pc img{aspect-ratio:1;object-fit:cover;transition:transform .9s var(--ease)}.pc:hover img{transform:scale(1.04)}
+.pc img{aspect-ratio:1;object-fit:cover;transition:transform .9s var(--ease)}@media(hover:hover){.pc:hover img{transform:scale(1.04)}}
 .pi{display:flex;justify-content:space-between;gap:10px;padding:14px 0 0}.pc:hover .pi span:first-child{color:var(--gd)}
 .pr{color:var(--tx);font-weight:400;white-space:nowrap;font-variant-numeric:lining-nums tabular-nums}
 .story{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);align-items:center;margin-top:var(--gap);background:var(--sf)}
@@ -80,13 +80,12 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var
 .ctb h2{font-size:clamp(2.6rem,6.4vw,6rem)}.ctb p{font-size:1.15rem;margin-bottom:24px;max-width:24em;color:var(--mu)}
 @media(max-width:760px){.ctb .w{grid-template-columns:1fr}}
 .back{display:inline-block;margin:28px 0;color:var(--mu);transition:color .2s}.back:hover{color:var(--tx)}
-.pd{display:grid;gap:clamp(28px,4vw,64px);grid-template-columns:repeat(auto-fit,minmax(300px,1fr));padding-bottom:var(--gap)}
+.pd{display:grid;gap:clamp(28px,4vw,64px);grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));padding-bottom:var(--gap)}
 .pd img{background:var(--sf);aspect-ratio:4/5;object-fit:cover;position:sticky;top:calc(var(--hh,90px) + 16px)}
 @media(max-width:700px){.pd img{position:static}.pd .btn{display:block;width:100%;margin:0 0 8px;text-align:center}}
 .pd h1{font-size:clamp(2.2rem,4.4vw,3.8rem)}.pd .pr{font-size:1.6rem;display:block;margin:14px 0;color:var(--gd)}.pd p{margin:12px 0 24px;max-width:30em;font-size:1.1rem}
 .sz{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 22px}
 .sz button,.fl button{background:var(--sf2);border:0;color:var(--tx);padding:10px 18px;font:inherit;cursor:pointer;transition:background .2s}
-.fl{gap:4px 28px}.fl button,.fl button:hover{background:none;padding:8px 0;color:var(--mu);border-bottom:1px solid transparent;transition:color .2s,border-color .2s}.fl button:hover{color:var(--tx)}.fl button.on{background:none;color:var(--tx);border-color:var(--gd)}
 .sz button:hover,.fl button:hover{background:var(--sf3)}
 .sz button.on,.fl button.on{background:var(--gd);color:var(--on)}
 ul.sp{list-style:none;padding:0;margin:28px 0;font-size:1rem}ul.sp li{padding:14px 0;border-top:1px solid var(--ln)}ul.sp li:last-child{border-bottom:1px solid var(--ln)}
@@ -94,21 +93,29 @@ ul.sp{list-style:none;padding:0;margin:28px 0;font-size:1rem}ul.sp li{padding:14
 .fl{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 36px}
 .row{display:flex;align-items:center;gap:16px;padding:14px;background:var(--sf);margin-bottom:4px}
 .row img{width:80px;height:80px;object-fit:cover;flex:none}.row .i{flex:1}
-.q button{width:36px;height:36px;border:0;background:var(--sf2);color:var(--tx);font:inherit;cursor:pointer;transition:background .2s}.q button:hover{background:var(--sf3)}
+.q button{width:44px;height:44px;border:0;background:var(--sf2);color:var(--tx);font:inherit;cursor:pointer;transition:background .2s}.q button:hover{background:var(--sf3)}
 .tot{text-align:right;font-size:1.5rem;margin:24px 0}
 form{display:grid;gap:10px;margin:24px 0 var(--gap);max-width:480px}
 input{font:inherit;padding:13px 14px;border:1px solid var(--ln);background:var(--sf);color:var(--tx);transition:border-color .2s}
 input:focus,select:focus{border-color:var(--gd)}
 .empty{text-align:center;padding:clamp(80px,12vw,160px) 0}
-.cu{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(28px,4vw,56px);padding-bottom:var(--gap);align-items:start}
+.cu{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:clamp(28px,4vw,56px);padding-bottom:var(--gap);align-items:start}
 .cp{padding:0;text-align:center}.cp svg{width:min(320px,100%)}.cp p{color:var(--mu);font-size:.95rem}.cp b{color:var(--gd);font-weight:500}
 .cp{position:sticky;top:calc(var(--hh,90px) + env(safe-area-inset-top,0px) + 8px);z-index:5}
-@media(max-width:699px){.cu{display:block}.cp{padding:8px 0;background:var(--bg);margin-bottom:18px;box-shadow:0 14px 18px -14px #000}.r3{max-width:200px;margin-bottom:4px}.cp .hint{display:none}.cp p{font-size:.8rem}}
+@media(max-width:699px){.cu{display:block}.cp{padding:8px 0;background:var(--bg);margin-bottom:18px;box-shadow:0 14px 18px -14px rgba(0,0,0,.6)}.r3{max-width:200px;margin-bottom:4px}.cp p{font-size:.8rem}}
 .sw{display:inline-block;width:.85em;height:.85em;border-radius:50%;margin-right:8px;vertical-align:-.08em;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35),0 0 0 1px rgba(0,0,0,.25)}
 .sz button.on .sw{box-shadow:inset 0 0 0 1px rgba(255,255,255,.5),0 0 0 1px var(--on)}
 .vt{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin:0 0 10px}.vt button{background:var(--sf2);border:0;color:var(--tx);font:inherit;font-size:.85rem;min-width:40px;padding:8px 12px;cursor:pointer;transition:background .2s}.vt button:hover{background:var(--sf3)}.vt button[aria-pressed=true]{background:var(--gd);color:var(--on)}
+.ht{display:none}@media(pointer:coarse){.hm{display:none}.ht{display:inline}}
 .r3 canvas{cursor:grab}.r3 canvas:active{cursor:grabbing}
-@media(max-width:699px){.vt{display:none}.cp .r3{max-width:min(62vw,250px)}}
+@media(max-width:699px){.cp .r3{max-width:min(62vw,250px,34svh)}
+.vt{position:absolute;top:8px;left:0;right:0;margin:0;display:flex;justify-content:space-between;pointer-events:none}
+.vt .v1,.vt .v2{display:flex;flex-direction:column;gap:6px}.vt .vd{display:none}
+.vt button{pointer-events:auto;min-width:44px;min-height:44px;padding:4px 8px;font-size:.78rem;background:var(--sf2)}
+.cp .hint{margin:2px 0 0}
+.cu:has(input:not([type=date]):focus) .cp .r3{max-width:min(40vw,150px)}
+.cu:has(input[autocomplete]:focus) .cp{position:static}}
+@media(min-width:700px){.vt .v1,.vt .v2,.vt .vd{display:contents}}
 :focus-visible{outline:2px solid var(--gd);outline-offset:3px}
 ::placeholder{color:var(--mu);opacity:1}
 b,strong{font-weight:500}
@@ -122,7 +129,7 @@ main:focus{outline:none}
 .sum h2{font-size:1.6rem;margin-bottom:18px}.sum .li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;color:var(--mu)}
 .sum .tot{display:flex;justify-content:space-between;text-align:left;font-size:1.3rem;margin:8px 0 20px;padding-top:14px;border-top:1px solid var(--ln)}
 .sum form{margin:0;max-width:none}.sum .nt{color:var(--mu);font-size:.9rem;margin-top:14px}
-@media(max-width:900px){.cw{grid-template-columns:1fr}.sum{position:static}}
+@media(max-width:760px){.cw{grid-template-columns:1fr}.sum{position:static}}
 
 .cu form{margin:0;max-width:none}.cg{margin-bottom:8px}.cl{font-size:.95rem;color:var(--mu);margin-bottom:2px}
 select{font:inherit;padding:13px 14px;border:1px solid var(--ln);background:var(--sf);color:var(--tx);width:100%}
@@ -137,6 +144,28 @@ footer{background:var(--sf);padding:clamp(56px,7vw,96px) 0 32px;color:var(--mu);
 /* section entrances: hidden only once JS has armed them */
 .rv{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:calc(var(--i,0)*80ms)}.rv.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+/* shop filters as text tabs (kept last so the shared .sz/.fl button rules don't win) */
+.fl{gap:4px 28px}.fl button,.fl button:hover,.fl button.on{background:none;padding:8px 0;color:var(--mu);border-bottom:1px solid transparent;transition:color .2s,border-color .2s}.fl button:hover{color:var(--tx)}.fl button.on{color:var(--tx);border-color:var(--gd)}
+@media(max-width:640px){.fl{flex-wrap:nowrap;overflow-x:auto;gap:4px 22px;scrollbar-width:none}.fl::-webkit-scrollbar{display:none}.fl button{white-space:nowrap;min-height:44px}}
+a,button{-webkit-tap-highlight-color:transparent}
+html{scroll-padding-top:calc(var(--hh,90px) + 8px)}
+@media(max-width:860px){.l a{padding:11px 0}.l{padding-bottom:0}}
+/* narrow phones: the logo wraps so the cart button stays on screen */
+@media(max-width:400px){header{column-gap:8px}.logo{white-space:normal;line-height:1.25;font-size:.88rem;letter-spacing:.08em;max-width:8.5em}.r{gap:4px}.cartb{padding:12px}}
+/* product page on phones: the add-to-cart button follows the details */
+@media(max-width:700px){.pd img{max-height:56svh}.pd>div>.btn:not(.o){position:sticky;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:4;box-shadow:0 8px 24px -6px rgba(0,0,0,.45)}}
+@media(max-width:820px) and (orientation:portrait){.hi{aspect-ratio:auto;height:min(100vw,52svh)}}
+/* landscape phones: header scrolls away, hero side by side, previews fit the height */
+@media(orientation:landscape) and (max-height:500px){header{position:relative;top:auto}
+@media(min-width:720px){header{grid-template-columns:auto 1fr auto;padding-top:8px;padding-bottom:8px}.l{grid-column:auto;order:0;padding:0;justify-content:center;gap:18px;-webkit-mask-image:none;mask-image:none}.l a{padding:11px 0}}
+.hero{grid-template-columns:1fr 1fr;gap:24px;min-height:calc(100svh - 8px)}.hi{grid-column:2;grid-row:1;aspect-ratio:auto;min-height:0;height:auto;margin:0 calc(-1*var(--m)) 0 0}.hx{grid-row:1;padding:16px 0}.hero h1{font-size:clamp(2.2rem,6.4vw,3.4rem)}.hero p{margin:14px 0 18px}
+.cp{top:calc(env(safe-area-inset-top,0px) + 8px)}.cp .r3{max-width:min(520px,calc(100svh - 132px))}.cp .hint{display:none}.pd img{top:8px}.sum{top:8px}}
+/* notches in landscape */
+.w,header,.hero{padding-left:max(var(--m),env(safe-area-inset-left,0px));padding-right:max(var(--m),env(safe-area-inset-right,0px))}
+@media(pointer:coarse){.vt button{min-height:44px;min-width:44px}}
+input[type=date]{width:100%;min-height:54px}
+@media(max-width:699px){.cp{top:calc(var(--hh,90px) + env(safe-area-inset-top,0px))}}
+.back{padding:10px 0;margin:18px 0}
 </style>
 </head>
 <body>
@@ -193,10 +222,10 @@ let ORD="";
 function cartv(){const ks=Object.keys(cart).filter(k=>pf(k.split("|")[0]));if(!ks.length)return `<div class="empty"><h1 style="font-size:2.4rem">Votre panier est vide</h1><p style="margin-top:20px"><a class="btn" href="#shop">Voir la boutique</a></p></div>`;
 if(ORD)return `<div class="w"><div class="empty"><h1 style="font-size:2.4rem">Commande prête</h1><p style="margin:16px auto 24px;max-width:32em">WhatsApp s’est ouvert avec le détail de votre commande : envoyez le message pour que la bijouterie la confirme avec vous.</p><a class="btn" href="${ORD}" target="_blank" rel="noopener">Ouvrir WhatsApp à nouveau</a><button class="btn o" onclick="cart={};sv();ORD='';draw()">Vider le panier</button><button class="btn o" onclick="ORD='';draw()">Modifier la commande</button></div></div>`;
 let t=0,n=0;const r=ks.map((k,i)=>{const [id,s]=k.split("|"),x=pf(id),q=cart[k];t+=x.p*q;n+=q;return `<div class="row"><img src="${IM[x.k]}" style="object-position:${x.o}" alt=""><div class="i"><b>${x.n}</b>${s?` · ${esc(szLab(id,s))}`:""}<br>${q>1?`${q} × ${fm(x.p)} = `:""}${fm(x.p*q)}</div><div class="q"><button data-f="q-${i}" data-k="${esc(k)}" aria-label="Retirer un ${x.n}" onclick="qty(this.dataset.k,-1)">−</button> ${q} <button data-f="q+${i}" data-k="${esc(k)}" aria-label="Ajouter un ${x.n}" onclick="qty(this.dataset.k,1)">+</button></div></div>`}).join("");
-return `<div class="w"><h1 style="margin:40px 0 24px;font-size:clamp(2.2rem,4vw,3.2rem)">Mon panier</h1><div class="cw"><div>${r}</div><aside class="sum" aria-label="Récapitulatif"><h2>Récapitulatif</h2><div class="li"><span>Sous-total (${n} article${n>1?"s":""})</span><span>${fm(t)}</span></div><div class="li"><span>Livraison</span><span>À confirmer</span></div><div class="tot"><span>Total</span><b>${fm(t)}</b></div><form onsubmit="return send(event)" novalidate><input id="nm" placeholder="Nom complet" aria-label="Nom complet" required maxlength="80" autocomplete="name"><input id="ph" type="tel" inputmode="tel" placeholder="Téléphone" aria-label="Téléphone" required maxlength="20" autocomplete="tel"><input id="ct" placeholder="Ville / adresse de livraison" aria-label="Ville ou adresse de livraison" maxlength="120" autocomplete="street-address"><div id="ce" class="er" role="alert"></div><button class="btn" style="width:100%;margin:0">Commander via WhatsApp</button></form><p class="nt">Aucun paiement en ligne : nous confirmons avec vous la disponibilité, la taille et la livraison sur WhatsApp.</p></aside></div></div>`}
+return `<div class="w"><h1 style="margin:40px 0 24px;font-size:clamp(2.2rem,4vw,3.2rem)">Mon panier</h1><div class="cw"><div>${r}</div><aside class="sum" aria-label="Récapitulatif"><h2>Récapitulatif</h2><div class="li"><span>Sous-total (${n} article${n>1?"s":""})</span><span>${fm(t)}</span></div><div class="li"><span>Livraison</span><span>À confirmer</span></div><div class="tot"><span>Total</span><b>${fm(t)}</b></div><form onsubmit="return send(event)" novalidate><input id="nm" placeholder="Nom complet" aria-label="Nom complet" required maxlength="80" autocomplete="name" autocapitalize="words" enterkeyhint="next"><input id="ph" type="tel" inputmode="tel" placeholder="Téléphone" aria-label="Téléphone" required maxlength="20" autocomplete="tel" enterkeyhint="next"><input id="ct" placeholder="Ville / adresse de livraison" aria-label="Ville ou adresse de livraison" maxlength="120" autocomplete="street-address" enterkeyhint="send"><div id="ce" class="er" role="alert"></div><button class="btn" style="width:100%;margin:0">Commander via WhatsApp</button></form><p class="nt">Aucun paiement en ligne : nous confirmons avec vous la disponibilité, la taille et la livraison sur WhatsApp.</p></aside></div></div>`}
 function send(e){e.preventDefault();const ks=Object.keys(cart).filter(k=>pf(k.split("|")[0])),nm=$("#nm").value.trim().replace(/\s+/g," "),ph=$("#ph").value.replace(/[\s.\-()]/g,""),er=$("#ce");
 const bad=nm.length<2?["Veuillez saisir votre nom.","#nm"]:!/^(\+|00)?\d{8,15}$/.test(ph)?["Numéro de téléphone invalide (8 à 15 chiffres, ex. +216 22 345 678).","#ph"]:null;
-document.querySelectorAll("#nm,#ph").forEach(n=>n.removeAttribute("aria-invalid"));if(bad){er.textContent=bad[0];const n=$(bad[1]);n.setAttribute("aria-invalid","true");n.focus();return false}
+document.querySelectorAll("#nm,#ph").forEach(n=>n.removeAttribute("aria-invalid"));if(bad){er.textContent=bad[0];const n=$(bad[1]);n.setAttribute("aria-invalid","true");n.focus();er.scrollIntoView({block:"center"});return false}
 let t=0;const l=ks.map(k=>{const [id,s]=k.split("|"),x=pf(id);t+=x.p*cart[k];return `- ${cart[k]} x ${x.n}${s?" ("+szLab(id,s)+")":""} : ${fm(x.p*cart[k])}`}).join("\n");
 const m=`Nouvelle commande\n${l}\nTotal : ${fm(t)}\nNom : ${nm}\nTél : ${$("#ph").value.trim()}\nVille : ${$("#ct").value.trim()||"-"}`;
 ORD=`https://wa.me/${WA}?text=${encodeURIComponent(m)}`;window.open(ORD,"_blank","noopener");draw();window.scrollTo(0,0);return false}
@@ -248,14 +277,14 @@ fix();const opt=FLD[C.pc].map(k=>{const a=allow(k);return a?`<div class="cg" rol
 setTimeout(mount3d,0);const L=PSZ[C.pc]||[],sl=SZN[C.pc],nm=C.pc=="collier"&&C.ct=="prenom";
 const vb=(v,t)=>`<button type="button" data-f="v-${v}" onclick="view('${v}')">${t}</button>`;
 return `<div class="w"><div class="t" style="padding-top:44px"><h1 style="font-size:clamp(2rem,5vw,3.2rem)">Créez votre pièce</h1><p>Choisissez chaque détail, puis envoyez votre demande : la bijouterie vous répond avec un devis et un délai.</p></div>
-<div class="cu"><div class="cp"><div id="r3" class="r3">${window.THREE?"":svgPrev()}</div><div class="vt" role="group" aria-label="Vues de l’aperçu">${vb("face","Face")}${vb("profil","Profil")}${vb("dessus","Dessus")}${C.pc=="collier"?vb("porte","Porté"):""}${grView()?vb("gravure",nm?"Prénom":"Gravure"):""}<button type="button" data-f="v-out" aria-label="Zoom arrière" onclick="zm(1.25)">−</button><button type="button" data-f="v-in" aria-label="Zoom avant" onclick="zm(.8)">+</button><button type="button" data-f="v-rot" id="rotb" aria-label="Rotation automatique" aria-pressed="${!R3||R3.ct.autoRotate}" onclick="rot()">⟳</button></div><p class="hint" style="font-size:.8rem;margin-bottom:6px">Glissez pour tourner · pincez ou Ctrl + molette pour zoomer</p><p id="sum">${sumHtml()}</p></div>
+<div class="cu"><div class="cp"><div id="r3" class="r3">${window.THREE?"":svgPrev()}</div><div class="vt" role="group" aria-label="Vues de l’aperçu"><span class="v1"><span class="vd">${vb("face","Face")}${vb("profil","Profil")}${vb("dessus","Dessus")}</span>${C.pc=="collier"?vb("porte","Porté"):""}${grView()?vb("gravure",nm?"Prénom":"Gravure"):""}</span><span class="v2"><button type="button" data-f="v-out" aria-label="Zoom arrière" onclick="zm(1.25)">−</button><button type="button" data-f="v-in" aria-label="Zoom avant" onclick="zm(.8)">+</button><button type="button" data-f="v-rot" id="rotb" aria-label="Rotation automatique" aria-pressed="${!R3||R3.ct.autoRotate}" onclick="rot()">⟳</button></span></div><p class="hint" style="font-size:.8rem;margin-bottom:6px"><span class="hm">Glissez pour tourner · pincez ou Ctrl + molette pour zoomer</span><span class="ht">Deux doigts pour tourner et zoomer</span></p><p id="sum">${sumHtml()}</p></div>
 <form onsubmit="return sendC(event)"><div class="cg" role="group" aria-labelledby="cl-pc"><div class="cl" id="cl-pc">Type de pièce</div><div class="sz">${Object.keys(PCS).map(k=>`<button type="button" data-f="pc-${k}" aria-pressed="${C.pc==k}" class="${C.pc==k?"on":""}" onclick="setPc('${k}')">${PCS[k]}</button>`).join("")}</div></div>${opt}
 ${L.length?`<div class="cg"><div class="cl">${sl}</div><select aria-label="${sl}" onchange="C.sz=this.value;live(0);if(C.pc=='collier')setTimeout(()=>view('porte'),40)">${L.map(v=>`<option${C.sz==v?" selected":""}>${v}</option>`).join("")}</select></div>`:""}
-${grav()?`<input placeholder="${nm?"Gravure : prénom du collier":"Gravure (prénoms, date…)"}" aria-label="${nm?"Prénom du collier":"Gravure"}" maxlength="${nm?14:30}" value="${esc(C.gr)}" oninput="C.gr=this.value;sumUp();live(250)">`:""}
+${grav()?`<input placeholder="${nm?"Gravure : prénom du collier":"Gravure (prénoms, date…)"}" aria-label="${nm?"Prénom du collier":"Gravure"}" maxlength="${nm?14:30}" autocorrect="off" spellcheck="false" autocapitalize="words" value="${esc(C.gr)}" oninput="C.gr=this.value;sumUp();live(250)">`:""}
 <div class="cg"><div class="cl">Budget</div><select aria-label="Budget" onchange="C.bd=this.value">${BUD.map(v=>`<option${C.bd==v?" selected":""}>${v}</option>`).join("")}</select></div>
 <div class="cg"><div class="cl">Date souhaitée (facultatif)</div><input type="date" aria-label="Date souhaitée" value="${C.dt}" onchange="C.dt=this.value"></div>
 <input placeholder="Une idée, une photo d’inspiration ?" aria-label="Idée ou inspiration" maxlength="300" value="${esc(C.nt)}" oninput="C.nt=this.value">
-<input placeholder="Nom complet" aria-label="Nom complet" required maxlength="80" autocomplete="name" value="${esc(C.nm)}" oninput="C.nm=this.value;this.removeAttribute('aria-invalid')"><input type="tel" inputmode="tel" placeholder="Téléphone" aria-label="Téléphone" required maxlength="20" autocomplete="tel" value="${esc(C.ph)}" oninput="C.ph=this.value;this.removeAttribute('aria-invalid')">
+<input placeholder="Nom complet" aria-label="Nom complet" required maxlength="80" autocomplete="name" autocapitalize="words" enterkeyhint="next" value="${esc(C.nm)}" oninput="C.nm=this.value;this.removeAttribute('aria-invalid')"><input type="tel" inputmode="tel" placeholder="Téléphone" aria-label="Téléphone" required maxlength="20" autocomplete="tel" value="${esc(C.ph)}" oninput="C.ph=this.value;this.removeAttribute('aria-invalid')">
 <div id="er" class="er" role="alert"></div><button class="btn">Envoyer ma demande</button></form></div></div>`}
 const STY={bague:"t",bracelet:"bs",boucles:"bt",collier:"ct"};
 const sumHtml=()=>{const p=C.pc,s=STY[p],x=[s&&lab(s),p=="collier"&&"maille "+lab("ch").toLowerCase(),lab("m"),p=="bague"&&C.w+" mm",lab("fi"),V("st")!="aucune"&&lab("st")+(allow("sh")?" "+lab("sh").toLowerCase():"")].filter(Boolean);
@@ -311,10 +340,12 @@ function gemEnv3(r){const T=THREE,c=document.createElement("canvas");c.width=102
 let sd=11;const rnd=()=>(sd=sd*16807%2147483647)/2147483647;for(let i=0;i<100;i++){g.fillStyle=i%2?"#fff":"#000";g.fillRect(rnd()*1024,40+rnd()*400,8+rnd()*32,8+rnd()*32)}
 const t=new T.CanvasTexture(c);t.mapping=T.EquirectangularReflectionMapping;t.encoding=T.sRGBEncoding;const p=new T.PMREMGenerator(r),e=p.fromEquirectangular(t).texture;t.dispose();p.dispose();return e}
 function init3(){if(R3)return R3;if(!window.THREE||!THREE.OrbitControls)return null;
-try{const T=THREE,r=new T.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});r.setPixelRatio(Math.min(devicePixelRatio||1,2));r.outputEncoding=T.sRGBEncoding;r.toneMapping=T.ACESFilmicToneMapping;r.toneMappingExposure=1.2;r.shadowMap.enabled=true;r.shadowMap.type=T.PCFSoftShadowMap;
+try{const T=THREE,r=new T.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});r.setPixelRatio(Math.min(devicePixelRatio||1,innerWidth<700?1.5:2));r.outputEncoding=T.sRGBEncoding;r.toneMapping=T.ACESFilmicToneMapping;r.toneMappingExposure=1.2;r.shadowMap.enabled=true;r.shadowMap.type=T.PCFSoftShadowMap;
 const sc=new T.Scene();sc.environment=env3(r);const gE=gemEnv3(r);const cam=new T.PerspectiveCamera(30,1,.5,2000);cam.position.set(0,13,52);
 const ct=new T.OrbitControls(cam,r.domElement);ct.enablePan=false;ct.enableDamping=true;ct.zoomSpeed=.6;ct.autoRotate=!matchMedia("(prefers-reduced-motion:reduce)").matches;ct.autoRotateSpeed=1.4;ct.minPolarAngle=.05;ct.maxPolarAngle=Math.PI*.62;
-ct.addEventListener("start",()=>{ct.autoRotate=false;R3.tw=null;rotUi()});r.domElement.style.touchAction="none";r.domElement.setAttribute("role","img");
+ct.addEventListener("start",()=>{ct.autoRotate=false;R3.tw=null;rotUi()});r.domElement.style.touchAction="none";
+if(matchMedia("(pointer:coarse)").matches){r.domElement.style.touchAction="pan-y";ct.touches.TWO=T.TOUCH.DOLLY_ROTATE;ct.enabled=false;
+document.addEventListener("touchstart",e=>{if(R3&&e.target===R3.r.domElement)R3.ct.enabled=e.touches.length>1},{capture:true,passive:true})}r.domElement.setAttribute("role","img");
 // plain wheel keeps scrolling the page; Ctrl + wheel (and pinch) zooms the piece
 r.domElement.addEventListener("wheel",e=>{if(!e.ctrlKey)e.stopImmediatePropagation()},true);
 const l=new T.DirectionalLight(0xffffff,.55);l.position.set(10,40,25);l.castShadow=true;l.shadow.mapSize.set(1024,1024);l.shadow.bias=-.0005;sc.add(l);
@@ -495,8 +526,8 @@ function load3(){if(L3||(window.THREE&&THREE.OrbitControls))return;L3=1;const a=
 function rot(){if(R3){R3.ct.autoRotate=!R3.ct.autoRotate;R3.tw=null;rotUi()}}
 function mount3d(){const el=$("#r3");if(!el)return;if(!window.THREE||!THREE.OrbitControls){load3();return}if(!init3()){el.innerHTML=svgPrev();return}
 if(C.pc=="collier"&&C.ct=="prenom")loadFont();
-el.innerHTML="";el.appendChild(R3.r.domElement);const w=el.clientWidth||320;R3.r.setSize(w,w);R3.cam.aspect=1;R3.cam.updateProjectionMatrix();R3.on=true;rebuild();rotUi()}
-addEventListener("resize",()=>{if(R3&&R3.on){const e=$("#r3");if(e)R3.r.setSize(e.clientWidth,e.clientWidth)}});
+el.innerHTML="";el.appendChild(R3.r.domElement);const w=el.clientWidth||320;R3.w=w;R3.r.setSize(w,w);R3.cam.aspect=1;R3.cam.updateProjectionMatrix();R3.on=true;rebuild();rotUi()}
+addEventListener("resize",()=>{const h=document.querySelector("header");if(h)document.documentElement.style.setProperty("--hh",h.offsetHeight+"px");if(R3&&R3.on){const e=$("#r3");if(e&&e.clientWidth!==R3.w){R3.w=e.clientWidth;R3.r.setSize(R3.w,R3.w)}}});
 function upd(){const c=$("#cc"),n=String(cnt());if(c.textContent!=n&&c.textContent!=""&&c.animate&&!matchMedia("(prefers-reduced-motion:reduce)").matches)c.animate([{transform:"scale(1)"},{transform:"scale(1.4)"},{transform:"scale(1)"}],{duration:380,easing:"cubic-bezier(.2,.7,.2,1)"});c.textContent=n;const h=document.querySelector("header");if(h)document.documentElement.style.setProperty("--hh",h.offsetHeight+"px")}
 function draw(e){if(R3)R3.on=false;const ae=document.activeElement,af=ae&&ae.dataset&&ae.dataset.f;const h=location.hash.slice(1);if(h=="shop")f="tous";else if(h.startsWith("c-"))f=CATS[h.slice(2)]?h.slice(2):"tous";if(h!="cart")ORD="";
 $("#app").innerHTML=h.startsWith("p-")?prod(h.slice(2)):h=="cart"?cartv():h=="custom"?custom():h=="admin"?admin():(h=="shop"||h.startsWith("c-"))?shop():home();upd();reveal();const px=h.startsWith("p-")&&pf(h.slice(2));document.title=(px?px.n+" · ":h=="shop"||h.startsWith("c-")?(f=="tous"?"La boutique":CATS[f])+" · ":h=="cart"?"Mon panier · ":h=="custom"?"Créez votre pièce · ":h=="admin"?"Demandes sur mesure · ":"")+"Bijouterie Zied & Nihel Zayeti";
