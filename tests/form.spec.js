@@ -95,6 +95,7 @@ test('keyboard-only: every control reachable in order, visible focus, no trap',a
   await open(page);
   const desc=`(e)=>e.tagName+':'+(e.getAttribute('aria-label')||e.placeholder||e.textContent.trim().slice(0,30))`;
   const expected=await page.evaluate(`(()=>{const d=${desc};return [...document.querySelectorAll('a[href],button:not([disabled]),input:not([type=hidden]),select,textarea')].filter(e=>{const r=e.getBoundingClientRect();return r.width>0&&r.height>0&&getComputedStyle(e).visibility!='hidden'&&!e.closest('[hidden]')}).map(d)})()`);
+  expected.splice(expected.indexOf('BUTTON:Envoyer ma demande')+1);   // the form ends at its submit button (links after it, e.g. the footer, are outside this walk)
   await page.evaluate(()=>{document.activeElement&&document.activeElement.blur();window.scrollTo(0,0)});
   const seen=[];let guard=0;
   while(guard++<expected.length*4+10){

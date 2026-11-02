@@ -13,7 +13,8 @@ chosen model are hidden, and the engraving is drawn on the piece.
 
 ## What to edit (all inside `index.html`)
 - `const WA="21600000000"` → the shop's WhatsApp number (country code, no `+`).
-- `const P=[...]` → products. `const IM={...}` → photos as base64 (current ones are Pexels stock photos).
+- `const P=[...]` → products. Photos are base64 in `<script type="application/json" id="im">`. Five were
+  generated with Higgsfield (rings, rose, pearls, pot, hoops); `bust` and `bangles` are Pexels stock photos.
 - `const FB=` → Facebook page link.
 
 ## Tests (Playwright – Chromium, Firefox, WebKit)
@@ -24,8 +25,9 @@ npm test                 # runs tests/form.spec.js in all three
 ```
 Covers: empty submit, whitespace-only input, invalid phone (the form has no email field),
 valid submit, double submit, 10k-character input in every field, and keyboard-only completion.
-Status when last run: **Chromium 16/16 passing. Firefox and WebKit were not run** (browsers
-could not be downloaded in the environment where the tests were written) – run them locally.
+Status when last run (2026-11-03): **Chromium 16/16 passing** (with the installed Chrome:
+`CHROMIUM_PATH="C:\Program Files\Google\Chrome\Application\chrome.exe" npx playwright test --project=chromium`).
+Firefox and WebKit were not run.
 
 ## Limits on GitHub Pages
 Custom-piece requests are not saved there (admin dashboard exists only on the Claude-hosted demo);

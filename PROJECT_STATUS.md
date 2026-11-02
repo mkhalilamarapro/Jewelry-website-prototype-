@@ -24,6 +24,7 @@ Hard constraints
 | QA & Front-end Engineer | Bugs, accessibility, performance, responsive audit | Audit only |
 | Mobile & Responsive Lead | Phone and tablet experience on every route: layout, touch, gestures, forms, 3D on touch | Audit only |
 | Motion Director | Motion design: choreography, curves, timing, both themes | Audit only |
+| AI Product Photographer | Art direction, prompts and quality control for generated product photos | Audit only |
 
 Why only one writer: the whole site is a single file, so parallel edits would conflict. Specialists audit in
 parallel; the CEO merges their recommendations into one prioritized plan and implements it, verifying each
@@ -168,6 +169,50 @@ and the header hairline sweep.
 - the fix for both is phone-sized photo files (`img/*.webp`), a pending owner decision.
 - Not run here: `npm test` (no Node on this machine). Taps during page changes, reduced motion and every route
   were verified with Playwright for Python instead.
+
+## Loader, boutique icons, AI photos, price on the photo (requested 2026-11-03): signed off
+Reviewed in 3 capture rounds (r6–r8). Signed off by the Creative Director, the Motion Director, the AI Product
+Photographer and QA/Mobile.
+
+**New team member: AI Product Photographer.** Generated jewellery only looks right when every image is
+art-directed and checked (warped rings, duplicated stones, mismatched light).
+
+**What's in**
+- **Loader « le sceau »** (first visit, home only):
+  - The ring emblem and the name start pale and blurred, then fill with gold from the bottom and come into focus.
+    After that the seal fades and the page opens on bare ground.
+  - It paints at about 0.3 s on desktop and 0.45 s on a throttled phone, because the first page build is deferred
+    by one frame.
+  - Only transform and opacity move.
+  - It never catches a tap, and it doesn't show on deep links (so the tests' `#custom` path is unchanged).
+  - Reduced motion shows no loader. If JS fails, CSS lets go at 2.4 s.
+- **Product photos:**
+  - 5 photos were generated with Higgsfield (Nano Banana via kie.ai, about 20 credits) in one house style: taupe
+    limestone, window light, empty lower third. The 5 are rings, the rose ring, pearls, the ras-du-cou collar and
+    the hoops.
+  - `bust` (the home hero) and `bangles` were kept.
+  - Retouched locally: the rose ring was graded to rose gold, and the right hoop's white stripe was recoloured
+    to gold.
+  - The hoops are a placeholder: the pair still doesn't match exactly. Swap it for a real photo when one exists.
+- **Photo data** now lives in `<script type="application/json" id="im">`, not in the main script. The file is
+  about 500 KB, down from 934 KB.
+- **Cards:**
+  - The price sits on the photo as a frosted chip (backdrop blur, with a solid fallback), with only the name
+    underneath.
+  - Each card link is labelled "name, price" for screen readers.
+- **Shop:**
+  - A trust row with line icons, using only claims already on the site: pieces, "Or, perles et pierres",
+    "Sur mesure", "Commande confirmée par WhatsApp".
+  - A WhatsApp glyph on the 3 WhatsApp buttons.
+  - New rhythm: title to tabs 32/20 px, tabs to grid 40/24, photo to name 12/10, rows 32/24, gutter 20/12
+    (desktop/phone). The filtered `.few` grid keeps the card size.
+- **Tests:**
+  - The suite now runs locally (Node is installed): 16/16 pass in Chromium, using the installed Chrome via
+    `CHROMIUM_PATH`.
+  - The tab-order test was updated: it now stops its expected list at the submit button. The footer links added
+    on 2026-11-02 made it fail on the previous commit too.
+  - Firefox and WebKit were not run: the browser download didn't finish.
+- **Credits:** about 1.2 left on kie.ai, so a re-roll needs a top-up.
 
 ## Next actions (need the owner)
 - Run `npm install && npm run test:install && npm test` on a machine with Node.
