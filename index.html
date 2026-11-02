@@ -139,6 +139,8 @@ select{font:inherit;padding:13px 14px;border:1px solid var(--ln);background:var(
 .er{color:#e9937a;min-height:1.3em;font-size:.95rem}:root[data-theme="light"] .er{color:#b4452a}input[aria-invalid=true]{border-color:#e9937a}
 .cp p,.empty h1,.empty p{overflow-wrap:anywhere}
 footer{background:var(--sf);padding:clamp(56px,7vw,96px) 0 32px;color:var(--mu);font-size:.9rem}
+/* short pages (empty cart, thank-you): footer sits at the bottom of the screen */
+body{display:flex;flex-direction:column;min-height:100svh}#app{flex:1 0 auto}
 .fw{display:block;color:var(--tx);font-family:"Cormorant Garamond",Georgia,serif;font-size:clamp(2.2rem,8vw,8rem);font-weight:300;letter-spacing:-.03em;line-height:1;white-space:nowrap;margin-bottom:clamp(32px,4vw,56px)}
 .fn{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 32px}.fn nav{display:flex;flex-wrap:wrap;gap:8px 24px}.fn a:hover{color:var(--tx)}
 /* section entrances: hidden only once JS has armed them */
@@ -150,8 +152,9 @@ footer{background:var(--sf);padding:clamp(56px,7vw,96px) 0 32px;color:var(--mu);
 a,button{-webkit-tap-highlight-color:transparent}
 html{scroll-padding-top:calc(var(--hh,90px) + 8px)}
 @media(max-width:860px){.l a{padding:11px 0}.l{padding-bottom:0}}
-/* narrow phones: the logo wraps so the cart button stays on screen */
-@media(max-width:400px){header{column-gap:8px}.logo{white-space:normal;line-height:1.25;font-size:.88rem;letter-spacing:.08em;max-width:8.5em}.r{gap:4px}.cartb{padding:12px}}
+/* narrow phones: a smaller one-line logo; below 360px it wraps so the cart button stays on screen */
+@media(max-width:400px){header{column-gap:8px}.logo{font-size:.8rem;letter-spacing:.06em}.r{gap:4px}.cartb{padding:12px}}
+@media(max-width:359px){.logo{white-space:normal;line-height:1.25;font-size:.88rem;letter-spacing:.08em;max-width:8.5em}}
 /* product page on phones: the add-to-cart button follows the details */
 @media(max-width:700px){.pd img{max-height:56svh}.pd>div>.btn:not(.o){position:sticky;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:4;box-shadow:0 8px 24px -6px rgba(0,0,0,.45)}}
 @media(max-width:820px) and (orientation:portrait){.hi{aspect-ratio:auto;height:min(100vw,52svh)}}
