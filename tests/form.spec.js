@@ -7,7 +7,7 @@ const LONG_NOSPACE=n=>'W'.repeat(n);                                // worst cas
 
 test.beforeEach(async({page},info)=>{
   page.__errors=[];page.on('pageerror',e=>page.__errors.push(e.message));
-  await page.route('**/fonts.googleapis.com/**',r=>r.fulfill({body:'',contentType:'text/css'}));
+  await page.route('**/fonts.googleapis.com/**',r=>r.fulfill({body:'',contentType:'text/css'}));await page.route('**/cdn.jsdelivr.net/npm/gsap@*/**',r=>r.abort());   // GSAP is an optional enhancement: keep runs independent of the network
   await page.route('**/cdn.jsdelivr.net/npm/three@0.128.0/**',r=>{
     const f=path.join(THREE_DIR,new URL(r.request().url()).pathname.replace('/npm/three@0.128.0/',''));
     fs.existsSync(f)?r.fulfill({path:f,contentType:'text/javascript'}):r.continue()});

@@ -216,6 +216,50 @@ art-directed and checked (warped rings, duplicated stones, mismatched light).
   - Firefox and WebKit were not run: the browser download didn't finish.
 - **Credits:** about 1.2 left on kie.ai, so a re-roll needs a top-up.
 
+## Device theme, light hero, GSAP 3 « le fil d'or » (requested 2026-11-03): signed off
+Reviewed in 2 capture rounds (r11–r12). Signed off by the Motion Director, the Creative Director and QA/Mobile.
+Each of their conditions was checked by measurement.
+
+**Theme follows the device**
+- The site opens in the phone's or computer's light/dark setting from the first frame, including the status-bar
+  colour, and switches live if the device switches.
+- The ◐ toggle now lasts for the visit only (`sessionStorage`). The old saved choice in `localStorage` is
+  cleared, so it can't override the device any more.
+
+**Light-mode hero**
+- No black photo in light mode. The hero and the « Colliers » tile show the generated collar-on-bust photo
+  (`herol`), with its stone regraded to the site's cream. Dark mode keeps the black `bust` photo.
+- Photos marked `img[data-k]` swap with the theme and wait for their decode (capped at 200 ms), so a switch
+  never shows a blank frame.
+- The overlay light pass is off in light mode.
+
+**GSAP 3.13 « le fil d'or »**
+- Loaded from jsDelivr, pinned to 3.13.0: gsap, ScrollTrigger and SplitText. It's a progressive enhancement:
+  - the site is complete without it (CDN blocked: identical to before, no errors);
+  - reduced motion never downloads it;
+  - the tests block it, so runs don't depend on the network.
+- What it does:
+  - Headings rise line by line from a hairline mask: the hero title (two static masked lines, nothing to split),
+    section titles on scroll, and the product title.
+  - A subtle desktop-only hero parallax, for fine pointers at 821 px and up.
+  - Photos keep « le voile ».
+- Performance: an A/B on a 4× throttled phone shows 0 long frames on route changes, the same as with GSAP
+  blocked. Three things got it there:
+  - scroll titles are set up 450 ms after a route change;
+  - the cleanup doesn't revert a DOM that is about to be replaced;
+  - setup runs once per page.
+- Checked:
+  - Splits revert after playing, with no layout jump.
+  - Resizing doesn't replay a title.
+  - GSAP arriving 3 s late hides nothing already seen.
+  - 320, 390, 820 px, 844×390 landscape and 1440 px: no overflow, no leftovers.
+- Tests: 16/16 in Chromium.
+
+**Known, not blocking**
+- The intro still ends at about 2.5 s on a first visit. That is the longer loader the client asked for.
+- One 8 ms frame of fallback italic when you first land on home from another page (the italic font loads on
+  first use). This predates GSAP.
+
 ## Next actions (need the owner)
 - Run `npm install && npm run test:install && npm test` on a machine with Node.
 - Decide whether to move the seven photos to `img/*.webp` files.
