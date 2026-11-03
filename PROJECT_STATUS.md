@@ -294,6 +294,33 @@ The client asked for "3D mock-ups with smooth animation, no static background" i
 - Leaving home disposes the scene (at once when going to the configurator). Two WebGL contexts at most.
 - Measured: 7 ms frames idle and while scrolling, on desktop and on a 4× CPU phone (real GPU). Tests: 16/16.
 
+## Lower home redesign and « Pièces phares » (requested 2026-11-04): built, reviewed
+These are the client's complaints and what was done about each.
+
+**Text in the cover shifts between dark and light mode.**
+- Fixed: the cover photo box now has its own size. The photos and the 3D canvas no longer set it, so the text sits identically in both themes.
+
+**Bugs in « Une pièce qui vous ressemble » and « Notre engagement »; everything below looks unprofessional.**
+- On desktop, the titles « Notre engagement » and « Parlons de votre projet » never appeared. GSAP's ScrollTrigger computed its positions before the page had finished growing. Titles now reveal through an IntersectionObserver, which always matches the real layout.
+- « Une pièce qui vous ressemble »: a fixed 5:4 crop that keeps the solitaire whole, hairline framing, and numbered steps (01 Gravure, 02 Taille, 03 Finition).
+- « Notre engagement »: the title gets its own row, followed by four numbered columns separated by hairlines (2×2 on tablet, a list on phone).
+- Contact block: it now sits on the page ground, aligned to the centre, with no stray line.
+- Footer:
+  - the wordmark is set like the header logo, instead of a giant title;
+  - the legal line sits under its own hairline;
+  - « photos et prix indicatifs » stays until go-live.
+
+**Cover images as 3D; the client's first image without its background.**
+- Recommendation, from NN/g research on auto-rotating hero carousels and current luxury sites: one cover, followed by a curated selection. So the 3D parure stays as the only cover, and « Pièces phares » replaces « Coups de cœur ».
+- The lead piece of « Pièces phares » is the client's medallion necklace and bangles from the first photo. Its background was removed locally with rembg (isnet), and the mirror reflections were trimmed off.
+- The three featured pieces are cut out the same way. One bust's neck was refilled from the original photo.
+- The 3D effect is done in CSS: a tilt toward the pointer (≤6°, mouse only), a slow float on the compositor that pauses off-screen, a drop shadow and a ground pool. It is static under reduced motion.
+- « Pièces phares » rather than « Meilleures ventes », because there is no sales data to back the claim.
+
+**Checks:** tests 16/16, no overflow at 320/390/820/1440 px, reduced motion clean, cover still at 7 ms frames. The Creative Director signed off on all of it except the « Pièces phares » and story fixes; those were applied afterwards and checked in screenshots by the CEO.
+
+**Needs the owner:** confirm the lead piece's name, « Collier médaillon et joncs ».
+
 ## Next actions (need the owner)
 - Run `npm install && npm run test:install && npm test` on a machine with Node.
 - Decide whether to move the seven photos to `img/*.webp` files.
