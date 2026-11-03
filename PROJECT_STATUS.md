@@ -260,6 +260,40 @@ Each of their conditions was checked by measurement.
 - One 8 ms frame of fallback italic when you first land on home from another page (the italic font loads on
   first use). This predates GSAP.
 
+## 3D cover « le relief » (requested 2026-11-03): built, reviewed
+The client asked for "3D mock-ups with smooth animation, no static background" in the cover.
+
+**Reviews:**
+- The Motion Director and the 3D Art Director approved the design. Their last conditions were met: the build is
+  now sliced, and the cream look was fixed.
+- QA/Mobile approved once the context-loss fix landed. It is in.
+- iOS Safari still needs a check on a real device.
+
+**What a visitor sees:**
+- Three pieces of one parure float on the page's own ground: a solitaire ring, a pavé créole and a sapphire
+  pendant. The canvas is transparent, so they sit on cream in light mode and on black in dark mode.
+- They are built live with the configurator's own 3D engine.
+- Lighting is tuned per theme: on cream, a warm ivory studio with a white diamond, soft gold and one tight
+  contact shadow; on black, rim lights so the gold glows.
+- Motion: a slow float and sway per piece. On desktop with a mouse, a damped tilt toward the cursor. A drift as
+  the hero scrolls away. After the loader, the pieces rise into place together with the masked title.
+
+**Fallback:** the photo stays underneath as the fallback. It is used when:
+- reduced motion is on;
+- Save-Data is on;
+- there is no WebGL or only a software GPU;
+- the CDN fails;
+- frames are too slow (the 3D fades back to the photo for the rest of the visit).
+
+**Performance:**
+- Three.js loads behind the loader on a first visit, otherwise at idle after load.
+- The build runs in idle slices: first lights, then each piece, then one shader per slice.
+- One slice remains at about 370 ms on desktop: a single shader compile that the graphics driver can't split.
+  It runs once per visit, while the page stays scrollable.
+- The page renders only while the hero is visible and the tab is open, at half rate on phones.
+- Leaving home disposes the scene (at once when going to the configurator). Two WebGL contexts at most.
+- Measured: 7 ms frames idle and while scrolling, on desktop and on a 4× CPU phone (real GPU). Tests: 16/16.
+
 ## Next actions (need the owner)
 - Run `npm install && npm run test:install && npm test` on a machine with Node.
 - Decide whether to move the seven photos to `img/*.webp` files.

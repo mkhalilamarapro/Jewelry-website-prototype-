@@ -221,6 +221,9 @@ html.vth::view-transition-old(*),html.vth::view-transition-new(*){animation-dura
 @media(max-width:400px){#lo .ll{letter-spacing:.16em}}
 @media print{.rv,.rvp{opacity:1!important;transform:none!important;clip-path:none!important}}
 .hx h1 .hl{display:block;overflow:clip;padding:.32em .16em .26em;margin:-.32em -.16em -.26em}.hx h1 .hl>span{display:block}  /* the hero title's two lines, each in its own mask (static markup: nothing to split or revert) */
+/* « le relief »: the 3D canvas lies over the photo; the photo shows until the 3D is drawn, and comes back if it can't keep up */
+.hi>canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0;display:block}
+.hi.h3{background:transparent}.hi.h3>canvas{opacity:1}.hi.h3>img{opacity:0}.hi.h3x>canvas,.hi.h3x>img{transition:opacity .9s var(--eio)}
 /* GSAP « le fil d'or »: nothing here hides anything; GSAP sets the hidden states inline, only after it has loaded */
 .ln-mask{padding:.32em .16em .26em;margin:-.32em -.16em -.26em}  /* room for Cormorant's capital accents, descenders and the italic overhang; net layout change is zero */
 .gh .hx>h1{animation:none}.gh .hx>p{animation-delay:.42s}.gh .hx>.bt{animation-delay:.52s}
@@ -265,7 +268,7 @@ try{const raw=JSON.parse(localStorage.getItem("zc")||"{}");for(const k in raw){c
 const sv=()=>{try{localStorage.setItem("zc",JSON.stringify(cart))}catch(e){}};
 const $=s=>document.querySelector(s),pf=id=>P.find(x=>x.id==id),fm=n=>n.toLocaleString("fr-FR").replace(/[\u202f\u00a0 ]/g,"\u00a0")+"\u00a0DT";
 const cnt=()=>Object.values(cart).reduce((a,b)=>a+ +b,0);
-function theme(t){const r=document.documentElement,l=t=="light";r.dataset.theme=t;const b=$(".tg");if(b)b.setAttribute("aria-pressed",l);const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=l?"#f6f2ea":"#000000";const p=[];document.querySelectorAll("img[data-k]").forEach(i=>{const u=src(i.dataset.k);if(i.getAttribute("src")!=u){i.src=u;if(i.decode&&i.loading!="lazy")p.push(i.decode().catch(()=>{}))}});return Promise.race([Promise.all(p),new Promise(r=>setTimeout(r,200))])}
+function theme(t){const r=document.documentElement,l=t=="light";r.dataset.theme=t;if(H3){H3.o.setTheme(t);if(!H3.run)H3.o.render()}const b=$(".tg");if(b)b.setAttribute("aria-pressed",l);const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=l?"#f6f2ea":"#000000";const p=[];document.querySelectorAll("img[data-k]").forEach(i=>{const u=src(i.dataset.k);if(i.getAttribute("src")!=u){i.src=u;if(i.decode&&i.loading!="lazy")p.push(i.decode().catch(()=>{}))}});return Promise.race([Promise.all(p),new Promise(r=>setTimeout(r,200))])}
 // light-mode variants: the black hero becomes the collar on the cream ground
 const HL={bust:"herol"},src=k=>IM[document.documentElement.dataset.theme=="light"&&HL[k]||k]
 function tg(){const d=document.documentElement,t=d.dataset.theme=="light"?"dark":"light",s=()=>{try{sessionStorage.setItem("zt",t)}catch(e){}return theme(t)},end=()=>requestAnimationFrame(()=>requestAnimationFrame(()=>d.classList.remove("nt","vth")));d.classList.add("nt");if(VT&&!RM()){d.classList.add("vth");const v=document.startViewTransition(s);tg.v=v;v.ready.catch(()=>{});v.finished.catch(()=>{}).then(()=>{if(tg.v===v)end()})}else{s();end()}}
@@ -592,8 +595,8 @@ o.tw={t0:performance.now(),p0:o.cam.position.clone(),p1:p,q0:o.ct.target.clone()
 function zm(f){const o=R3;if(!o)return;const d=o.cam.position.clone().sub(o.ct.target),l=Math.min(o.ct.maxDistance,Math.max(o.ct.minDistance,d.length()*f));o.tw={t0:performance.now(),p0:o.cam.position.clone(),p1:o.ct.target.clone().add(d.setLength(l)),q0:o.ct.target.clone(),q1:o.ct.target.clone()}}
 function rotUi(){const b=$("#rotb");if(b&&R3)b.setAttribute("aria-pressed",R3.ct.autoRotate)}
 let LT=0;function live(ms){clearTimeout(LT);LT=setTimeout(()=>{if(R3&&R3.on)rebuild();else{const e=$("#r3");if(e&&!window.THREE)e.innerHTML=svgPrev()}sumUp()},ms)}
-let L3=0;
-function load3(){if(L3||(window.THREE&&THREE.OrbitControls))return;L3=1;const a=document.createElement("script");a.src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js";a.onload=()=>{const b=document.createElement("script");b.src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js";b.onload=()=>{L3=0;mount3d()};b.onerror=()=>{L3=2};document.head.appendChild(b)};a.onerror=()=>{L3=2};document.head.appendChild(a)}
+let L3=0,L3Q=[];const l3q=()=>L3Q.splice(0).forEach(f=>{try{f()}catch(e){}});
+function load3(f){if(f)L3Q.push(f);if(window.THREE&&THREE.OrbitControls)return l3q();if(L3)return;L3=1;const a=document.createElement("script");a.src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js";a.onload=()=>{const b=document.createElement("script");b.src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js";b.onload=()=>{L3=0;mount3d();l3q()};b.onerror=()=>{L3=2;l3q()};document.head.appendChild(b)};a.onerror=()=>{L3=2};document.head.appendChild(a)}
 function rot(){if(R3){R3.ct.autoRotate=!R3.ct.autoRotate;R3.tw=null;rotUi()}}
 function mount3d(){const el=$("#r3");if(!el)return;if(!window.THREE||!THREE.OrbitControls){load3();return}if(!init3()){el.innerHTML=svgPrev();return}
 if(C.pc=="collier"&&C.ct=="prenom")loadFont();
@@ -611,14 +614,14 @@ let G=0,MM=null;const ok=()=>G&&!RM()&&!!window.gsap,RMQ="(prefers-reduced-motio
 function gl(){if(RM()||gl.d)return;gl.d=1;let k=0;["gsap","ScrollTrigger","SplitText"].forEach(f=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/"+f+".min.js";s.async=false;
 s.onload=()=>{if(++k<3)return;try{gsap.registerPlugin(ScrollTrigger,SplitText);gsap.config({nullTargetWarn:false});ScrollTrigger.config({ignoreMobileResize:true});(document.fonts?document.fonts.ready:Promise.resolve()).then(()=>{G=1;(window.requestIdleCallback||setTimeout)(()=>{try{gx(1)}catch(e){}},{timeout:800})})}catch(e){}};document.head.appendChild(s)})}
 // route change: drop the old page's animations and triggers (no revert: #app is about to be rewritten anyway)
-function gk(){if(!G||!window.gsap)return;if(MM){MM.kill();MM=null}ScrollTrigger.getAll().forEach(t=>t.kill())}
+function gk(){H3S=0;if(!G||!window.gsap)return;if(MM){MM.kill();MM=null}ScrollTrigger.getAll().forEach(t=>t.kill())}
 const gm=()=>MM||(MM=gsap.matchMedia()),SPL=(h,f)=>f(SplitText.create(h,{type:"lines",mask:"lines",linesClass:"ln"}));  // split once (fonts are ready by then) and revert when played: no re-split on resize, no replay
 // per page: section titles (new route only) and the desktop hero parallax; skips anything already revealed or on screen
-function gx(n){if(!ok()||gx.done===gx.p)return;gx.done=gx.p;gm().add(RMQ,()=>{if(n)document.querySelectorAll("#app .sec .t h2,#app .pd~.t h2,#app .story h2,#app .why h2,#app .ctb h2").forEach(h=>{const r=h.closest(".rv");if(r&&r.classList.contains("in")||h.getBoundingClientRect().top<innerHeight)return;if(r){r.classList.remove("rv");if(RO)RO.unobserve(r)}
+function gx(n){if(!ok()||gx.done===gx.p)return;gx.done=gx.p;gm().add(RMQ,()=>{if($("#app .hero")){H3S=1;ScrollTrigger.create({trigger:"#app .hero",start:0,end:"bottom top",onUpdate:s=>{if(H3)H3.ts=s.progress},onKill:()=>{H3S=0}})}if(n)document.querySelectorAll("#app .sec .t h2,#app .pd~.t h2,#app .story h2,#app .why h2,#app .ctb h2").forEach(h=>{const r=h.closest(".rv");if(r&&r.classList.contains("in")||h.getBoundingClientRect().top<innerHeight)return;if(r){r.classList.remove("rv");if(RO)RO.unobserve(r)}
 const w=r||h.parentNode,sb=r&&r!=h?[...r.children].filter(c=>c!=h):[];
 SPL(h,s=>{const t=gsap.timeline({scrollTrigger:{trigger:w,start:"top 88%",once:true},onComplete:()=>s.revert()});t.from(s.lines,{yPercent:140,duration:PH()?.9:1.15,stagger:.09,ease:"power3.out"});if(sb.length)t.from(sb,{opacity:0,y:PH()?10:14,duration:.8,stagger:.08,ease:"power2.out"},.2);return t})})});
 gm().add("(min-width:821px) and (hover:hover) and (pointer:fine) and "+RMQ,()=>{if(!$("#app .hero"))return;const st=()=>({trigger:"#app .hero",start:0,end:"bottom top",scrub:.5});
-gsap.to("#app .hi",{y:64,ease:"none",scrollTrigger:st()});gsap.to("#app .hx",{y:-32,opacity:.2,ease:"none",scrollTrigger:st()})})}
+gsap.to("#app .hx",{y:-32,opacity:.2,ease:"none",scrollTrigger:st()})})}
 // a page title rising line by line (hero intro, product); returns false when GSAP isn't there, so the caller keeps its WAAPI/CSS path
 function gH(h,d){if(!ok()||!h)return false;try{const v={yPercent:140,duration:PH()?1:1.3,delay:d,stagger:.12,ease:"power3.out"},m=h.querySelectorAll(".hl>span");gm().add(RMQ,()=>{if(m.length)gsap.from(m,v);else SPL(h,s=>gsap.from(s.lines,Object.assign({onComplete:()=>s.revert()},v)))});return true}catch(e){return false}}
 // a label swap that keeps the button's width (no layout jump) and lets the new word rise in
@@ -634,7 +637,7 @@ function nav(e){const h=location.hash.slice(1),a=$("#app");if(a._o)return;if(RM(
 // the new page: only text fades and rises; photos open on their own at full colour (a whole-page fade reads milky on cream)
 go=()=>{if(a._o!==o)return;a._o=null;draw(e);o.cancel();const k=rk(location.hash.slice(1)),q=s=>document.querySelectorAll(s);
 if(k=="shop")q("#app .w>.t,#app .fl").forEach((n,i)=>fx(n,UP(10),{duration:420,delay:i*60,fill:"backwards"}));
-else if(k=="home"){veil($("#app .hi"),0,1000);const g=gH($("#app .hx h1"),.06);q("#app .hx>*").forEach((n,i)=>{if(!(g&&!i))fx(n,UP(12),{duration:620,delay:(g?260:80)+i*70,fill:"backwards"})})}
+else if(k=="home"){veil($("#app .hi"),0,1000);h3go(.06);const g=gH($("#app .hx h1"),.06);q("#app .hx>*").forEach((n,i)=>{if(!(g&&!i))fx(n,UP(12),{duration:620,delay:(g?260:80)+i*70,fill:"backwards"})})}
 else if(!k.startsWith("p-"))fx(a.firstElementChild,k=="custom"?[{opacity:0},{opacity:1}]:UP(10),{duration:380})};o.finished.then(go,go);setTimeout(go,250)}
 function enter(e,h){const a=$("#app"),k=rk(h),nw=k!=RK,em=!!$("#app .empty");RK=k;
 if(nw){a.classList.remove("go","gi");if(k=="custom")R3IN=1;if(e){if(k=="shop")cards(80,60);if(k.startsWith("p-")){veil($("#app .pd>img"),0,900);const g=gH($("#app .pd h1"),.1);document.querySelectorAll("#app .pd>div>*"+(PH()?":not(.btn:not(.o))":"")+(g?":not(h1)":"")).forEach((c,i)=>fx(c,[{opacity:0},{opacity:1}],{duration:500,delay:60+Math.min(i,6)*30,fill:"backwards"}))}}}
@@ -642,7 +645,7 @@ else if(k=="shop"&&e)cards(0,50);
 if(em&&!enter.em&&!nw)[...$("#app .empty").children].forEach((c,i)=>fx(c,UP(14),{duration:700,delay:i*70,fill:"backwards"}));enter.em=em}
 // first visit: start the intro only once the page can paint it (fonts + hero decoded, then two frames), never later than 450 ms; the loader hands over to it
 function ready(){const d=document.documentElement;if(!d.classList.contains("ld"))return;const i=$(".hi img");let k=0;
-const st=()=>{const a=$("#app");if(!RM()){const c=$("#app .hi")?"go":"gi",g=c=="go"&&gH($("#app .hx h1"),.12);a.classList.add(c);if(g)a.classList.add("gh");setTimeout(()=>{a.classList.remove(c,"gh");d.classList.remove("ld","rdy","lo")},3400)}d.classList.add("rdy");try{performance.mark("rdy")}catch(e){}},
+const st=()=>{const a=$("#app");if(!RM()){const c=$("#app .hi")?"go":"gi",g=c=="go"&&gH($("#app .hx h1"),.12);a.classList.add(c);if(g)a.classList.add("gh");if(c=="go")h3go(.12);setTimeout(()=>{a.classList.remove(c,"gh");d.classList.remove("ld","rdy","lo")},3400)}d.classList.add("rdy");H3T=performance.now();h3p();try{performance.mark("rdy")}catch(e){}},
 go=()=>{if(k++)return;requestAnimationFrame(()=>requestAnimationFrame(()=>lo(st)))};
 Promise.all([document.fonts&&document.fonts.ready,i&&i.decode&&i.decode().catch(()=>0)]).then(go,go);setTimeout(go,450)}
 // the loader: the fill completes from wherever it is, the name comes into focus, then the seal fades and the page opens on the bare ground (shown at least 1.6 s)
@@ -654,8 +657,91 @@ setTimeout(()=>{[...l.children].forEach(n=>fx(n,[{opacity:1},{opacity:0}],{durat
 {const hd=document.querySelector("header");let s=false;addEventListener("scroll",()=>{const v=scrollY>8;if(v!=s){s=v;hd.classList.toggle("sc",v)}},{passive:true})}
 // cart: the numeral rises in and a 1px gold line draws under « Panier » once (only on add, never on the steppers)
 function upd(p){const c=$("#cc"),n=String(cnt());if(p&&c.textContent!=n){c.textContent=n;fx(c,[{opacity:.35},{opacity:1}],{duration:240});const b=$(".cartb");if(b&&!RM()&&window.KeyframeEffect&&"pseudoElement" in KeyframeEffect.prototype)b.animate([{transform:"scaleX(0)",opacity:1,easing:EIO},{transform:"scaleX(1)",opacity:1,offset:.45,easing:EO},{transform:"scaleX(1)",opacity:0}],{duration:PH()?1125:1500,pseudoElement:"::after"}).finished.catch(()=>{})}else c.textContent=n;const h=document.querySelector("header");if(h){const v=h.offsetHeight;if(v!=upd.h){upd.h=v;document.documentElement.style.setProperty("--hh",v+"px")}}}
-function draw(e){if(R3)R3.on=false;gk();const ae=document.activeElement,af=ae&&ae.dataset&&ae.dataset.f;const h=location.hash.slice(1);if(h=="shop")f="tous";else if(h.startsWith("c-"))f=CATS[h.slice(2)]?h.slice(2):"tous";if(h!="cart")ORD="";
-$("#app").innerHTML=h.startsWith("p-")?prod(h.slice(2)):h=="cart"?cartv():h=="custom"?custom():h=="admin"?admin():(h=="shop"||h.startsWith("c-"))?shop():home();upd();reveal();{const n=rk(h)!=RK;gx.p=(gx.p||0)+1;clearTimeout(gx.t);{const m=n||gx.n;gx.n=m;gx.t=setTimeout(()=>{gx.n=0;try{gx(m)}catch(x){}},m?450:60)}}enter(e,h);const px=h.startsWith("p-")&&pf(h.slice(2));document.title=(px?px.n+" · ":h=="shop"||h.startsWith("c-")?(f=="tous"?"La boutique":CATS[f])+" · ":h=="cart"?"Mon panier · ":h=="custom"?"Créez votre pièce · ":h=="admin"?"Demandes sur mesure · ":"")+"Bijouterie Zied & Nihel Zayeti";
+// ---------- the hero in 3D « le relief »: three pieces of one parure float on the page's own ground ----------
+// scene (3D Art Director): its own transparent renderer; pieces built with the configurator's build() by swapping C/GMAT for a moment
+const HERO=[
+ {k:"bague",R:1.3,c:{pc:"bague",t:"solitaire",m:"or",fi:"poli",pr:"bombe",w:"3",st:"blanche",sh:"ronde",se:"griffes",q:"1",sz:"54",gr:""}},
+ {k:"creole",R:.95,c:{pc:"boucles",bt:"creoles",m:"or",fi:"poli",st:"blanche",sz:"Petite",gr:""}},
+ {k:"pendentif",R:1.1,c:{pc:"collier",ct:"pendentif",ch:"forcat",m:"or",fi:"poli",st:"bleue",sh:"ovale",se:"clos",sz:"45 cm",gr:""}}];
+// base [x,y,z,rx,ry,rz] per piece; P portrait column (~600×800), L phone band (~390×360); f = floor y for the contact blobs, a = design aspect
+const HLAY={P:{f:-2.25,a:.75,p:[[.12,-.8,.6,.24,-.5,.05],[.8,.6,-.5,.22,1.0,-.35],[-.7,1.1,-1.3,.04,-.3,.04]]},
+ L:{f:-1.7,a:1.08,p:[[-.25,-.25,.5,.24,-.5,.05],[1.5,.25,-.7,.22,1.0,-.35],[-1.9,.35,-1.2,.04,-.3,.04]]}};
+// a warm studio for each ground: cream (soft, warm, no grey that dirties gold) and black (rim strips so the gold glows)
+function envH(r,dk){const T=THREE,c=document.createElement("canvas");c.width=1024;c.height=512;const g=c.getContext("2d"),gr=g.createLinearGradient(0,0,0,512);
+(dk?[[0,"#3a342d"],[.5,"#15130f"],[1,"#050505"]]:[[0,"#f4efe6"],[.5,"#8c857b"],[1,"#2a2723"]]).forEach(s=>gr.addColorStop(s[0],s[1]));g.fillStyle=gr;g.fillRect(0,0,1024,512);try{g.filter="blur(8px)"}catch(e){}
+(dk?[[60,50,150,250,1],[560,40,260,70,1],[0,244,1024,8,.3],[150,20,8,470,1],[930,30,8,450,1],[470,30,10,440,.7]]:[[40,60,190,230,1],[320,30,120,280,.9],[560,40,260,80,1],[820,70,140,250,.9],[400,330,380,60,.55],[150,20,6,470,.8],[930,30,5,450,.8]])
+.forEach(a=>{g.fillStyle=`rgba(255,${dk?232:250},${dk?196:242},${a[4]})`;g.fillRect(a[0],a[1],a[2],a[3])});
+const t=new T.CanvasTexture(c);t.mapping=T.EquirectangularReflectionMapping;t.encoding=T.sRGBEncoding;const p=new T.PMREMGenerator(r),e=p.fromEquirectangular(t).texture;t.dispose();p.dispose();return e}
+function hero3(el,theme,lazy){if(!window.THREE)return null;const T=THREE;let r;
+try{r=new T.WebGLRenderer({antialias:true,alpha:true,powerPreference:"high-performance",failIfMajorPerformanceCaveat:true})}catch(e){return null}
+r.setClearColor(0,0);r.outputEncoding=T.sRGBEncoding;r.toneMapping=T.ACESFilmicToneMapping;
+const sc=new T.Scene(),cam=new T.PerspectiveCamera(24,1,1,80),E={},gE=gemEnv3(r),GM={},mats=[],pieces=[],
+key=new T.DirectionalLight(0xfff3e2,.6),rim=[new T.DirectionalLight(0xffd9a0,1),new T.DirectionalLight(0xffe6c0,1)];
+key.position.set(4,9,10);rim[0].position.set(-7,3,-8);rim[1].position.set(8,5,-6);sc.add(key,...rim);
+// the hero's own gem materials, pre-seeded so gemMat() never reads the configurator's R3
+for(const k in GMC){const v=GMC[k],w=v==GMC.blanche;GM[v]=new T.MeshPhysicalMaterial({color:w?0xffffff:new T.Color(v).convertSRGBToLinear(),metalness:1,roughness:0,clearcoat:w?0:.3,clearcoatRoughness:0,flatShading:true,envMap:gE,envMapIntensity:w?2.2:3});GM[v].userData.w=w}
+const bc=document.createElement("canvas");bc.width=bc.height=128;{const g=bc.getContext("2d"),q=g.createRadialGradient(64,64,0,64,64,64);q.addColorStop(0,"#fff");q.addColorStop(.45,"rgba(255,255,255,.4)");q.addColorStop(1,"rgba(255,255,255,0)");g.fillStyle=q;g.fillRect(0,0,128,128)}const bT=new T.CanvasTexture(bc);
+// one piece of the parure: swap C/GMAT just for this synchronous build
+const add=h=>{const c0=C,g0=GMAT;try{GMAT=GM;C=Object.assign({},c0,h.c);const G=new T.Group(),p=new T.Group();build(G);
+ if(h.c.pc=="boucles"){const e=G.children[1];G.remove(G.children[0]);e.position.set(0,0,0);e.rotation.set(0,0,0)}
+ if(h.c.pc=="collier"){const hg=G.children[G.children.length-1],Q=[];while(G.children.length)G.remove(G.children[0]);hg.position.set(0,0,0);G.add(hg);
+  for(let i=0;i<=140;i++){const t=.05+i/140*(Math.PI*2-.1);Q.push([10*Math.sin(t)*Math.sin(t/2),13*(1-Math.cos(t)),-3*(1-Math.cos(t))])}G.add(chain(Q,"forcat",1.2,metal()))}
+ const s=bounds(G).getBoundingSphere(new T.Sphere()),k=h.R/s.radius;G.scale.setScalar(k);G.position.copy(s.center).multiplyScalar(-k);p.add(G);
+ p.traverse(n=>{const m=n.material;if(m&&m.metalness==1&&!m.isMeshPhysicalMaterial&&!mats.includes(m)){m.userData.e0=m.envMapIntensity;mats.push(m)}});
+ const b=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({color:0x4a3826,map:bT,transparent:true,depthWrite:false,toneMapped:false,opacity:0}));b.rotation.x=-Math.PI/2;b.renderOrder=-1;sc.add(b);
+ p.name=h.k;p.userData={k:h.k,R:h.R,blob:b};sc.add(p);pieces.push(p)}finally{C=c0;GMAT=g0}};
+let floor=-2.25,bk=.16;
+const cv=r.domElement;cv.style.cssText="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;touch-action:pan-y";cv.setAttribute("aria-hidden","true");el.appendChild(cv);
+const o={r,sc,cam,pieces,el,dp:0,mode:"P",theme:"",lost:0,
+ render(){for(const p of pieces){const b=p.userData.blob,h=Math.max(0,p.position.y-p.userData.R-floor),s=p.userData.R*(1.1+h*.5);b.visible=bk>0&&p.visible&&p===pieces[0];b.position.set(p.position.x,floor,p.position.z);b.scale.set(s*1.3,s*.8,1);b.material.opacity=bk/(1+h*2.5)}r.render(sc,cam)},
+ size(nr){const e=o.el,w=e.clientWidth||1,h=e.clientHeight||1,a=w/h,m=a>.95?"L":"P",L=HLAY[m];r.setPixelRatio(Math.min(devicePixelRatio||1,o.dp?1:innerWidth<700?1.5:1.75));r.setSize(w,h,false);
+  cam.aspect=a;cam.position.set(0,.35,12*Math.max(1,L.a/a));cam.lookAt(0,0,0);cam.updateProjectionMatrix();floor=L.f;o.mode=m;
+  L.p.forEach((q,i)=>{const p=pieces[i];if(!p)return;const B=p.userData.base={pos:new T.Vector3(q[0],q[1],q[2]),rot:new T.Euler(q[3],q[4],q[5])};p.position.copy(B.pos);p.rotation.copy(B.rot)});if(!nr)o.render()},
+ setTheme(t){const dk=t=="dark";o.theme=t;sc.environment=E[t]||(E[t]=envH(r,dk));r.toneMappingExposure=dk?1.3:1;key.intensity=dk?.35:.4;rim[0].intensity=dk?1.1:.15;rim[1].intensity=dk?.7:.1;
+  mats.forEach(m=>m.envMapIntensity=m.userData.e0*(dk?1.1:.75));for(const k in GM)GM[k].envMapIntensity=GM[k].userData.w?(dk?2.64:3.4):3*(dk?1.2:1);bk=dk?0:.16;o.render()},
+ dispose(){sc.traverse(n=>{if(n.geometry)n.geometry.dispose();[].concat(n.material||[]).forEach(m=>{if(m.map)m.map.dispose();if(m.bumpMap)m.bumpMap.dispose();if(m.alphaMap)m.alphaMap.dispose();m.dispose()})});
+  for(const k in E)E[k].dispose();gE.dispose();bT.dispose();for(const k in GM)GM[k].dispose();r.dispose();r.forceContextLoss();cv.remove()}};
+cv.addEventListener("webglcontextlost",e=>{e.preventDefault();o.lost=1;if(o.el)o.el.classList.remove("h3")});
+// shaders one material at a time (compile() only visits visible meshes); returns 1 while more remain, so a lazy caller can spread them over idle slices
+const cmp=()=>{let m=null;sc.traverse(n=>{if(!m&&n.isMesh&&n.material&&!n.material.userData.cp)m=n.material});if(!m)return 0;const v=[];sc.traverse(n=>{if(n.isMesh){v.push([n,n.visible]);n.visible=n.material===m}});try{r.compile(sc,cam)}finally{v.forEach(x=>x[0].visible=x[1])}m.userData.cp=1;return 1};
+// steps: lights and environment, then each piece and its shaders; lazy callers run them in idle slices (a step returning 1 runs again)
+const st=[()=>o.setTheme(theme||"light"),...HERO.flatMap(h=>[()=>{add(h);o.size(1)},cmp])];if(lazy){o.steps=st;return o}try{st.forEach(f=>{while(f()===1);})}catch(e){o.dispose();return null}return o}
+// motion (Motion Director): one rAF on elapsed time, paused off-screen / hidden tab; the photo stays underneath as the fallback
+var H3=null,H3S=0,H3T=0;const FP="(hover:hover) and (pointer:fine)",DE=document.documentElement,shown=()=>DE.classList.contains("rdy")||!DE.classList.contains("ld");
+const h3ok=()=>{try{if(sessionStorage.h3off)return false}catch(e){}return!RM()&&!!window.WebGLRenderingContext&&!(navigator.connection&&navigator.connection.saveData)};
+function h3l(){if(h3ok()&&$("#app .hero"))load3(h3g)}
+// the build in idle slices: one piece (and its shaders) per callback, so no single task holds the page
+function h3g(){if(H3||h3g.o||h3g.r)return h3g.r&&h3m();const ri=window.requestIdleCallback||(f=>setTimeout(f,60)),el=$("#app .hi");if(!el)return;let o;try{o=h3g.o=hero3(el,DE.dataset.theme||"dark",1)}catch(e){return}if(!o){h3g.o=null;return}const q=o.steps.slice();
+(function n(){if(h3g.o!==o)return;if(!q.length){h3g.o=null;h3g.r=o;return h3m()}try{if(q[0]()!==1)q.shift()}catch(e){h3g.o=null;try{o.dispose()}catch(x){}return}ri(n,{timeout:1500})})()}
+// m: a route render (the caller plays the arrival); no m: Three became ready late, so cross-fade over the photo
+function h3m(m){const el=$("#app .hi");if(!el||!h3ok()||!window.THREE||H3&&H3.el===el&&!H3.o.lost)return;clearTimeout(h3d.t);if(H3&&H3.o.lost){H3.run=0;cancelAnimationFrame(H3.raf);H3.io&&H3.io.disconnect();H3.ro&&H3.ro.disconnect();try{H3.o.dispose()}catch(e){}H3=null;return h3l()}
+if(!H3){const o=h3g.r;h3g.r=null;if(!o)return;
+H3={o,t:0,a:null,af:1,px:0,py:0,tx:0,ty:0,s:0,ts:0,n:0,ft:0,dp:0,run:0,raf:0,l:0,vis:1,P:o.pieces.map((g,i)=>({g,i,R:g.userData.R}))}}
+const H=H3,cv=H.o.r.domElement;H.el=el;H.o.el=el;el.appendChild(cv);H.o.setTheme(DE.dataset.theme||"dark");
+if(window.ResizeObserver){H.ro=new ResizeObserver(h3z);H.ro.observe(el)}if(window.IntersectionObserver){H.io=new IntersectionObserver(e=>{H.vis=e[e.length-1].isIntersecting;h3p()});H.io.observe(el)}
+h3z();h3sc();const late=!m&&shown()&&el.getBoundingClientRect().bottom>0;h3a(0,late?.4:0);h3f(0);H.o.render();   // shaders compile here, never on a visible frame
+if(!late){el.classList.add("h3");h3p();return}setTimeout(()=>{if(H3!==H||H.el!==el)return;h3a(0,.4);el.classList.add("h3x");requestAnimationFrame(()=>requestAnimationFrame(()=>{el.classList.add("h3");h3p()}))},Math.max(0,H3T+2000-performance.now()))}
+// the intro arrival, in step with the h1 rise (st: .12, route: .06); false when the hero still shows its photo
+function h3go(d){const H=H3;if(!H||H.o.lost||H.el!==$("#app .hi"))return false;H.el.classList.add("h3");h3a(d,1);H.n=0;H.ft=0;h3p();return true}
+function h3a(d,f){H3.a=H3.t+d;H3.af=f}
+function h3p(){const H=H3;if(!H)return;const on=H.vis&&!H.o.lost&&!document.hidden&&H.el&&H.el.isConnected&&shown();if(on&&!H.run){H.run=1;H.l=0;H.raf=requestAnimationFrame(h3k)}else if(!on&&H.run){H.run=0;cancelAnimationFrame(H.raf)}}
+function h3k(n){const H=H3;if(!H||!H.run)return;H.raf=requestAnimationFrame(h3k);const q=PH()?2:1;if(H.l&&n-H.l<q*16.7-4)return;const R=H.l?n-H.l:16.7*q,r=R/q,dt=Math.min(R/1e3,.1);H.l=n;H.t+=dt;
+if(H.n<60&&r<100){H.ft+=r;if(++H.n%30==0){const v=H.ft/30;H.ft=0;if(v>30&&H.dp)return h3o();if(v>22&&!H.dp){H.dp=1;h3z()}}}h3f(dt);H.o.render()}
+function h3f(dt){const H=H3,t=H.t,W=Math.PI*2,s=Math.sin,E=k=>1-Math.exp(-dt*k);H.px+=(H.tx-H.px)*E(3);H.py+=(H.ty-H.py)*E(3);H.s+=(H.ts-H.s)*E(6);const c=H.s*H.s*(3-2*H.s),du=PH()?1.3:1.6;
+H.P.forEach(({g,i,R})=>{const B=g.userData.base;if(!B)return;const p=B.pos,r=B.rot,f=i*2.1,d=i%2?1:-1,a=H.a==null?1:Math.min(1,Math.max(0,(t-H.a-i*.14)/du)),u=H.af*Math.pow(1-a,3);
+g.position.set(p.x+R*(.015*s(W*t/(11+i*1.7)+f)+.03*H.px*(1+i*.3)),p.y+R*(.045*s(W*t/(7.5+i*1.3)+f)-(.35+.15*i)*c-.6*u),p.z);
+g.rotation.set(r.x+.05*s(W*t/(9.5+i*1.1)+f)+.08*H.py+.12*c,r.y+.14*s(W*t/(13+i*2)+f)+.14*H.px+.45*d*c+.5*d*u,r.z+.03*s(W*t/(10.5+i)+f*.7));g.scale.setScalar(1-.08*u)})}
+function h3z(){const H=H3;if(!H||!H.el)return;H.o.el=H.el;H.o.dp=H.dp;H.o.size();h3f(0);H.o.render()}
+function h3sc(){const H=H3;if(!H||H3S||!H.el)return;const b=H.el.closest(".hero");if(b)H.ts=Math.min(1,scrollY/Math.max(1,b.offsetTop+b.offsetHeight))}
+// leave home: stop now, free the GPU in 20 s (at once when the configurator needs it); a quick return reuses everything
+function h3d(now){if(h3g.o){try{h3g.o.dispose()}catch(e){}h3g.o=null}if(h3g.r){try{h3g.r.dispose()}catch(e){}h3g.r=null}const H=H3;if(!H)return;H.run=0;cancelAnimationFrame(H.raf);H.io&&H.io.disconnect();H.ro&&H.ro.disconnect();H.el=null;clearTimeout(h3d.t);const f=()=>{if(H3!==H||H.el)return;try{H.o.dispose()}catch(e){}H3=null};if(now)f();else h3d.t=setTimeout(f,20000)}
+// too slow for this device: fade back to the photo and keep the photo for the rest of the visit
+function h3o(){const H=H3;try{sessionStorage.h3off=1}catch(e){}H.run=0;cancelAnimationFrame(H.raf);const el=H.el;el.classList.add("h3x");el.classList.remove("h3");setTimeout(()=>h3d(1),950)}
+addEventListener("scroll",h3sc,{passive:true});document.addEventListener("visibilitychange",h3p);
+addEventListener("pointermove",e=>{const H=H3;if(!H||!H.run||e.pointerType!="mouse"||!matchMedia(FP).matches)return;const b=H.el.getBoundingClientRect();H.tx=Math.max(-1,Math.min(1,(e.clientX-b.left)/b.width*2-1));H.ty=Math.max(-1,Math.min(1,(e.clientY-b.top)/b.height*2-1))},{passive:true});
+DE.addEventListener("mouseleave",()=>{if(H3)H3.tx=H3.ty=0});
+function draw(e){if(R3)R3.on=false;gk();if(H3||h3g.o||h3g.r)h3d(location.hash.slice(1)=="custom");const ae=document.activeElement,af=ae&&ae.dataset&&ae.dataset.f;const h=location.hash.slice(1);if(h=="shop")f="tous";else if(h.startsWith("c-"))f=CATS[h.slice(2)]?h.slice(2):"tous";if(h!="cart")ORD="";
+$("#app").innerHTML=h.startsWith("p-")?prod(h.slice(2)):h=="cart"?cartv():h=="custom"?custom():h=="admin"?admin():(h=="shop"||h.startsWith("c-"))?shop():home();if($("#app .hero"))H3?h3m(1):h3l();upd();reveal();{const n=rk(h)!=RK;gx.p=(gx.p||0)+1;clearTimeout(gx.t);{const m=n||gx.n;gx.n=m;gx.t=setTimeout(()=>{gx.n=0;try{gx(m)}catch(x){}},m?450:60)}}enter(e,h);const px=h.startsWith("p-")&&pf(h.slice(2));document.title=(px?px.n+" · ":h=="shop"||h.startsWith("c-")?(f=="tous"?"La boutique":CATS[f])+" · ":h=="cart"?"Mon panier · ":h=="custom"?"Créez votre pièce · ":h=="admin"?"Demandes sur mesure · ":"")+"Bijouterie Zied & Nihel Zayeti";
 document.querySelectorAll(".l a").forEach(a=>{const t=a.getAttribute("href").slice(1),on=t==(h||"home")||t=="shop"&&(h.startsWith("c-")||h.startsWith("p-"));if(on)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});if(af){const n=document.querySelector('[data-f="'+af+'"]');if(n)n.focus({preventScroll:true})}
 const el=(h=="why"||h=="contact")&&$("#"+h);if(el)el.scrollIntoView();else if(e)window.scrollTo(0,0)}
 let RO=null;
@@ -664,8 +750,8 @@ RO=new IntersectionObserver(es=>{let j=0;es.forEach(e=>{if(e.isIntersecting){e.t
 document.querySelectorAll(ok()?"#app .wl>div,#app .ctb .w>div":"#app .sec .t,#app .why h2,#app .wl>div,#app .ctb h2,#app .ctb .w>div").forEach(n=>{n.classList.add("rv");RO.observe(n)});document.querySelectorAll("#app .tile,#app .g>.pc,#app .story").forEach(n=>{n.classList.add("rvp");RO.observe(n)})}
 addEventListener("hashchange",nav);
 // first visit to home: let the browser paint the loader before the first page is built (that build is the long first frame)
-if(document.documentElement.classList.contains("lo"))gl();else addEventListener("load",()=>{const ri=window.requestIdleCallback;ri?ri(gl,{timeout:1500}):setTimeout(gl,300)});
-{let g=0;const go=()=>{if(g++)return;draw();ready();setTimeout(warm,document.documentElement.classList.contains("ld")?2100:400)};if(document.documentElement.classList.contains("lo")){requestAnimationFrame(()=>setTimeout(go));setTimeout(go,120)}else go()}
+if(document.documentElement.classList.contains("lo"))gl();else addEventListener("load",()=>{const ri=window.requestIdleCallback;ri?ri(gl,{timeout:1500}):setTimeout(gl,300);ri?ri(h3l,{timeout:2000}):setTimeout(h3l,600)});
+{let g=0;const go=()=>{if(g++)return;draw();ready();if(document.documentElement.classList.contains("lo"))h3l();setTimeout(warm,document.documentElement.classList.contains("ld")?2100:400)};if(document.documentElement.classList.contains("lo")){requestAnimationFrame(()=>setTimeout(go));setTimeout(go,120)}else go()}
 </script>
 </body>
 </html>
