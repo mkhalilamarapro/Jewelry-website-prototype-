@@ -24,6 +24,7 @@ Hard constraints
 | QA & Front-end Engineer | Bugs, accessibility, performance, responsive audit | Audit only |
 | Mobile & Responsive Lead | Phone and tablet experience on every route: layout, touch, gestures, forms, 3D on touch | Audit only |
 | Motion Director | Motion design: choreography, curves, timing, both themes | Audit only |
+| Senior Mobile Web Specialist | 20+ years of mobile web: iPhone (Safari/WebKit) and Android (Chrome) responsiveness, touch, keyboards, safe areas | Audit only |
 | AI Product Photographer | Art direction, prompts and quality control for generated product photos | Audit only |
 
 Why only one writer: the whole site is a single file, so parallel edits would conflict. Specialists audit in
@@ -351,6 +352,39 @@ These are the client's complaints and what was done about each.
 12. The « Voir toute la boutique » cell's hairline was misaligned.
 
 **Checks:** no page errors and no overflow on any route at 320, 390, 820 and 1440 px. Reduced motion is clean. Tests: 16/16.
+
+## Mobile pass, iPhone and Android (requested 2026-11-05): done
+- **Team:** a new Senior Mobile Web Specialist audited every route.
+- **Engines:** WebKit (Safari's engine) for the iPhones and iPad; real Chrome for Android.
+- **Devices:** iPhone SE, 13 and 15 Pro Max, Pixel 7, Galaxy S8, a 320 px phone, landscape phones and iPad Mini, in both themes, on first and return visits.
+- **Result:** 17 findings, all fixed.
+
+**Cover**
+- The 3D band now fits above the fold together with the title and the « Découvrir la boutique » button on every phone (measured on all of the above). The camera fills the band.
+- Landscape: the header no longer cuts « Accueil » or wraps, and the button is on screen.
+- On iOS there is no clip-path animation over the WebGL layer.
+- A vh fallback covers iOS before 15.4.
+
+**Forms**
+- The configurator's sticky header and preview step aside while a field is focused or the keyboard is open.
+- On short screens the preview is smaller.
+- The date can't be in the past.
+- iOS input styling has been reset.
+- The drop zone's text adapts to touch.
+
+**Layout**
+- Cart rows reflow at 320–480 px.
+- On small phones the product title and price stay above the sticky buy button.
+- « Pièces phares » captions stack on phones.
+- The footer has a safe-area inset.
+- Footer and logo targets are 44 px.
+- The nav scroller brings the current page into view.
+
+**Performance:** no backdrop blur on phone price chips. On phones the photo shows after 2.5 s if the 3D is late.
+
+**Verified:** no overflow and no errors anywhere. The 3D draws in WebKit (checked by pixel readback; WebKit screenshots show the canvas black). Tests pass 16/16.
+
+**Still needs a real device:** the iOS virtual keyboard behaviour, native date and select controls, and Low Power Mode. The lead cut-out is limited by its source photo (530 px wide), so a sharper original photo would help.
 
 ## Next actions (need the owner)
 - Run `npm install && npm run test:install && npm test` on a machine with Node.
