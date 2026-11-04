@@ -321,6 +321,37 @@ These are the client's complaints and what was done about each.
 
 **Needs the owner:** confirm the lead piece's name, « Collier médaillon et joncs ».
 
+## Client review 2026-11-04: crops, luxury motion, QA bug hunt, done
+**Collection tiles**
+- Each photo is cropped on its jewel; the earrings had been cut through in the wide tile.
+- Tiles now have one slow fade and a slow, subtle hover.
+
+**Motion: calmer and more luxurious (Motion Director)**
+- Product cards use « la révélation »: the photo fades in while settling from 1.04, then the name follows. The same motion is used in the shop, the filters, « Vous aimerez aussi » and « Pièces phares ».
+- Hover is a slow zoom with a gold underline under the name.
+- Removed as amateur:
+  - the clip-path aperture reveals;
+  - the gold glint across the hero;
+  - the spinning theme icon;
+  - the floating and tilting cut-outs.
+- Reveals commit their hidden start state instantly, so items already on screen fade in rather than appearing at once.
+
+**QA bug hunt: 12 bugs, all fixed and verified with QA's repro steps**
+1. The story photo covered its own text from 761 to 1440 px.
+2. The skip link went to the home page.
+3. A second « − » press in the cart removed from the next product.
+4. The cart form lost what the visitor had typed.
+5. The configurator form showed the browser popup instead of the site's message.
+6. Accents were offset in the serif titles. That is the Cormorant family's rendering, so headings now use EB Garamond.
+7. The lead cut-out had hard edges; it now fades out softly.
+8. The rose ring cut-out was too small and soft.
+9. Clicking the logo while already on home did nothing.
+10. A direct link to `#why` or `#contact` played the home loader off-screen.
+11. SplitText warned that it ran before the fonts had loaded.
+12. The « Voir toute la boutique » cell's hairline was misaligned.
+
+**Checks:** no page errors and no overflow on any route at 320, 390, 820 and 1440 px. Reduced motion is clean. Tests: 16/16.
+
 ## Next actions (need the owner)
 - Run `npm install && npm run test:install && npm test` on a machine with Node.
 - Decide whether to move the seven photos to `img/*.webp` files.
