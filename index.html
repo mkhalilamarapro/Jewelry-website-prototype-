@@ -52,7 +52,7 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var
 .tile:first-child{grid-row:span 2}.tile:last-child{grid-column:span 2}
 @media(max-width:640px){.tiles{grid-template-columns:1fr;grid-auto-rows:auto}.tile:first-child,.tile:last-child{grid-row:auto;grid-column:auto}}
 .tile{position:relative;overflow:hidden;background:var(--sf)}@media(max-width:640px){.tile{aspect-ratio:4/3}}
-.tile img{height:100%;object-fit:cover;transition:transform 1.4s var(--eo)}@media(hover:hover){.tile:hover img{transform:scale(1.03)}}
+.tile img{height:100%;object-fit:cover;transition:transform 2.4s var(--eo)}@media(hover:hover){.tile:hover img{transform:scale(1.025)}}
 .tile::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.55),transparent 45%)}
 .tile div{position:absolute;left:clamp(18px,2.4vw,32px);right:18px;bottom:clamp(16px,2vw,28px);z-index:2;color:#f4f0e8;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
 .tile h3{font-size:clamp(1.8rem,3vw,2.6rem)}.tile span{font-size:1rem;color:#e6e0d4;white-space:nowrap}
@@ -60,8 +60,8 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var
 .g.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g.few{grid-template-columns:repeat(4,minmax(0,1fr))}
 @media(max-width:1000px){.g,.g.few{grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 16px}}@media(max-width:700px){.g,.g.g3,.g.few{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 12px}.pi{padding-top:10px;font-size:.9rem}.sh{padding-top:24px}}
 .pm{display:block;overflow:hidden;background:var(--sf)}
-.pc img{aspect-ratio:1;object-fit:cover;transition:transform 1.4s var(--eo)}@media(hover:hover){.pc:hover img{transform:scale(1.03)}}
-.pi{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;padding:12px 0 0;font-size:.95rem;line-height:1.35;letter-spacing:.01em;color:var(--tx)}.pc:hover .pi span:first-child{color:var(--gd)}
+.pc img{aspect-ratio:1;object-fit:cover;transition:transform 2.2s var(--eo)}
+.pi{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;padding:12px 0 0;font-size:.95rem;line-height:1.35;letter-spacing:.01em;color:var(--tx)}
 .pr{color:var(--tx);font-weight:400;white-space:nowrap;font-variant-numeric:lining-nums tabular-nums}
 .story{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);align-items:center;margin-top:var(--gap);background:var(--sf)}
 .story img{height:100%;min-height:420px;object-fit:cover;object-position:75% 50%}
@@ -180,18 +180,27 @@ header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;po
 @keyframes fi{from{opacity:0}}@keyframes fo{to{opacity:0}}@keyframes up{from{opacity:0;transform:translateY(14px)}}@keyframes uv{from{clip-path:inset(7%)}to{clip-path:inset(0)}}@keyframes zo{from{transform:scale(1.08)}}
 /* the light pass: a wide soft band in overlay blend lifts only what is already bright (the gold) and leaves the black ground black */
 .hi::after{content:"";position:absolute;inset:0 -60%;z-index:1;pointer-events:none;opacity:0;mix-blend-mode:overlay;background:linear-gradient(100deg,transparent 36%,rgba(255,232,190,.35) 45%,rgba(255,244,222,.7) 50%,rgba(255,232,190,.35) 55%,transparent 64%)}
-.go .hi::after{animation:sh 1.8s var(--eio) .9s backwards}@keyframes sh{0%{opacity:0;transform:translateX(-55%)}25%,75%{opacity:1}100%{opacity:0;transform:translateX(55%)}}
+@keyframes sh{0%{opacity:0;transform:translateX(-55%)}25%,75%{opacity:1}100%{opacity:0;transform:translateX(55%)}}
 /* theme: one cross-fade of every surface (a view transition) */
 html.vth::view-transition-old(*),html.vth::view-transition-new(*){animation-duration:.4s;animation-timing-function:var(--eio)}@media(max-width:700px){html.vth::view-transition-old(*),html.vth::view-transition-new(*){animation-duration:.36s}}
 .nt *,.nt *::before,.nt *::after{transition:none!important}
 /* scroll: photos open from the centre and settle from a slight zoom (scale, so hover keeps transform) */
-.rvp{clip-path:inset(7%);opacity:0;transition:clip-path 1.2s var(--eio) calc(var(--i,0)*90ms),opacity .12s var(--eo) calc(var(--i,0)*90ms)}.rvp.in,.rvp:focus-within{clip-path:inset(-8px);opacity:1}
-.rvp img{scale:1.06;transition:scale 1.8s var(--eo) calc(var(--i,0)*90ms),transform 1.4s var(--eo)}.rvp.in img{scale:1}
-.pm{transition:transform .2s var(--eo)}.pc:active .pm{transform:scale(.985)}.tg{transition:color .2s,transform .6s var(--eio)}:root[data-theme="light"] .tg{transform:rotate(180deg)}
+/* tiles and the story photo: one calm fade. Product cards « la révélation »: the photo fades in while settling from 1.04, the name follows */
+.rvn,.rvn *{transition:none!important}
+.rvf{opacity:0;transition:opacity 1.4s var(--eo) calc(var(--i,0)*140ms)}.rvf.in,.rvf:focus-within{opacity:1}
+.rvc{--d:calc(var(--i,0)*90ms)}@media(max-width:700px){.rvc{--d:calc(min(var(--i,0),3)*60ms)}}
+.rvc :is(.pm,.pv){opacity:0;transition:opacity 1.1s var(--eo) var(--d)}
+.rvc :is(.pm img,.po){scale:1.04;transition:scale 1.8s var(--eo) var(--d),transform 2.2s var(--eo)}
+.rvc :is(.pi,.phi){opacity:0;transform:translateY(6px);transition:opacity .9s var(--eo) calc(var(--d) + .2s),transform .9s var(--eo) calc(var(--d) + .2s)}
+.rvc.in :is(.pm,.pv,.pi,.phi),.rvc:focus-within :is(.pm,.pv,.pi,.phi){opacity:1;transform:none}.rvc.in :is(.pm img,.po),.rvc:focus-within :is(.pm img,.po){scale:1}
+.pi span{background:linear-gradient(var(--gd),var(--gd)) 0 100%/0 1px no-repeat;transition:background-size .8s var(--eo)}
+@media(hover:hover){.pc:hover img{transform:scale(1.04)}.pc:hover .pi span,.pc:focus-visible .pi span{background-size:100% 1px}}
+
+.tg{transition:color .2s}
 .cartb{position:relative}.cartb::after{content:"";position:absolute;left:16px;right:16px;bottom:5px;height:1px;background:var(--gd);opacity:0;transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
 /* phones: shorter distances and durations, no zoom on reveals */
-@media(max-width:700px){.rv{transform:translateY(10px);transition:opacity .6s var(--eo),transform .7s var(--eo);transition-delay:calc(min(var(--i,0),3)*50ms)}.rvp{transition:clip-path .9s var(--eio) calc(min(var(--i,0),3)*60ms),opacity .12s var(--eo) calc(min(var(--i,0),3)*60ms)}.rvp img{scale:1}.cartb::after{left:12px;right:12px}}
-@media(prefers-reduced-motion:reduce){.rvp{clip-path:none;opacity:1}.rvp img{scale:1}}
+@media(max-width:700px){.rv{transform:translateY(10px);transition:opacity .6s var(--eo),transform .7s var(--eo);transition-delay:calc(min(var(--i,0),3)*50ms)}.cartb::after{left:12px;right:12px}}
+
 /* ---------- boutique: price on the photo (frosted chip), trust row icons, shop rhythm ---------- */
 :root{--ch:rgba(10,8,5,.6);--chb:rgba(10,8,5,.82);--chx:#f4f0e8;--chl:rgba(255,255,255,.14)}
 :root[data-theme="light"]{--ch:rgba(246,242,234,.76);--chb:rgba(246,242,234,.92);--chx:#17140f;--chl:rgba(23,20,15,.1)}
@@ -219,7 +228,7 @@ html.vth::view-transition-old(*),html.vth::view-transition-new(*){animation-dura
 #lo .ls{position:absolute;left:50%;top:2px;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:radial-gradient(#fff8e6,transparent 70%);opacity:0}
 @media(max-width:700px){#lo .lr{width:56px;height:56px}#lo .ll b{filter:blur(2.5px)}#lo .ll .lk{filter:none}}
 @media(max-width:400px){#lo .ll{letter-spacing:.16em}}
-@media print{.rv,.rvp{opacity:1!important;transform:none!important;clip-path:none!important}}
+@media print{.rv,.rvf,.rvc :is(.pm,.pv,.pi,.phi){opacity:1!important;transform:none!important;clip-path:none!important}}
 .hx h1 .hl{display:block;overflow:clip;padding:.32em .16em .26em;margin:-.32em -.16em -.26em}.hx h1 .hl>span{display:block}  /* the hero title's two lines, each in its own mask (static markup: nothing to split or revert) */
 /* « le relief »: the 3D canvas lies over the photo; the photo shows until the 3D is drawn, and comes back if it can't keep up */
 .hi>canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0;display:block}
@@ -243,12 +252,11 @@ html.vth::view-transition-old(*),html.vth::view-transition-new(*){animation-dura
 .pv{position:relative;aspect-ratio:1/1;overflow:hidden;isolation:isolate;perspective:900px;background:radial-gradient(60% 45% at 50% 80%,color-mix(in srgb,var(--gd) 12%,var(--bg)) 0%,var(--bg) 72%)}
 .pv::after{content:"";position:absolute;left:24%;right:24%;bottom:8%;height:5%;border-radius:50%;background:radial-gradient(closest-side,rgba(40,28,15,.28),transparent);z-index:-1;transition:transform .9s var(--eo),opacity .9s var(--eo)}
 :root:not([data-theme="light"]) .pv::after{background:radial-gradient(closest-side,rgba(0,0,0,.75),transparent)}
-.po{position:absolute;inset:8% 10% 14%;width:80%;height:78%;object-fit:contain;object-position:50% 100%;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .6s var(--eo);filter:drop-shadow(0 18px 22px rgba(40,28,15,.18))}
+.po{position:absolute;inset:8% 10% 14%;width:80%;height:78%;object-fit:contain;object-position:50% 100%;transition:transform 2.2s var(--eo);filter:drop-shadow(0 18px 22px rgba(40,28,15,.18))}
 :root:not([data-theme="light"]) .po{filter:drop-shadow(0 18px 26px rgba(0,0,0,.6))}
-@media(prefers-reduced-motion:no-preference){.pv.pon .po{animation:pf 7s ease-in-out infinite}.phc:nth-child(3) .pv.pon .po{animation-duration:8.2s;animation-delay:-2s}.phc:nth-child(4) .pv.pon .po{animation-duration:7.6s;animation-delay:-4s}
-.pv.ptl .po{animation-play-state:paused}}
-@keyframes pf{0%,100%{translate:0 0;rotate:0deg}50%{translate:0 -6px;rotate:-.5deg}}
-@media(hover:hover){.phc:hover .po,.phf:hover .po{scale:1.03}.po{transition:transform .6s var(--eo),scale .9s var(--eo)}}
+
+
+@media(hover:hover){.phc:hover .po,.phf:hover .po{transform:scale(1.03)}}
 .phi{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:14px 0 0;border-top:1px solid color-mix(in srgb,var(--ln) 40%,transparent);margin-top:12px}
 .phi h3{font-size:clamp(1.15rem,1.5vw,1.4rem);font-weight:400}.phi span{font-size:.9rem;color:var(--mu);white-space:nowrap}.phf .phi span{color:var(--gd)}
 .phm{display:flex;align-items:flex-end;padding:0;color:var(--mu);transition:color .2s}.phm>span{flex:1;margin-top:12px;padding-top:14px;border-top:1px solid color-mix(in srgb,var(--ln) 40%,transparent)}.phm i{font-style:normal}.phm:hover{color:var(--tx)}
@@ -322,6 +330,8 @@ const $=s=>document.querySelector(s),pf=id=>P.find(x=>x.id==id),fm=n=>n.toLocale
 const cnt=()=>Object.values(cart).reduce((a,b)=>a+ +b,0);
 function theme(t){const r=document.documentElement,l=t=="light";r.dataset.theme=t;if(H3){H3.o.setTheme(t);if(!H3.run)H3.o.render()}const b=$(".tg");if(b)b.setAttribute("aria-pressed",l);const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=l?"#f6f2ea":"#000000";const p=[];document.querySelectorAll("img[data-k]").forEach(i=>{const u=src(i.dataset.k);if(i.getAttribute("src")!=u){i.src=u;if(i.decode&&i.loading!="lazy")p.push(i.decode().catch(()=>{}))}});return Promise.race([Promise.all(p),new Promise(r=>setTimeout(r,200))])}
 // light-mode variants: the black hero becomes the collar on the cream ground
+// each collection tile is cropped on its jewel (the photos are 4:5 portraits in landscape and portrait tiles)
+const TPOS={rings:"50% 28%",hoops:"50% 36%",bangles:"50% 55%",bust:"50% 32%"};
 const HL={bust:"herol"},src=k=>IM[document.documentElement.dataset.theme=="light"&&HL[k]||k]
 function tg(){const d=document.documentElement,t=d.dataset.theme=="light"?"dark":"light",s=()=>{try{sessionStorage.setItem("zt",t)}catch(e){}return theme(t)},end=()=>requestAnimationFrame(()=>requestAnimationFrame(()=>d.classList.remove("nt","vth")));d.classList.add("nt");if(VT&&!RM()){d.classList.add("vth");const v=document.startViewTransition(s);tg.v=v;v.ready.catch(()=>{});v.finished.catch(()=>{}).then(()=>{if(tg.v===v)end()})}else{s();end()}}
 {const q=matchMedia("(prefers-color-scheme:light)");let t=null;try{t=sessionStorage.getItem("zt")}catch(e){}theme(t||(q.matches?"light":"dark"));
@@ -331,7 +341,7 @@ function card(x){return `<a class="pc" href="#p-${x.id}" aria-label="${x.n}, ${f
 function home(){const ft=["collier-ras-du-cou","bracelets-perles","bague-or-rose"].map(pf);
 const nb=k=>{const n=P.filter(x=>x.c==k).length;return n+(n>1?" modèles":" modèle")};
 return `<section class="hero"><figure class="hi"><img data-k="bust" src="${src("bust")}" alt="Collier en or présenté sur un buste"></figure><div class="hx"><h1><span class="hl"><span>L’éclat de l’or,</span></span> <em class="hl"><span>l’art du détail</span></em></h1><p>Bijouterie Zied &amp; Nihel Zayeti : bagues, alliances, colliers et bracelets pour les moments qui comptent.</p><div class="bt"><a class="btn" href="#shop">Découvrir la boutique</a><a class="btn o" href="https://wa.me/${WA}?text=${encodeURIComponent("Bonjour, je souhaite prendre rendez-vous en boutique.")}" target="_blank" rel="noopener">Prendre rendez-vous</a></div></div></section>
-<div class="w"><section class="sec"><div class="t"><span class="ey">Collections</span><h2>Nos collections</h2><p>Choisissez une famille de bijoux</p></div><div class="tiles">${Object.keys(COV).map(k=>`<a class="tile" href="#c-${k}"><img loading="lazy" data-k="${COV[k]}" src="${src(COV[k])}" alt="${CATS[k]}"><div><h3>${CATS[k]}</h3><span>${nb(k)}</span></div></a>`).join("")}</div></section>
+<div class="w"><section class="sec"><div class="t"><span class="ey">Collections</span><h2>Nos collections</h2><p>Choisissez une famille de bijoux</p></div><div class="tiles">${Object.keys(COV).map(k=>`<a class="tile" href="#c-${k}"><img loading="lazy" data-k="${COV[k]}" src="${src(COV[k])}" style="object-position:${TPOS[COV[k]]||"50% 50%"}" alt="${CATS[k]}"><div><h3>${CATS[k]}</h3><span>${nb(k)}</span></div></a>`).join("")}</div></section>
 <section class="sec ph"><div class="t"><span class="ey">Sélection</span><h2>Pièces <em>phares</em></h2></div>
 <div class="phg"><a class="phf" href="https://wa.me/${WA}?text=${encodeURIComponent("Bonjour, je souhaite des informations sur le collier médaillon.")}" target="_blank" rel="noopener"><div class="pv"><img class="po" src="${IM.xbust}" alt="Collier médaillon en or et joncs assortis"></div><div class="phi"><h3>Collier médaillon et joncs</h3><span>Demander ce modèle</span></div></a>
 ${ft.map(x=>`<a class="phc" href="#p-${x.id}" aria-label="${x.n}, ${fm(x.p)}"><div class="pv"><img class="po" loading="lazy" src="${IM["x"+x.k]}" alt=""></div><div class="phi"><h3>${x.n}</h3><span>${fm(x.p)}</span></div></a>`).join("")}
@@ -663,7 +673,6 @@ const fx=(n,k,o)=>{if(!n||!n.animate||RM())return null;if(PH())o=Object.assign({
 const rk=h=>h.startsWith("p-")?h:h=="shop"||h.startsWith("c-")?"shop":h=="cart"||h=="custom"?h:"home";
 // a photo opens from the centre with a brief fade (nothing pops); when it sits in a clipping frame its image also settles from a slight zoom
 function veil(n,d,du){if(!n)return;du=du||1000;fx(n,[{clipPath:"inset(7%)"},{clipPath:"inset(0)"}],{duration:du,delay:d,easing:PH()?EO:EIO,fill:"backwards"});fx(n,[{opacity:0},{opacity:1}],{duration:120,delay:d,fill:"backwards"});if(n.tagName!="IMG"&&!PH())fx(n.querySelector("img"),[{transform:"scale(1.06)"},{transform:"none"}],{duration:du+500,delay:d,fill:"backwards"})}
-function cards(d,s){const m=PH()?3:5;document.querySelectorAll("#app .g>.pc").forEach((c,i)=>{const t=d+Math.min(i,m)*s;veil(c.querySelector(".pm"),t,900);fx(c.querySelector(".pi"),UP(8),{duration:700,delay:t+150,fill:"backwards"});fx(c.querySelector(".pm .pr"),[{opacity:0},{opacity:1}],{duration:400,delay:t+420,fill:"backwards"})})}
 // ---------- GSAP « le fil d'or »: headings rise from a hairline mask. Progressive: the site is complete without it ----------
 let G=0,MM=null;const GIO=[];const ok=()=>G&&!RM()&&!!window.gsap,RMQ="(prefers-reduced-motion:no-preference)";
 function gl(){if(RM()||gl.d)return;gl.d=1;let k=0;["gsap","ScrollTrigger","SplitText"].forEach(f=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/"+f+".min.js";s.async=false;
@@ -676,7 +685,7 @@ function gx(n){if(!ok()||gx.done===gx.p)return;gx.done=gx.p;gm().add(RMQ,()=>{if
 const w=r||h.parentNode,sb=r&&r!=h?[...r.children].filter(c=>c!=h):[];
 SPL(h,s=>{const t=gsap.timeline({paused:true,onComplete:()=>s.revert()}),io=new IntersectionObserver(e=>{if(e[0].isIntersecting){io.disconnect();t.play()}},{rootMargin:"0px 0px -12% 0px"});io.observe(w);GIO.push(io);t.from(s.lines,{yPercent:140,duration:PH()?.9:1.15,stagger:.09,ease:"power3.out"});if(sb.length)t.from(sb,{opacity:0,y:PH()?10:14,duration:.8,stagger:.08,ease:"power2.out"},.2);return t})})});
 gm().add("(min-width:821px) and (hover:hover) and (pointer:fine) and "+RMQ,()=>{if(!$("#app .hero"))return;const st=()=>({trigger:"#app .hero",start:0,end:"bottom top",scrub:.5});
-gsap.to("#app .hx",{y:-32,opacity:.2,ease:"none",scrollTrigger:st()})})}
+gsap.to("#app .hx",{y:-20,opacity:.5,ease:"none",scrollTrigger:st()})})}
 // a page title rising line by line (hero intro, product); returns false when GSAP isn't there, so the caller keeps its WAAPI/CSS path
 function gH(h,d){if(!ok()||!h)return false;try{const v={yPercent:140,duration:PH()?1:1.3,delay:d,stagger:.12,ease:"power3.out"},m=h.querySelectorAll(".hl>span");gm().add(RMQ,()=>{if(m.length)gsap.from(m,v);else SPL(h,s=>gsap.from(s.lines,Object.assign({onComplete:()=>s.revert()},v)))});return true}catch(e){return false}}
 // a label swap that keeps the button's width (no layout jump) and lets the new word rise in
@@ -695,8 +704,8 @@ if(k=="shop")q("#app .w>.t,#app .fl").forEach((n,i)=>fx(n,UP(10),{duration:420,d
 else if(k=="home"){veil($("#app .hi"),0,1000);h3go(.06);const g=gH($("#app .hx h1"),.06);q("#app .hx>*").forEach((n,i)=>{if(!(g&&!i))fx(n,UP(12),{duration:620,delay:(g?260:80)+i*70,fill:"backwards"})})}
 else if(!k.startsWith("p-"))fx(a.firstElementChild,k=="custom"?[{opacity:0},{opacity:1}]:UP(10),{duration:380})};o.finished.then(go,go);setTimeout(go,250)}
 function enter(e,h){const a=$("#app"),k=rk(h),nw=k!=RK,em=!!$("#app .empty");RK=k;
-if(nw){a.classList.remove("go","gi");if(k=="custom")R3IN=1;if(e){if(k=="shop")cards(80,60);if(k.startsWith("p-")){veil($("#app .pd>img"),0,900);const g=gH($("#app .pd h1"),.1);document.querySelectorAll("#app .pd>div>*"+(PH()?":not(.btn:not(.o))":"")+(g?":not(h1)":"")).forEach((c,i)=>fx(c,[{opacity:0},{opacity:1}],{duration:500,delay:60+Math.min(i,6)*30,fill:"backwards"}))}}}
-else if(k=="shop"&&e)cards(0,50);
+if(nw){a.classList.remove("go","gi");if(k=="custom")R3IN=1;if(e){if(k.startsWith("p-")){veil($("#app .pd>img"),0,900);const g=gH($("#app .pd h1"),.1);document.querySelectorAll("#app .pd>div>*"+(PH()?":not(.btn:not(.o))":"")+(g?":not(h1)":"")).forEach((c,i)=>fx(c,[{opacity:0},{opacity:1}],{duration:500,delay:60+Math.min(i,6)*30,fill:"backwards"}))}}}
+
 if(em&&!enter.em&&!nw)[...$("#app .empty").children].forEach((c,i)=>fx(c,UP(14),{duration:700,delay:i*70,fill:"backwards"}));enter.em=em}
 // first visit: start the intro only once the page can paint it (fonts + hero decoded, then two frames), never later than 450 ms; the loader hands over to it
 function ready(){const d=document.documentElement;if(!d.classList.contains("ld"))return;const i=$(".hi img");let k=0;
@@ -795,19 +804,17 @@ function h3o(){const H=H3;try{sessionStorage.h3off=1}catch(e){}H.run=0;cancelAni
 addEventListener("scroll",h3sc,{passive:true});document.addEventListener("visibilitychange",h3p);
 addEventListener("pointermove",e=>{const H=H3;if(!H||!H.run||e.pointerType!="mouse"||!matchMedia(FP).matches)return;const b=H.el.getBoundingClientRect();H.tx=Math.max(-1,Math.min(1,(e.clientX-b.left)/b.width*2-1));H.ty=Math.max(-1,Math.min(1,(e.clientY-b.top)/b.height*2-1))},{passive:true});
 DE.addEventListener("mouseleave",()=>{if(H3)H3.tx=H3.ty=0});
-// « Pièces phares »: each cut-out floats; on a mouse it tilts toward the pointer (≤6°); paused off-screen
-{const io=window.IntersectionObserver&&new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle("pon",e.isIntersecting)),{rootMargin:"60px"});
-document.addEventListener("pointermove",e=>{if(e.pointerType!="mouse"||RM())return;const v=e.target.closest&&e.target.closest(".pv");document.querySelectorAll(".pv.ptl").forEach(x=>{if(x!=v){x.classList.remove("ptl");x.style.setProperty("--rx","0deg");x.style.setProperty("--ry","0deg")}});
-if(!v)return;const b=v.getBoundingClientRect(),x=(e.clientX-b.left)/b.width*2-1,y=(e.clientY-b.top)/b.height*2-1,k=v.parentNode.classList.contains("phf")?6:4;v.classList.add("ptl");v.style.setProperty("--rx",(-y*k).toFixed(2)+"deg");v.style.setProperty("--ry",(x*k).toFixed(2)+"deg")},{passive:true});
-addEventListener("hashchange",()=>setTimeout(pobs,0));function pobs(){if(io)document.querySelectorAll("#app .pv").forEach(n=>io.observe(n))}window.pobs=pobs}
 function draw(e){if(R3)R3.on=false;gk();if(H3||h3g.o||h3g.r)h3d(location.hash.slice(1)=="custom");const ae=document.activeElement,af=ae&&ae.dataset&&ae.dataset.f;const h=location.hash.slice(1);if(h=="shop")f="tous";else if(h.startsWith("c-"))f=CATS[h.slice(2)]?h.slice(2):"tous";if(h!="cart")ORD="";
 $("#app").innerHTML=h.startsWith("p-")?prod(h.slice(2)):h=="cart"?cartv():h=="custom"?custom():h=="admin"?admin():(h=="shop"||h.startsWith("c-"))?shop():home();if($("#app .hero"))H3?h3m(1):h3l();upd();reveal();if(window.pobs)pobs();{const n=rk(h)!=RK;gx.p=(gx.p||0)+1;clearTimeout(gx.t);{const m=n||gx.n;gx.n=m;gx.t=setTimeout(()=>{gx.n=0;try{gx(m)}catch(x){}},m?450:60)}}enter(e,h);const px=h.startsWith("p-")&&pf(h.slice(2));document.title=(px?px.n+" · ":h=="shop"||h.startsWith("c-")?(f=="tous"?"La boutique":CATS[f])+" · ":h=="cart"?"Mon panier · ":h=="custom"?"Créez votre pièce · ":h=="admin"?"Demandes sur mesure · ":"")+"Bijouterie Zied & Nihel Zayeti";
 document.querySelectorAll(".l a").forEach(a=>{const t=a.getAttribute("href").slice(1),on=t==(h||"home")||t=="shop"&&(h.startsWith("c-")||h.startsWith("p-"));if(on)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});if(af){const n=document.querySelector('[data-f="'+af+'"]');if(n)n.focus({preventScroll:true})}
 const el=(h=="why"||h=="contact")&&$("#"+h);if(el)el.scrollIntoView();else if(e)window.scrollTo(0,0)}
 let RO=null;
-function reveal(){if(RO)RO.disconnect();if(!window.IntersectionObserver||RM()||!$(".hero"))return;
+function reveal(){if(RO)RO.disconnect();if(!window.IntersectionObserver||RM())return;const hm=!!$(".hero");
 RO=new IntersectionObserver(es=>{let j=0;es.forEach(e=>{if(e.isIntersecting){e.target.style.setProperty("--i",Math.min(j++,4));e.target.classList.add("in");RO.unobserve(e.target)}})},{rootMargin:"0px 0px -10% 0px"});
-document.querySelectorAll(ok()?"#app .wl>li,#app .ctb .w>div":"#app .sec .t,#app .why h2,#app .wl>li,#app .ctb h2,#app .ctb .w>div").forEach(n=>{n.classList.add("rv");RO.observe(n)});document.querySelectorAll("#app .tile,#app .g>.pc,#app .story,#app .phg>a").forEach(n=>{n.classList.add("rvp");RO.observe(n)})}
+if(hm){document.querySelectorAll(ok()?"#app .wl>li,#app .ctb .w>div":"#app .sec .t,#app .why h2,#app .wl>li,#app .ctb h2,#app .ctb .w>div").forEach(n=>{n.classList.add("rv","rvn");RO.observe(n)});document.querySelectorAll("#app .tile,#app .story").forEach(n=>{n.classList.add("rvf","rvn");RO.observe(n)})}
+document.querySelectorAll("#app .g>.pc,#app .phg>a").forEach(n=>{n.classList.add("rvc","rvn");RO.observe(n)});
+// the hidden start state is applied instantly (not transitioned from visible), then committed, so items already on screen still fade in
+void document.body.offsetWidth;document.querySelectorAll("#app .rvn").forEach(n=>n.classList.remove("rvn"))}
 addEventListener("hashchange",nav);
 // first visit to home: let the browser paint the loader before the first page is built (that build is the long first frame)
 if(document.documentElement.classList.contains("lo"))gl();else addEventListener("load",()=>{const ri=window.requestIdleCallback;ri?ri(gl,{timeout:1500}):setTimeout(gl,300);ri?ri(h3l,{timeout:2000}):setTimeout(h3l,600)});
