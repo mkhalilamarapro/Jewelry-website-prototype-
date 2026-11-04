@@ -291,6 +291,12 @@ footer{border-top:1px solid color-mix(in srgb,var(--ln) 45%,transparent);padding
 /* QA fixes */
 .phm>span{font-family:"EB Garamond",Georgia,serif;font-size:clamp(1.15rem,1.5vw,1.4rem);line-height:inherit;padding-bottom:0;margin-bottom:-.4em}
 @media(min-width:761px){.sm{width:100%;min-width:0;height:100%;min-height:420px;aspect-ratio:auto}}
+/* inspiration photo drop zone */
+.dz{display:flex;align-items:center;gap:16px;width:100%;padding:22px 20px;border:1px dashed color-mix(in srgb,var(--ln) 80%,transparent);background:transparent;color:var(--mu);font:inherit;text-align:left;cursor:pointer;transition:border-color .3s var(--eo),background .3s var(--eo),color .3s var(--eo)}
+.dz .ic{width:28px;height:28px;color:var(--gd);flex:none}.dz span{display:flex;flex-direction:column;gap:2px;font-size:.9rem}.dz b{font-weight:500;color:var(--tx);font-size:1rem}
+@media(hover:hover){.dz:hover{border-color:var(--gd);color:var(--tx)}}.dz.ov{border-color:var(--gd);border-style:solid;background:color-mix(in srgb,var(--gd) 8%,transparent)}
+.dzf{cursor:default;border-style:solid;padding:12px}.dzf img{width:72px;height:72px;object-fit:cover;flex:none}.dzf span{flex:1;min-width:0}.dzf b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dzx{background:none;border:0;color:var(--mu);font:inherit;font-size:.9rem;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:12px 4px;min-height:44px}.dzx:hover{color:var(--tx)}
 </style>
 <script>try{localStorage.removeItem("zt")}catch(e){}try{var d=document.documentElement,t=sessionStorage.getItem("zt")||(matchMedia("(prefers-color-scheme:light)").matches?"light":"dark");d.dataset.theme=t;var tc=document.querySelector('meta[name="theme-color"]');if(tc)tc.content=t=="light"?"#f6f2ea":"#000000"}catch(e){}try{if(!sessionStorage.zi){sessionStorage.zi=1;var c=document.documentElement.classList;c.add("ld");if(!/^#(custom|cart|admin|shop|c-|p-|why|contact)/.test(location.hash))c.add("lo")}}catch(e){}</script>
 </head>
@@ -320,6 +326,7 @@ const P=[
 // line icons (24px grid, currentColor), decorative only
 const SV=d=>`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`,IC={
 gem:SV('<path d="M6 9.5L9 5h6l3 4.5L12 19.5z"/><path d="M6 9.5h12M9 5l1.4 4.5L12 19.5l1.6-10L15 5"/>'),
+up:SV('<path d="M12 15V4M7.5 8.5L12 4l4.5 4.5"/><path d="M4 15v3.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V15"/>'),
 pen:SV('<path d="M5 19l1-4L15.6 5.4a1.7 1.7 0 0 1 2.4 0l.6.6a1.7 1.7 0 0 1 0 2.4L9 18z"/><path d="M14 7l3 3M5 19h14"/>'),
 wa:SV('<path d="M4.6 19.4l1.1-3.8a8 8 0 1 1 3 2.9z"/><path d="M9.3 8.7c.3-.6.9-.6 1.2-.2l.8 1.3c.2.4.1.8-.2 1.1l-.4.4c.5 1.1 1.3 1.9 2.4 2.4l.4-.4c.3-.3.7-.4 1.1-.2l1.3.8c.4.3.4.9-.2 1.2-.8.5-1.8.6-2.7.2a7 7 0 0 1-3.6-3.6c-.4-.9-.3-1.9.1-2.7z"/>')};
 const CATS={tous:"Tout voir",bagues:"Bagues",colliers:"Colliers",bracelets:"Bracelets",boucles:"Boucles d’oreilles"};
@@ -416,7 +423,7 @@ function det(){const p=C.pc,L=PSZ[p];return [["Pièce",PCS[p]],...FLD[p].filter(
 const msgC=()=>"Demande sur mesure\n"+det().map(a=>a[0]+" : "+a[1]).join("\n")+`\nNom : ${C.nm}\nTél : ${C.ph}`;
 const sw=(k,v)=>k=="m"?`<i class="sw" style="background:linear-gradient(135deg,${CO[v][0]},${CO[v][1]})"></i>`:k=="st"&&GM[v]?`<i class="sw gm" style="background:radial-gradient(circle at 35% 30%,${GM[v][0]},${GM[v][1]})"></i>`:"";
 function custom(){
-if(C.done)return `<div class="w"><div class="empty"><h1 style="font-size:2.4rem">Merci ${esc(C.nm)}</h1><p style="margin:12px 0 24px">${C.done=="saved"?"Votre demande est enregistrée. La bijouterie vous recontacte rapidement.":"Votre demande est prête. Envoyez-la par WhatsApp pour que la bijouterie la reçoive."}</p><a class="btn" href="https://wa.me/${WA}?text=${encodeURIComponent(msgC())}" target="_blank" rel="noopener">Envoyer aussi sur WhatsApp</a><button class="btn o" onclick="C.done='';draw()">Nouvelle demande</button></div></div>`;
+if(C.done)return `<div class="w"><div class="empty"><h1 style="font-size:2.4rem">Merci ${esc(C.nm)}</h1><p style="margin:12px 0 24px">${C.done=="saved"?"Votre demande est enregistrée. La bijouterie vous recontacte rapidement.":"Votre demande est prête. Envoyez-la par WhatsApp pour que la bijouterie la reçoive."}</p><a class="btn" href="https://wa.me/${WA}?text=${encodeURIComponent(msgC())}" target="_blank" rel="noopener">Envoyer aussi sur WhatsApp</a>${PHO?(navigator.canShare&&navigator.canShare({files:[PHO]})?`<button class="btn o" onclick="shareP()">Envoyer la photo d’inspiration</button>`:`<p class="nt" style="margin:14px auto 0;max-width:30em">Pensez à joindre votre photo d’inspiration dans la conversation WhatsApp.</p>`):""}<button class="btn o" onclick="C.done='';pho(null)">Nouvelle demande</button></div></div>`;
 fix();const opt=FLD[C.pc].map(k=>{const a=allow(k);return a?`<div class="cg" role="group" aria-labelledby="cl-${k}"><div class="cl" id="cl-${k}">${OPT[k].l}</div><div class="sz">${OPT[k].o.filter(v=>a.includes(v[0])).map(v=>`<button type="button" data-f="o-${k}-${v[0]}" aria-pressed="${C[k]==v[0]}" class="${C[k]==v[0]?"on":""}" onclick="pick('${k}','${v[0]}')">${sw(k,v[0])}${v[1]}</button>`).join("")}</div></div>`:""}).join("");
 setTimeout(mount3d,0);const L=PSZ[C.pc]||[],sl=SZN[C.pc],nm=C.pc=="collier"&&C.ct=="prenom";
 const vb=(v,t)=>`<button type="button" data-f="v-${v}" onclick="view('${v}')">${t}</button>`;
@@ -427,7 +434,8 @@ ${L.length?`<div class="cg"><div class="cl">${sl}</div><select aria-label="${sl}
 ${grav()?`<input placeholder="${nm?"Gravure : prénom du collier":"Gravure (prénoms, date…)"}" aria-label="${nm?"Prénom du collier":"Gravure"}" maxlength="${nm?14:30}" autocorrect="off" spellcheck="false" autocapitalize="words" value="${esc(C.gr)}" oninput="C.gr=this.value;sumUp();live(250)">`:""}
 <div class="cg"><div class="cl">Budget</div><select aria-label="Budget" onchange="C.bd=this.value">${BUD.map(v=>`<option${C.bd==v?" selected":""}>${v}</option>`).join("")}</select></div>
 <div class="cg"><div class="cl">Date souhaitée (facultatif)</div><input type="date" aria-label="Date souhaitée" value="${C.dt}" onchange="C.dt=this.value"></div>
-<input placeholder="Une idée, une photo d’inspiration ?" aria-label="Idée ou inspiration" maxlength="300" value="${esc(C.nt)}" oninput="C.nt=this.value">
+<div class="cg"><div class="cl">Photo d’inspiration (facultatif)</div><input type="file" id="phf" accept="image/*" hidden onchange="pho(this.files[0])">${PHU?`<div class="dz dzf"><img src="${PHU}" alt="Votre photo d’inspiration"><span><b>${esc(PHO.name)}</b>Elle accompagnera votre demande sur WhatsApp.</span><button type="button" class="dzx" data-f="dzx" onclick="pho(null)">Retirer</button></div>`:`<button type="button" class="dz" data-f="dz" onclick="document.getElementById('phf').click()" ondragover="event.preventDefault();this.classList.add('ov')" ondragleave="this.classList.remove('ov')" ondrop="event.preventDefault();this.classList.remove('ov');pho(event.dataTransfer.files[0])">${IC.up}<span><b>Déposez une photo d’inspiration</b>ou touchez pour en choisir une</span></button>`}<div id="dze" class="er" aria-live="polite"></div></div>
+<input placeholder="Votre idée en quelques mots (inspiration, occasion…)" aria-label="Idée ou inspiration" maxlength="300" value="${esc(C.nt)}" oninput="C.nt=this.value">
 <input placeholder="Nom complet" aria-label="Nom complet" required maxlength="80" autocomplete="name" autocapitalize="words" enterkeyhint="next" value="${esc(C.nm)}" oninput="C.nm=this.value;this.removeAttribute('aria-invalid')"><input type="tel" inputmode="tel" placeholder="Téléphone" aria-label="Téléphone" required maxlength="20" autocomplete="tel" value="${esc(C.ph)}" oninput="C.ph=this.value;this.removeAttribute('aria-invalid')">
 <div id="er" class="er" role="alert"></div><button class="btn">Envoyer ma demande</button></form></div></div>`}
 const STY={bague:"t",bracelet:"bs",boucles:"bt",collier:"ct"};
@@ -453,6 +461,10 @@ else if(p=="collier"){const D={"40 cm":70,"45 cm":84,"50 cm":98,"60 cm":118}[C.s
 if(N=="pendentif")d+=gm(100,46+D,11);else if(N=="medaillon")d+=`<circle cx="100" cy="${50+D}" r="18" fill="url(#rm)"/>`;else if(N=="prenom")d+=`<text x="100" y="${44+D}" text-anchor="middle" font-family="Great Vibes,Georgia,serif" font-size="30" fill="url(#rm)">${esc(C.gr||"Prénom")}</text>`}
 else d+=`<path d="M100 150C40 110 50 60 80 60C92 60 100 72 100 80C100 72 108 60 120 60C150 60 160 110 100 150Z" fill="url(#rm)"/>`+(g?gm(100,98,10):"");
 return `<svg viewBox="0 0 200 200" role="img" aria-label="Aperçu : ${PCS[p]}">${d}</svg>`}
+// inspiration photo: kept in memory only; WhatsApp links carry text, so the photo is shared from the thanks screen (phones) or attached by hand
+let PHO=null,PHU="";
+function pho(f){const ok=f&&/^image\//.test(f.type)&&f.size<15e6;if(f&&!ok){const e=$("#dze");if(e)e.textContent="Choisissez une image (JPG, PNG ou HEIC) de moins de 15 Mo.";return}if(PHU)URL.revokeObjectURL(PHU);PHO=ok?f:null;PHU=ok?URL.createObjectURL(f):"";draw()}
+function shareP(){if(PHO&&navigator.share)navigator.share({files:[PHO],text:msgC()}).catch(()=>{})}
 async function sendC(e){e.preventDefault();if(C.busy)return false;
 const nm=C.nm.trim().replace(/\s+/g," "),ph=C.ph.replace(/[\s.\-()]/g,""),er=$("#er");
 const bad=nm.length<2?["Veuillez saisir votre nom.",'input[placeholder="Nom complet"]']:!/^(\+|00)?\d{8,15}$/.test(ph)?["Numéro de téléphone invalide (8 à 15 chiffres, ex. +216 22 345 678).",'input[type=tel]']:null;
