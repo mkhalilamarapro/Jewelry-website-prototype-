@@ -715,14 +715,12 @@ s.onload=()=>{if(++k<3)return;try{gsap.registerPlugin(ScrollTrigger,SplitText);g
 // route change: drop the old page's animations and triggers (no revert: #app is about to be rewritten anyway)
 function gk(){H3S=0;GIO.splice(0).forEach(o=>o.disconnect());if(!G||!window.gsap)return;if(MM){MM.kill();MM=null}ScrollTrigger.getAll().forEach(t=>t.kill())}
 const gm=()=>MM||(MM=gsap.matchMedia()),SPL=(h,f)=>{const g=()=>h.isConnected&&f(SplitText.create(h,{type:"lines",mask:"lines",linesClass:"ln"}));return document.fonts&&document.fonts.status!="loaded"?document.fonts.ready.then(g):g()};  // split once (fonts are ready by then) and revert when played: no re-split on resize, no replay
-// per page: section titles (new route only) and the desktop hero parallax; skips anything already revealed or on screen
-function gx(n){if(!ok()||gx.done===gx.p)return;gx.done=gx.p;gm().add(RMQ,()=>{if($("#app .hero")){H3S=1;ScrollTrigger.create({trigger:"#app .hero",start:0,end:"bottom top",onUpdate:s=>{if(H3)H3.ts=s.progress},onKill:()=>{H3S=0}})}if(n)document.querySelectorAll("#app .sec .t h2,#app .pd~.t h2,#app .story h2,#app .why h2,#app .ctb h2").forEach(h=>{const r=h.closest(".rv");if(r&&r.classList.contains("in")||h.getBoundingClientRect().top<innerHeight)return;if(r){r.classList.remove("rv");if(RO)RO.unobserve(r)}
-const w=r||h.parentNode,sb=r&&r!=h?[...r.children].filter(c=>c!=h):[];
-SPL(h,s=>{const t=gsap.timeline({paused:true,onComplete:()=>s.revert()}),io=new IntersectionObserver(e=>{if(e[0].isIntersecting){io.disconnect();t.play()}},{rootMargin:"0px 0px -12% 0px"});io.observe(w);GIO.push(io);t.from(s.lines,{yPercent:140,duration:PH()?.9:1.15,stagger:.09,ease:"power3.out"});if(sb.length)t.from(sb,{opacity:0,y:PH()?10:14,duration:.8,stagger:.08,ease:"power2.out"},.2);return t})})});
+// per page: the hero's scroll response and the desktop hero parallax (section titles use the page's fade-up reveal)
+function gx(n){if(!ok()||gx.done===gx.p)return;gx.done=gx.p;gm().add(RMQ,()=>{if($("#app .hero")){H3S=1;ScrollTrigger.create({trigger:"#app .hero",start:0,end:"bottom top",onUpdate:s=>{if(H3)H3.ts=s.progress},onKill:()=>{H3S=0}})}});
 gm().add("(min-width:821px) and (hover:hover) and (pointer:fine) and "+RMQ,()=>{if(!$("#app .hero"))return;const st=()=>({trigger:"#app .hero",start:0,end:"bottom top",scrub:.5});
 gsap.to("#app .hx",{y:-20,opacity:.5,ease:"none",scrollTrigger:st()})})}
 // a page title rising line by line (hero intro, product); returns false when GSAP isn't there, so the caller keeps its WAAPI/CSS path
-function gH(h,d){if(!ok()||!h)return false;try{const v={yPercent:140,duration:PH()?1:1.3,delay:d,stagger:.12,ease:"power3.out"},m=h.querySelectorAll(".hl>span");gm().add(RMQ,()=>{if(m.length)gsap.from(m,v);else SPL(h,s=>gsap.from(s.lines,Object.assign({onComplete:()=>s.revert()},v)))});return true}catch(e){return false}}
+function gH(h,d){if(!ok()||!h||!h.querySelector(".hl"))return false;try{const v={yPercent:140,duration:PH()?1:1.3,delay:d,stagger:.12,ease:"power3.out"},m=h.querySelectorAll(".hl>span");gm().add(RMQ,()=>{if(m.length)gsap.from(m,v)});return true}catch(e){return false}}
 // a label swap that keeps the button's width (no layout jump) and lets the new word rise in
 function lb(b,t){if(!b)return;b.style.minWidth=b.offsetWidth+"px";b.innerHTML="<span></span>";b.firstChild.textContent=t;fx(b.firstChild,[{opacity:.35,transform:"translateY(4px)"},{opacity:1,transform:"none"}],{duration:360})}
 let RK="",R3IN=0;
@@ -850,7 +848,7 @@ const el=(h=="why"||h=="contact")&&$("#"+h);if(el)el.scrollIntoView();else if(e)
 let RO=null;
 function reveal(){if(RO)RO.disconnect();if(!window.IntersectionObserver||RM())return;const hm=!!$(".hero");
 RO=new IntersectionObserver(es=>{let j=0;es.forEach(e=>{if(e.isIntersecting){e.target.style.setProperty("--i",Math.min(j++,4));e.target.classList.add("in");RO.unobserve(e.target)}})},{rootMargin:"0px 0px -10% 0px"});
-if(hm){document.querySelectorAll(ok()?"#app .wl>li,#app .ctb .w>div":"#app .sec .t,#app .why h2,#app .wl>li,#app .ctb h2,#app .ctb .w>div").forEach(n=>{n.classList.add("rv","rvn");RO.observe(n)});document.querySelectorAll("#app .tile,#app .story").forEach(n=>{n.classList.add("rvf","rvn");RO.observe(n)})}
+if(hm){document.querySelectorAll("#app .sec .t,#app .why .ey,#app .why h2,#app .wl>li,#app .ctb h2,#app .ctb .w>div").forEach(n=>{n.classList.add("rv","rvn");RO.observe(n)});document.querySelectorAll("#app .tile,#app .story").forEach(n=>{n.classList.add("rvf","rvn");RO.observe(n)})}
 document.querySelectorAll("#app .g>.pc,#app .phg>a").forEach(n=>{n.classList.add("rvc","rvn");RO.observe(n)});
 // the hidden start state is applied instantly (not transitioned from visible), then committed, so items already on screen still fade in
 void document.body.offsetWidth;document.querySelectorAll("#app .rvn").forEach(n=>n.classList.remove("rvn"))}
